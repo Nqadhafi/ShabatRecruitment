@@ -1,26 +1,21 @@
 <?php
-
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\JobController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\ApplicantDashboardController;
 
 /*
-|--------------------------------------------------------------------------
+|----------------------------------------------------------------------
 | Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
+|----------------------------------------------------------------------
 */
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-// Login dan Registrasi
+// Login, Register, dan Logout (gunakan middleware guest dan auth)
 Route::middleware('guest')->group(function () {
     Route::get('login', [AuthController::class, 'showLoginForm'])->name('login');
     Route::post('login', [AuthController::class, 'login']);
@@ -31,10 +26,13 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 });
-// Dashboard Pelamar (harus melalui middleware applicant)
-Route::get('applicant/dashboard', [ApplicantDashboardController::class, 'index'])
-    ->middleware('applicant')->name('applicant.dashboard');
 
-// Dashboard Admin (harus melalui middleware admin)
-Route::get('admin/dashboard', [AdminDashboardController::class, 'index'])
-    ->middleware('admin')->name('admin.dashboard');
+// Dashboard Pelamar dan Admin dengan middleware
+Route::middleware('applicant')->get('applicant/dashboard', [ApplicantDashboardController::class, 'index'])->name('applicant.dashboard');
+Route::middleware('admin')->get('admin/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
+
+// Rute Admin untuk Manajemen Lowongan Pekerjaan
+Route::middleware('admin')->prefix('admin')->group(function () {
+    Route::resource('jobs', JobController::class);
+    Route::patch('jobs/{job}/toggle', [JobController::class, 'toggle'])->name('admin.jobs.toggle');
+});
