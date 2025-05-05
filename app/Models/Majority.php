@@ -12,7 +12,9 @@ class Majority extends Model
     protected $primaryKey = 'id';
     protected $keyType = 'string';
     public $incrementing = false;
-
+    protected $casts = [
+        'grade_uuid' => 'string',
+    ];
     protected $fillable = ['name', 'grade_uuid'];
 
     // Relasi dengan grade

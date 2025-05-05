@@ -13,7 +13,9 @@ class Education extends Model
     protected $primaryKey = 'id';
     protected $keyType = 'string';
     public $incrementing = false;
-
+    protected $casts = [
+        'grade_uuid' => 'string',
+    ];
     protected $fillable = ['grade_uuid', 'school_name', 'graduate_year', 'last_score'];
 
     // Relasi dengan grade

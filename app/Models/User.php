@@ -15,13 +15,14 @@ class User extends Authenticatable
     protected $primaryKey = 'id';
     protected $keyType = 'string';
     public $incrementing = false;
+    
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
     protected $fillable = ['email', 'password', 'profiles_uuid', 'role'];
-    public function profile()
+    public function applicantProfile()
     {
         return $this->hasOne(ApplicantProfile::class, 'id', 'profiles_uuid');
     }
@@ -42,6 +43,7 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'profiles_uuid' => 'string',
     ];
     
 }
