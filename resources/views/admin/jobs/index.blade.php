@@ -32,11 +32,14 @@
                     <td>{!! Str::limit($job->description, 20) !!}</td>
                     <td>{!! Str::limit($job->requirement, 20) !!}</td>
                     <td>
-                        <span class="badge {{ $job->is_active ? 'badge-success' : 'badge-danger' }}">
-                            {{ $job->is_active ? 'Active' : 'Inactive' }}
+                         <!-- Badge Status akan diperbarui secara reaktif menggunakan Livewire -->
+                         <span id="statusBadge{{ $job->id }}" class="badge {{ $job->is_active ? 'badge-success' : 'badge-warning' }} p-2">
+                            {{ $job->is_active ? 'Lowongan Aktif' : 'Lowongan Non-aktif' }}
                         </span>
                     </td>
                     <td>
+                     <!-- Livewire Toggle Button -->
+                        @livewire('job-status-toggle', ['job' => $job])
                         <a href="{{ route('jobs.edit', $job) }}" class="btn btn-warning btn-sm" 
                            onclick="event.stopPropagation();">Edit</a>
     
@@ -46,15 +49,7 @@
                             @method('DELETE')
                             <button type="submit" class="btn btn-danger btn-sm" onclick="return confirmDeletion()">Delete</button>
                         </form>
-    
-                        <form action="{{ route('admin.jobs.toggle', $job) }}" method="POST" style="display:inline;" 
-                              onclick="event.stopPropagation();">
-                            @csrf
-                            @method('PATCH')
-                            <button type="submit" class="btn btn-secondary btn-sm">
-                                {{ $job->is_active ? 'Deactivate' : 'Activate' }}
-                            </button>
-                        </form>
+
                     </td>
                 </tr>
     
@@ -92,10 +87,21 @@
         </tbody>
     </table>
     @push('scripts')
+    @livewireStyles
+@livewireScripts
+
     <script>
             function confirmDeletion() {
         return confirm('Apakah anda yakin?');  // Jika "Cancel" diklik, return false dan form tidak terkirim
     }
+
+    Livewire.on('jobStatusUpdated', (jobId, isActive) => {
+            // Update status badge
+            const badge = document.getElementById(`statusBadge${jobId}`);
+            badge.classList.toggle('badge-success', isActive);
+            badge.classList.toggle('badge-warning', !isActive);
+            badge.innerText = isActive ? 'Lowongan Aktif' : 'Lowongan Non-aktif';
+        });
     </script>
         
     @endpush
