@@ -13,9 +13,11 @@ class JobController extends Controller
     // Menampilkan daftar lowongan pekerjaan
     public function index()
     {
-        $jobs = Job::all();
+        // Mengambil data job dengan pagination, menampilkan 10 data per halaman
+        $jobs = Job::select('id', 'name', 'description','requirement', 'is_active', 'photo_path')->paginate(10);
         return view('admin.jobs.index', compact('jobs'));
     }
+    
 
     // Menampilkan form untuk membuat lowongan baru
     public function create()
