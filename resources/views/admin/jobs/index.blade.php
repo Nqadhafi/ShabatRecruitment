@@ -1,7 +1,11 @@
 @extends('layouts.app')
 
 @section('title', 'Manage Jobs')
-
+@push('css')
+<link rel="stylesheet" href="{{asset('adminlte/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
+<link rel="stylesheet" href="{{asset('adminlte/plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
+<link rel="stylesheet" href="{{asset('adminlte/plugins/datatables-buttons/css/buttons.bootstrap4.min.css')}}">
+@endpush
 @section('content_header')
     <h1>Manage Jobs</h1>
 @stop
@@ -15,7 +19,7 @@
         </div>
     @endif
 
-    <table class="table table-bordered table-striped">
+    <table id="jobsTable" class="table table-bordered table-striped">
         <thead>
             <tr>
                 <th>Name</th>
@@ -87,6 +91,15 @@
         </tbody>
     </table>
     @push('scripts')
+    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+
+<script src="{{asset('adminlte/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
+<script src="{{asset('adminlte/plugins/datatables/jquery.dataTables.min.js')}}"></script>
+<script src="{{asset('adminlte/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
+<script src="{{asset('adminlte/plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
+<script src="{{asset('adminlte/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
+<script src="{{asset('adminlte/plugins/datatables-buttons/js/dataTables.buttons.min.js')}}"></script>
+<script src="{{asset('adminlte/plugins/datatables-buttons/js/buttons.bootstrap4.min.js')}}"></script>
     @livewireStyles
 @livewireScripts
 
@@ -94,7 +107,15 @@
             function confirmDeletion() {
         return confirm('Apakah anda yakin?');  // Jika "Cancel" diklik, return false dan form tidak terkirim
     }
-
+    $(document).ready(function() {
+            // Inisialisasi DataTable
+            $('#jobsTable').DataTable({
+                "paging": true, // Mengaktifkan pagination
+                "searching": false, // Mengaktifkan pencarian
+                "ordering": true, // Mengaktifkan sorting
+                "order": [[ 0, 'asc' ]] // Default sorting berdasarkan kolom pertama (name)
+            });
+        });
     Livewire.on('jobStatusUpdated', (jobId, isActive) => {
             // Update status badge
             const badge = document.getElementById(`statusBadge${jobId}`);
