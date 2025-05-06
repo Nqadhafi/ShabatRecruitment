@@ -5,7 +5,11 @@
 @section('content_header')
     <h1>Edit Job</h1>
 @stop
+@push('css')
+        <!-- Link CSS untuk Summernote -->
+        <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
 
+@endpush
 @section('content')
     <form action="{{ route('jobs.update', $job) }}" method="POST" enctype="multipart/form-data">
         @csrf
@@ -18,14 +22,12 @@
 
         <div class="form-group">
             <label for="description">Description</label>
-            <div id="editorDescription">{!! $job->description !!}</div>
-            <textarea name="description" id="description" hidden></textarea>
+            <textarea name="description" id="description" class="form-control" required>{!! $job->description !!}</textarea>
         </div>
 
         <div class="form-group">
             <label for="requirement">Requirements</label>
-            <div id="editorRequirement">{!! $job->requirement !!}</div>
-            <textarea name="requirement" id="requirement" hidden></textarea>
+            <textarea name="requirement" id="requirement" class="form-control" required>{!! $job->requirement !!}</textarea>
         </div>
 
         <div class="form-group">
@@ -36,18 +38,45 @@
         <button type="submit" class="btn btn-success">Update Job</button>
     </form>
 
+
+    @push('scripts')
+    <script src="{{ asset('adminlte/plugins/summernote/summernote-bs4.min.js') }}"></script>
     <script>
-        var quillDescription = new Quill('#editorDescription', {
-            theme: 'snow'
+        $(document).ready(function() {
+            // Inisialisasi Summernote untuk deskripsi dan persyaratan
+            $('#description').summernote({
+                height: 200, // Tinggi editor
+                placeholder: 'Enter job description here...',
+                toolbar: [
+                    ['style', ['bold', 'italic', 'underline']],
+                    ['font', ['strikethrough', 'superscript', 'subscript']],
+                    ['fontname', ['fontname']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['insert', ['link']],
+                ]
+            });
+
+            $('#requirement').summernote({
+                height: 200, // Tinggi editor
+                placeholder: 'Enter job requirements here...',
+                toolbar: [
+                    ['style', ['bold', 'italic', 'underline']],
+                    ['font', ['strikethrough', 'superscript', 'subscript']],
+                    ['fontname', ['fontname']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['insert', ['link']],
+                ]
+            });
         });
 
-        var quillRequirement = new Quill('#editorRequirement', {
-            theme: 'snow'
-        });
-
+        // Menambahkan event listener saat formulir disubmit
         document.querySelector('form').onsubmit = function() {
-            document.querySelector('textarea[name=description]').value = quillDescription.root.innerHTML;
-            document.querySelector('textarea[name=requirement]').value = quillRequirement.root.innerHTML;
+            // Menyimpan konten editor ke dalam textarea yang tersembunyi
+            document.querySelector('textarea[name=description]').value = $('#description').summernote('code');
+            document.querySelector('textarea[name=requirement]').value = $('#requirement').summernote('code');
         };
     </script>
+    @endpush
 @stop

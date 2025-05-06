@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Job;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class JobController extends Controller
 {
+
+    private $confirmPassword = 'anjayMabar';
     // Menampilkan daftar lowongan pekerjaan
     public function index()
     {
@@ -46,7 +49,7 @@ class JobController extends Controller
     
         $job->save();
     
-        return redirect()->route('admin.jobs.index')->with('success', 'Job created successfully');
+        return redirect()->route('jobs.index')->with('success', 'Job created successfully');
     }
     
     
@@ -77,7 +80,7 @@ class JobController extends Controller
         }
         $job->save();
 
-        return redirect()->route('admin.jobs.index')->with('success', 'Job updated successfully');
+        return redirect()->route('jobs.index')->with('success', 'Job updated successfully');
     }
     // JobController.php
 
@@ -86,13 +89,17 @@ class JobController extends Controller
         $job->is_active = !$job->is_active;
         $job->save();
 
-        return redirect()->route('admin.jobs.index')->with('success', 'Job status updated successfully');
+        return redirect()->route('jobs.index')->with('success', 'Job status updated successfully');
     }
 
     // Menghapus lowongan pekerjaan
     public function destroy(Job $job)
     {
+        if ($job->photo_path && Storage::exists($job->photo_path)) {
+            Storage::delete($job->photo_path);  // Hapus gambar dari storage
+        }
+    
         $job->delete();
-        return redirect()->route('admin.jobs.index')->with('success', 'Job deleted successfully');
+        return redirect()->route('jobs.index')->with('success', 'Job deleted successfully');
     }
 }

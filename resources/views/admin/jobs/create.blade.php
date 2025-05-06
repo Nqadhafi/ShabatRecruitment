@@ -1,20 +1,14 @@
 @extends('layouts.app')
 
-<!-- Link ke Quill CSS versi terbaru -->
-<script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
-<link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet">
-<style>
-    .ql-container{
-        height: 10rem;
-    }
-</style>
 
 @section('title', 'Create Job')
 
 @section('content_header')
     <h1>Create New Job</h1>
 @stop
-
+@push('css')
+<link rel="stylesheet" href="{{ asset('adminlte/plugins/summernote/summernote-bs4.min.css') }}">
+@endpush
 @section('content')
     <form action="{{ route('jobs.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
@@ -39,14 +33,12 @@
 
         <div class="form-group">
             <label for="description">Description</label>
-            <div id="editorDescription"></div>
-            <textarea name="description" id="description" hidden></textarea>
+            <textarea name="description" id="description" class="form-control" required></textarea>
         </div>
 
         <div class="form-group">
             <label for="requirement">Requirements</label>
-            <div id="editorRequirement"></div>
-            <textarea name="requirement" id="requirement" hidden></textarea>
+            <textarea name="requirement" id="requirement" class="form-control" required></textarea>
         </div>
 
         <div class="form-group">
@@ -57,39 +49,45 @@
         <button type="submit" class="btn btn-success">Create Job</button>
     </form>
 
+<!-- Quill JS untuk Summernote -->
+<!-- Link ke jQuery (harus dimuat pertama) -->
+{{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
+{{-- <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script> --}}
+@push('scripts')
+<script src="{{ asset('adminlte/plugins/summernote/summernote-bs4.min.js') }}"></script>
+<script>
+    // $(function(){
+    //     $('#summernote').summernote()
+    // })
+    // Inisialisasi Summernote untuk deskripsi dan persyaratan
+    $(document).ready(function() {
+        $('#description').summernote({
+            height: 200, // Atur tinggi editor
+            placeholder: 'Enter job description here...',
+            toolbar: [
+                ['style', ['bold', 'italic', 'underline']],
+                ['font', ['strikethrough', 'superscript', 'subscript']],
+                ['fontname', ['fontname']],
+                ['color', ['color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['insert', ['link']],
+            ]
+        });
 
-    <script>
-const quillDescription = new Quill('#editorDescription', {
-    theme: 'snow'
-});
-
-const quillRequirement = new Quill('#editorRequirement', {
-    theme: 'snow'
-});
-
-// Debugging: Pastikan Quill berhasil diinisialisasi
-console.log(quillDescription);
-console.log(quillRequirement);
-
-    // Menambahkan event listener saat formulir disubmit
-    document.querySelector('form').onsubmit = function(event) {
-        // Menyimpan konten editor Quill ke dalam variabel
-        const descriptionContent = quillDescription.root.innerHTML;
-        const requirementContent = quillRequirement.root.innerHTML;
-
-        // Menugaskan nilai konten ke dalam textarea yang tersembunyi
-        document.querySelector('textarea[name=description]').value = descriptionContent;
-        document.querySelector('textarea[name=requirement]').value = requirementContent;
-
-        // Debug: Menampilkan konten yang disalin ke textarea
-        console.log('Description Content:', descriptionContent);
-        console.log('Requirement Content:', requirementContent);
-
-        // Menangani validasi jika field kosong
-        if (!descriptionContent.trim() || !requirementContent.trim()) {
-            alert('Deskripsi dan Persyaratan tidak boleh kosong!');
-            event.preventDefault(); // Mencegah formulir disubmit jika kosong
-        }
-    };
-    </script>
+        $('#requirement').summernote({
+            height: 200, // Atur tinggi editor
+            placeholder: 'Enter job requirements here...',
+            toolbar: [
+                ['style', ['bold', 'italic', 'underline']],
+                ['font', ['strikethrough', 'superscript', 'subscript']],
+                ['fontname', ['fontname']],
+                ['color', ['color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['insert', ['link']],
+            ]
+        });
+    });
+</script>
+@endpush
+    
 @stop

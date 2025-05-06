@@ -15,6 +15,12 @@
                                 <p>Admin Dashboard</p>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a href="{{ route('jobs.index') }}" class="nav-link">
+                                <i class="nav-icon fas fa-tachometer-alt"></i>
+                                <p>Job Management</p>
+                            </a>
+                        </li>
                     @elseif(Auth::user()->role == 'user')
                         <li class="nav-item">
                             <a href="{{ route('applicant.dashboard') }}" class="nav-link">

@@ -15,37 +15,40 @@
         </div>
     @endif
 
-    <table class="table table-bordered">
+    <table class="table table-bordered table-striped">
         <thead>
             <tr>
                 <th>Name</th>
-                <th>Description</th>
-                <th>Requirement</th>
+                <th>Deskripsi Pekerjaan</th>
+                <th>Persyaratan</th>
                 <th>Status</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
             @foreach ($jobs as $job)
-                <tr>
+                <tr class="clickable-row" data-toggle="modal" data-target="#jobModal{{ $job->id }}">
                     <td>{{ $job->name }}</td>
-                    <td>{{ Str::limit($job->description, 50) }}</td>
-                    <td>{{ Str::limit($job->requirement, 50) }}</td>
+                    <td>{!! Str::limit($job->description, 20) !!}</td>
+                    <td>{!! Str::limit($job->requirement, 20) !!}</td>
                     <td>
                         <span class="badge {{ $job->is_active ? 'badge-success' : 'badge-danger' }}">
                             {{ $job->is_active ? 'Active' : 'Inactive' }}
                         </span>
                     </td>
                     <td>
-                        <a href="{{ route('jobs.edit', $job) }}" class="btn btn-warning btn-sm">Edit</a>
-
-                        <form action="{{ route('jobs.destroy', $job) }}" method="POST" style="display:inline;">
+                        <a href="{{ route('jobs.edit', $job) }}" class="btn btn-warning btn-sm" 
+                           onclick="event.stopPropagation();">Edit</a>
+    
+                        <form action="{{ route('jobs.destroy', $job) }}" method="POST" style="display:inline;" 
+                              onclick="event.stopPropagation();">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirmDeletion()">Delete</button>
                         </form>
-
-                        <form action="{{ route('admin.jobs.toggle', $job) }}" method="POST" style="display:inline;">
+    
+                        <form action="{{ route('admin.jobs.toggle', $job) }}" method="POST" style="display:inline;" 
+                              onclick="event.stopPropagation();">
                             @csrf
                             @method('PATCH')
                             <button type="submit" class="btn btn-secondary btn-sm">
@@ -54,7 +57,46 @@
                         </form>
                     </td>
                 </tr>
+    
+                <!-- Modal untuk menampilkan rincian job -->
+                <div class="modal fade" id="jobModal{{ $job->id }}" tabindex="-1" aria-labelledby="jobModalLabel{{ $job->id }}" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="jobModalLabel{{ $job->id }}">{{ $job->name }}</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <strong>Deskripsi Pekerjaan:</strong>
+                                <p>{!! $job->description !!}</p>
+    
+                                <strong>Persyaratan:</strong>
+                                <p>{!! $job->requirement !!}</p>
+    
+                                <strong>Image:</strong>
+                                @if ($job->photo_path)
+                                    <img src="{{ Storage::url($job->photo_path) }}" alt="Job Logo" width="150">
+                                @else
+                                    <p>No logo available.</p>
+                                @endif
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             @endforeach
         </tbody>
     </table>
+    @push('scripts')
+    <script>
+            function confirmDeletion() {
+        return confirm('Apakah anda yakin?');  // Jika "Cancel" diklik, return false dan form tidak terkirim
+    }
+    </script>
+        
+    @endpush
 @stop
