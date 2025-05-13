@@ -28,6 +28,6 @@ class JobStatusToggle extends Component
 
     public function render()
     {
-        return view('livewire.job-status-toggle');
+        return view('livewire.admin.job-status-toggle');
     }
 }
