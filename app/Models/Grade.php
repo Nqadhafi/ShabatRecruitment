@@ -20,4 +20,14 @@ class Grade extends Model
     {
         return $this->hasMany(Majority::class, 'grade_uuid');
     }
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($grade) {
+            if (!$grade->id) {
+                $grade->id = (string) \Illuminate\Support\Str::uuid(); // Menetapkan UUID saat pembuatan data
+            }
+        });
+    }
 }
