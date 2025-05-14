@@ -15,7 +15,7 @@ class GradeCrud extends Component
     // Menampilkan semua grade
     public function mount()
     {
-        $this->grades = Grade::all();
+        $this->grades = Grade::orderByDesc('created_at')->get();
     }
 
     // Simpan data baru atau update data yang sudah ada
@@ -81,6 +81,6 @@ public function delete()
 
     public function render()
     {
-        return view('livewire.grade-crud');
+        return view('livewire.admin.grade-crud');
     }
 }

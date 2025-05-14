@@ -45,7 +45,7 @@
         <table class="table table-bordered mt-3">
             <thead>
                 <tr>
-                    <th>#</th>
+
                     <th>Grade Name</th>
                     <th>Actions</th>
                 </tr>
@@ -53,7 +53,7 @@
             <tbody>
                 @foreach($grades as $grade)
                 <tr>
-                    <td>{{ $grade->id }}</td>
+  
                     <td>{{ $grade->name }}</td>
                     <td>
                         <button class="btn btn-warning btn-sm" wire:click="edit('{{ $grade->id }}')">Edit</button>
@@ -71,7 +71,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Confirm Deletion</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" wire:click="closeModal"></button>
             </div>
             <div class="modal-body">
                 <p>Are you sure you want to delete this grade?</p>
@@ -95,11 +95,6 @@
         Livewire.on('closeDeleteModal', () => deleteModal.hide());
     });
     </script>
-
-        <!-- Paginate Jika Dibutuhkan -->
-        {{-- {{ $grades->links() }} --}}
     </div>
 </div>
 
-
-{{-- @endsection --}}
