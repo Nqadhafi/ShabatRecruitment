@@ -11,7 +11,7 @@
     </div>
     <div class="card-body">
         <!-- Form untuk Create/Edit -->
-        <form wire:submit.prevent="{{ $isEditing ? 'update' : 'save' }}">
+        <form wire:submit.prevent="save">
             <div class="form-group">
                 <label for="name">Grade Name</label>
                 <input type="text" class="form-control" id="name" wire:model="name" placeholder="Enter Grade Name">
