@@ -14,7 +14,18 @@
         <form wire:submit.prevent="save">
             <div class="form-group">
                 <label for="name">Grade Name</label>
-                <input type="text" class="form-control" id="name" wire:model="name" placeholder="Enter Grade Name">
+                        <!-- Pesan Feedback -->
+                @if($message)
+                <div class="alert alert-success mt-3">
+                    {{ $message }}
+                </div>
+            @endif
+                @error('name')
+                <div class="alert alert-danger mt-3">
+                    <span class="error">{{ $message }}</span> 
+                </div>
+                @enderror
+                <input type="text" class="form-control" id="name" wire:model="name" placeholder="Enter Grade Name" >
             </div>
             <button type="submit" class="btn btn-primary">
                 {{ $isEditing ? 'Update' : 'Create' }} Grade
@@ -34,12 +45,7 @@
                 <div class="text-bold pt-2">Loading...</div>
         </div>
     </div>
-        <!-- Pesan Feedback -->
-        @if($message)
-            <div class="alert alert-success mt-3">
-                {{ $message }}
-            </div>
-        @endif
+
 
         <!-- Tabel Data Grade -->
         <table class="table table-bordered mt-3">

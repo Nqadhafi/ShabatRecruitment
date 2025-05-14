@@ -35,7 +35,7 @@ class GradeCrud extends Component
 
         // Reset form dan update daftar grade
         $this->resetFields();
-        $this->grades = Grade::all();
+        $this->grades = Grade::orderByDesc('created_at')->get();
     }
 
     // Mengedit data grade
@@ -58,7 +58,7 @@ public function delete()
 {
     Grade::find($this->selectedGradeId)->delete();
     $this->message = 'Grade deleted successfully.';
-    $this->grades = Grade::all();  // Update data setelah penghapusan
+    $this->grades = Grade::orderByDesc('created_at')->get();  // Update data setelah penghapusan
     $this->selectedGradeId = null;
     $this->emit('closeDeleteModal'); // Menutup modal setelah penghapusan
 }

@@ -17,8 +17,14 @@
                         </li>
                         <li class="nav-item">
                             <a href="{{ route('jobs.index') }}" class="nav-link">
-                                <i class="nav-icon fas fa-tachometer-alt"></i>
+                                <i class="nav-icon fas fa-light fa-briefcase"></i>
                                 <p>Job Management</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.grades.index') }}" class="nav-link">
+                                <i class="nav-icon fas a-light fa-bolt"></i>
+                                <p>Master Grade</p>
                             </a>
                         </li>
                     @elseif(Auth::user()->role == 'user')
