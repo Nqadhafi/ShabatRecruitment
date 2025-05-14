@@ -10,6 +10,7 @@ class GradeCrud extends Component
     public $grades, $name, $grade_id;
     public $isEditing = false;
     public $message = '';
+    public $selectedGradeId; // Menyimpan ID untuk grade yang akan dihapus
 
     // Menampilkan semua grade
     public function mount()
@@ -46,12 +47,28 @@ class GradeCrud extends Component
         $this->isEditing = true;
     }
 
+
+
+    // Menampilkan modal konfirmasi penghapusan
+public function closeModal(){
+    $this->emit('closeDeleteModal'); // Menutup modal konfirmasi
+}
     // Menghapus data grade
-    public function delete($id)
+public function delete()
+{
+    Grade::find($this->selectedGradeId)->delete();
+    $this->message = 'Grade deleted successfully.';
+    $this->grades = Grade::all();  // Update data setelah penghapusan
+    $this->selectedGradeId = null;
+    $this->emit('closeDeleteModal'); // Menutup modal setelah penghapusan
+}
+
+
+    // Konfirmasi sebelum menghapus
+    public function confirmDelete($id)
     {
-        Grade::find($id)->delete();
-        $this->message = 'Grade deleted successfully.';
-        $this->grades = Grade::all();
+        $this->selectedGradeId = $id;
+        $this->emit('openDeleteModal'); // Membuka modal konfirmasi
     }
 
     // Reset form fields
