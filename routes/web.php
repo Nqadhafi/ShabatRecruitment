@@ -1,4 +1,5 @@
 <?php
+use App\Http\Livewire\GradeCrud;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\AuthController;
@@ -10,10 +11,11 @@ use App\Http\Controllers\ApplicantDashboardController;
 | Web Routes
 |----------------------------------------------------------------------
 */
-
+Route::get('/grades', GradeCrud::class)->name('grades.index');
 Route::get('/', function () {
     return view('welcome');
 });
+
 
 // Login, Register, dan Logout (gunakan middleware guest dan auth)
 Route::middleware('guest')->group(function () {
@@ -35,4 +37,5 @@ Route::middleware('admin')->get('admin/dashboard', [AdminDashboardController::cl
 Route::middleware('admin')->prefix('admin')->group(function () {
     Route::resource('jobs', JobController::class);
     Route::patch('jobs/{job}/toggle', [JobController::class, 'toggle'])->name('admin.jobs.toggle');
+    Route::get('/grades', function () { return view('admin.grades.index'); });
 });
