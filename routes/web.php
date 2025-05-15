@@ -37,4 +37,5 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::resource('jobs', JobController::class);
     Route::patch('jobs/{job}/toggle', [JobController::class, 'toggle'])->name('admin.jobs.toggle');
     Route::get('grades', function () { return view('admin.grades.index'); })->name('admin.grades.index');
+    Route::get('majorities', function () { return view('admin.majorities.index'); })->name('admin.majorities.index');
 });
