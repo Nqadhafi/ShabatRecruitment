@@ -8,6 +8,12 @@
         {{ session('message') }}
     </div>
 @endif
+    <!-- Menampilkan pesan error -->
+    @if (session()->has('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
         <button class="btn btn-primary mb-3" wire:click="create">Add New Grade</button>
 
         <table class="table table-bordered mt-3">

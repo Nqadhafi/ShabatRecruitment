@@ -66,8 +66,22 @@ class GradeCrud extends Component
     // Menghapus data grade
 public function delete()
 {
-    Grade::find($this->selectedGradeId)->delete();
-    session()->flash('message', 'Grade deleted successfully.');
+    // Grade::find($this->selectedGradeId)->delete();
+    // session()->flash('message', 'Grade deleted successfully.');
+
+    try {
+        // Cari grade berdasarkan ID
+        $grade = Grade::findOrFail($this->selectedGradeId);
+
+        // Hapus grade
+        $grade->delete();
+
+        // Jika berhasil, beri pesan sukses
+        session()->flash('message', 'Grade berhasil dihapus.');
+    } catch (\Exception $e) {
+        // Tangani exception dan beri pesan error
+        session()->flash('error', $e->getMessage());
+    }
     $this->grades = Grade::orderByDesc('created_at')->get();  // Update data setelah penghapusan
     $this->selectedGradeId = null;
     $this->emit('closeModal'); // Menutup modal setelah penghapusan

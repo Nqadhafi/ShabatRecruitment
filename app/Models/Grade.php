@@ -29,5 +29,12 @@ class Grade extends Model
                 $grade->id = (string) \Illuminate\Support\Str::uuid(); // Menetapkan UUID saat pembuatan data
             }
         });
+
+        static::deleting(function ($grade) {
+            // Cek apakah ada majority yang terkait
+            if ($grade->majorities()->count() > 0) {
+                throw new \Exception("Grade tidak bisa dihapus karena masih ada Jurusan yang terkait.");
+            }
+        });
     }
 }
