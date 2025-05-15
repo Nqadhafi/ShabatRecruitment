@@ -9,13 +9,19 @@ class GradeCrud extends Component
 {
     public $grades, $name, $grade_id;
     public $isEditing = false;
-    public $message = '';
     public $selectedGradeId; // Menyimpan ID untuk grade yang akan dihapus
-
+    public $modalType = ''; // 'create' or 'delete'
     // Menampilkan semua grade
     public function mount()
     {
         $this->grades = Grade::orderByDesc('created_at')->get();
+    }
+
+    public function create()
+    {
+        $this->resetFields();
+        $this->modalType = 'create';  // Set type modal to 'create'
+        $this->emit('openModal', 'create');
     }
 
     // Simpan data baru atau update data yang sudah ada
@@ -31,10 +37,11 @@ class GradeCrud extends Component
         $grade->name = $this->name;
         $grade->save();
 
-        $this->message = $this->isEditing ? 'Grade updated successfully.' : 'Grade created successfully.';
-
+        // $this->message = ;
+        session()->flash('message', $this->isEditing ? 'Grade updated successfully.' : 'Grade created successfully.');
         // Reset form dan update daftar grade
         $this->resetFields();
+        $this->emit('closeModal');
         $this->grades = Grade::orderByDesc('created_at')->get();
     }
 
@@ -45,22 +52,25 @@ class GradeCrud extends Component
         $this->grade_id = $grade->id;
         $this->name = $grade->name;
         $this->isEditing = true;
+        $this->modalType = 'edit';  // Set type modal to 'edit'
+        $this->emit('openModal', 'edit');
     }
 
 
 
     // Menampilkan modal konfirmasi penghapusan
-public function closeModal(){
-    $this->emit('closeDeleteModal'); // Menutup modal konfirmasi
-}
+    public function closeModal()
+    {
+        $this->emit('closeModal');
+    }
     // Menghapus data grade
 public function delete()
 {
     Grade::find($this->selectedGradeId)->delete();
-    $this->message = 'Grade deleted successfully.';
+    session()->flash('message', 'Grade deleted successfully.');
     $this->grades = Grade::orderByDesc('created_at')->get();  // Update data setelah penghapusan
     $this->selectedGradeId = null;
-    $this->emit('closeDeleteModal'); // Menutup modal setelah penghapusan
+    $this->emit('closeModal'); // Menutup modal setelah penghapusan
 }
 
 
@@ -68,7 +78,8 @@ public function delete()
     public function confirmDelete($id)
     {
         $this->selectedGradeId = $id;
-        $this->emit('openDeleteModal'); // Membuka modal konfirmasi
+        $this->modalType = 'delete';  // Set type modal to 'delete'
+        $this->emit('openModal', 'delete');
     }
 
     // Reset form fields
