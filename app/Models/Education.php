@@ -20,7 +20,7 @@ class Education extends Model
     protected $fillable = ['majority_uuid', 'school_name', 'graduate_year', 'last_score'];
 
     // Relasi dengan grade
-    public function majority()
+    public function majorities()
     {
         return $this->belongsTo(Majority::class, 'majority_uuid');
     }
