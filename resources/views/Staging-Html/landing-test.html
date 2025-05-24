@@ -27,6 +27,20 @@
     nav a:hover{
         color: #00A2E9 !important;
     }
+
+    text-blue {
+        color: #144C99 !important;
+    }
+    bg-blue {
+        color: #144C99 !important;
+    }
+        #scrollToTopBtn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      display: none;  /* Tombol disembunyikan pada awal */
+      z-index: 100;
+    }
 </style>
 <body>
 
@@ -69,7 +83,7 @@
                         <a class="nav-link" href="#about">Tentang Kami</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Kontak</a>
+                        <a class="nav-link" href="#contact">Kontak</a>
                     </li>
                 </ul>
             </div>
@@ -103,20 +117,6 @@
 
         </div>
     </section>
-    <section id="about" class="container-fluid">
-        <div class="jumbotron container bg-light">
-            <div class="row">
-                <div class="d-none col-md-6 d-flex justify-content-center">
-                    <img src="jumbotron.png" alt="" class="img-fluid" style="height: 10rem;">
-                </div>
-                <div class="col-md-6">
-                    <h1 class="display-5">Tentang Kami</h1>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto reiciendis rem, sint autem adipisci esse? Impedit quidem saepe eum inventore.</p>
-                    <button class="btn btn-primary btn-md">Selengkapnya</button>
-                </div>
-            </div>
-
-    </section>
     <section id="jobs" class="mx-auto container mt-5 pt-5">
         <h2 class="display-5 text-center"> Available Jobs</h2>
         <div class="text-center">
@@ -137,56 +137,113 @@
         </div>
         <div class="row gap-2 mt-4">
             <div class="col-md-4 col-lg-3 col-sm-6 p-4 p-lg-4 p-md-3 p-sm-2">
-                <div class="card d-flex" >
+                <div class="card" >
                 <div class="card-body shadow-lg">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <a href="#" class="card-link">Card link</a>
-                    <a href="#" class="card-link">Another link</a>
+                    <h6 class="card-title font-weight-bold mb-1 text-blue">SPV Marketing</h6>
+                    <div class="card-text align-items-center d-flex">
+                        <ion-icon name="bookmark" class="mr-1"></ion-icon>
+                        <small>Shabat Printing</small>
+                    </div>
+                    <div class="card-text align-items-center d-flex mb-1">
+                        <ion-icon name="pin" class="mr-1"></ion-icon>
+                        <small class="text-muted">Laweyan,Surakarta</small>
+                    </div>
+                    <ul class="card-text px-3">
+                        <li><small>Berpenampilan menarik</small></li>
+                        <li><small>Berpenampilan menarik</small></li>
+                        <li><small>Berpenampilan menarik</small></li>
+                    </ul>
+                    <p class="text-muted text-center m-0">
+                    <small >Batas Waktu : 31 Februari 2025</small>
+                    </p>
                 </div>
                 </div>
             </div>
             <div class="col-md-4 col-lg-3 col-sm-6 p-4 p-lg-4 p-md-3 p-sm-2">
                 <div class="card" >
-                        <div class="card-body shadow-lg">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                            <a href="#" class="card-link">Card link</a>
-                            <a href="#" class="card-link">Another link</a>
-                        </div>
-                        </div>
+                <div class="card-body shadow-lg">
+                    <h6 class="card-title font-weight-bold mb-1 text-blue">SPV Marketing</h6>
+                    <div class="card-text align-items-center d-flex">
+                        <ion-icon name="bookmark" class="mr-1"></ion-icon>
+                        <small>Shabat Printing</small>
+                    </div>
+                    <div class="card-text align-items-center d-flex mb-1">
+                        <ion-icon name="pin" class="mr-1"></ion-icon>
+                        <small class="text-muted">Laweyan,Surakarta</small>
+                    </div>
+                    <ul class="card-text px-3">
+                        <li><small>Berpenampilan menarik</small></li>
+                        <li><small>Berpenampilan menarik</small></li>
+                        <li><small>Berpenampilan menarik</small></li>
+                    </ul>
+                    <p class="text-muted text-center m-0">
+                    <small >Batas Waktu : 31 Februari 2025</small>
+                    </p>
+                </div>
+                </div>
             </div>
             <div class="col-md-4 col-lg-3 col-sm-6 p-4 p-lg-4 p-md-3 p-sm-2">
-                <div class="card shadow-lg" >
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                            <a href="#" class="card-link">Card link</a>
-                            <a href="#" class="card-link">Another link</a>
-                        </div>
-                        </div>
+                <div class="card" >
+                <div class="card-body shadow-lg">
+                    <h6 class="card-title font-weight-bold mb-1 text-blue">SPV Marketing</h6>
+                    <div class="card-text align-items-center d-flex">
+                        <ion-icon name="bookmark" class="mr-1"></ion-icon>
+                        <small>Shabat Printing</small>
+                    </div>
+                    <div class="card-text align-items-center d-flex mb-1">
+                        <ion-icon name="pin" class="mr-1"></ion-icon>
+                        <small class="text-muted">Laweyan,Surakarta</small>
+                    </div>
+                    <ul class="card-text px-3">
+                        <li><small>Berpenampilan menarik</small></li>
+                        <li><small>Berpenampilan menarik</small></li>
+                        <li><small>Berpenampilan menarik</small></li>
+                    </ul>
+                    <p class="text-muted text-center m-0">
+                    <small >Batas Waktu : 31 Februari 2025</small>
+                    </p>
+                </div>
+                </div>
             </div>
             <div class="col-md-4 col-lg-3 col-sm-6 p-4 p-lg-4 p-md-3 p-sm-2">
-                <div class="card shadow-lg" >
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                            <a href="#" class="card-link">Card link</a>
-                            <a href="#" class="card-link">Another link</a>
-                        </div>
-                        </div>
+                <div class="card" >
+                <div class="card-body shadow-lg">
+                    <h6 class="card-title font-weight-bold mb-1 text-blue">SPV Marketing</h6>
+                    <div class="card-text align-items-center d-flex">
+                        <ion-icon name="bookmark" class="mr-1"></ion-icon>
+                        <small>Shabat Printing</small>
+                    </div>
+                    <div class="card-text align-items-center d-flex mb-1">
+                        <ion-icon name="pin" class="mr-1"></ion-icon>
+                        <small class="text-muted">Laweyan,Surakarta</small>
+                    </div>
+                    <ul class="card-text px-3">
+                        <li><small>Berpenampilan menarik</small></li>
+                        <li><small>Berpenampilan menarik</small></li>
+                        <li><small>Berpenampilan menarik</small></li>
+                    </ul>
+                    <p class="text-muted text-center m-0">
+                    <small >Batas Waktu : 31 Februari 2025</small>
+                    </p>
+                </div>
+                </div>
             </div>
-            <div class="col-md-4 col-lg-3 col-sm-6 p-4 p-lg-4 p-md-3 p-sm-2">
-                <div class="card shadow-lg" >
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                            <a href="#" class="card-link">Card link</a>
-                            <a href="#" class="card-link">Another link</a>
-                        </div>
-                        </div>
-            </div>
+           
         </div>
+    </section>
+    <section id="about" class="container-fluid">
+        <div class="jumbotron container bg-light">
+            <div class="row">
+                <div class="d-none col-md-6 d-flex justify-content-center">
+                    <img src="jumbotron.png" alt="" class="img-fluid" style="height: 10rem;">
+                </div>
+                <div class="col-md-6">
+                    <h1 class="display-5">Tentang Kami</h1>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto reiciendis rem, sint autem adipisci esse? Impedit quidem saepe eum inventore.</p>
+                    <button class="btn btn-primary btn-md">Selengkapnya</button>
+                </div>
+            </div>
+
     </section>
     <section id="contact" class="mx-auto mt-5 container-fluid">
         <div class="container">
@@ -246,14 +303,78 @@
         </div>
 
     </section>
-    <section>
-        
-    </section>
+    <footer id="footer" class="bg-dark pt-5">
+        <div class="container">
+        <div class="row">
+      <div class="col-12 col-md">
+        <img class="mb-2" src="Logo_white.png" alt="" style="width:10rem;">
+        <small class="d-block mb-3 text-muted">Designed and developed by "HRGA Division" Shabat Printing</small>
+      </div>
+      <div class="col-6 col-md">
+        <h5>Company</h5>
+        <ul class="list-unstyled text-small">
+          <li><a class="text-muted" href="#">About Us</a></li>
+          <li><a class="text-muted" href="#">Website</a></li>
+        </ul>
+      </div>
+      <div class="col-6 col-md">
+        <h5>Follow Us</h5>
+        <ul class="list-unstyled text-small">
+          <li><a class="text-muted" href="#">LinkedIn</a></li>
+          <li><a class="text-muted" href="#">Instagram</a></li>
+          <li><a class="text-muted" href="#">Tiktok</a></li>
+          <li><a class="text-muted" href="#">Facebook</a></li>
+        </ul>
+      </div>
+      <div class="col-6 col-md">
+        <h5>Others</h5>
+        <ul class="list-unstyled text-small">
+          <li><a class="text-muted" href="#">Linktree</a></li>
+          <li><a class="text-muted" href="#">Product</a></li>
+        </ul>
+      </div>
+    </div>
+    <hr>
+    <div class="row">
+      <div class="col-lg-6 col-12 text-lg-left text-center">
+        <p class="text-muted">© 2025 Shabat Printing. All rights reserved.</p>
+      </div>
+        <div class="col-lg-6 col-12 text-lg-right text-center">
+            <a class="text-muted" href="#"><ion-icon name="logo-linkedin" size="large" class="mx-1"></ion-icon></a>
+            <a class="text-muted" href="#"><ion-icon name="logo-instagram" size="large" class="mx-1"></ion-icon></a>
+            <a class="text-muted" href="#"><ion-icon name="logo-tiktok" size="large" class="mx-1"></ion-icon></a>
+            <a class="text-muted" href="#"><ion-icon name="location" size="large" class="mx-1"></ion-icon></a>
+                </div>
+    
+    </div>
+        </div>
+    </footer>
+    <button id="scrollToTopBtn" class="btn rounded-circle btn-primary" >
+    <ion-icon name="arrow-up-circle" size="large" class="d-flex" style="width: 1.3rem;"></ion-icon>
+  </button>
 </div>
+
 </body>
 <script src="http://adminlte-3.2.0.test/plugins/jquery/jquery.min.js"></script>
 <script src="http://adminlte-3.2.0.test/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="http://adminlte-3.2.0.test/dist/js/adminlte.min.js"></script>
 <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+<script>
+    // Menampilkan tombol scroll to top ketika scroll ke bawah
+    $(window).scroll(function() {
+      if ($(this).scrollTop() > 100) {  // Tampilkan tombol jika scroll lebih dari 100px
+        $('#scrollToTopBtn').fadeIn();
+      } else {
+        $('#scrollToTopBtn').fadeOut();
+      }
+    });
+
+    // Fungsi untuk scroll ke atas ketika tombol diklik
+    $('#scrollToTopBtn').click(function() {
+      $('html, body').animate({ scrollTop: 0 }, 'slow');  // Scroll perlahan ke atas
+      return false;
+    });
+  </script>
 </html>
