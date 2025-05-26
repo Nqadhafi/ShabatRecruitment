@@ -14,6 +14,9 @@ use App\Http\Controllers\ApplicantDashboardController;
 Route::get('/', function () {
     return view('home.index');
 });
+Route::get('/job-detail', function () {
+    return view('home.job-detail');
+});
 
 
 // Login, Register, dan Logout (gunakan middleware guest dan auth)
