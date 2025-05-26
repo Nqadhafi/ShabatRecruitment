@@ -15,10 +15,10 @@
     <div class="wrapper">
 
         <!-- Main Header -->
-        @include('layouts.partials.header')
+        @include('layouts.partials.dashboard.header')
 
         <!-- Sidebar -->
-        @include('layouts.partials.sidebar')
+        @include('layouts.partials.dashboard.sidebar')
 
         <!-- Content Wrapper -->
         <div class="content-wrapper">
@@ -34,7 +34,7 @@
         </div>
 
         <!-- Main Footer -->
-        @include('layouts.partials.footer')
+        @include('layouts.partials.dashboard.footer')
 
     </div>
 
