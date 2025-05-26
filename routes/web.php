@@ -12,7 +12,7 @@ use App\Http\Controllers\ApplicantDashboardController;
 |----------------------------------------------------------------------
 */
 Route::get('/', function () {
-    return view('welcome');
+    return view('home.index');
 });
 
 

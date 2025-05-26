@@ -1,0 +1,25 @@
+    *{
+ font-family: 'Poppins', sans-serif;    
+    }
+
+    nav{
+        font-weight: 1000 !important;
+        
+    }
+    nav a:hover{
+        color: #00A2E9 !important;
+    }
+
+    text-blue {
+        color: #144C99 !important;
+    }
+    bg-blue {
+        color: #144C99 !important;
+    }
+        #scrollToTopBtn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      display: none;  /* Tombol disembunyikan pada awal */
+      z-index: 100;
+    }
