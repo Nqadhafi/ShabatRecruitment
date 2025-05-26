@@ -1,14 +1,14 @@
 @extends('layouts.home')
 @section('title', 'Job Detail - Shabat Printing')
 @section('home-content')
-    <section id="header">
+    <section id="header" class="bg-info">
         <div class="container">
             <div class="row">
                 <div class="col-md-12 text-center p-5">
                     <h3>Detail Lowongan</h3>
                     <h1 class="font-weight-bold">Operator Mesin Cetak.</h1>
                     <small class="mx-sm-3 mx-1"><ion-icon name="location"></ion-icon><span
-                            class="align-text-bottom ml-1">Surakarta</span></small>
+                            class="align-text-bottom ml-1">Laweyan, Surakarta</span></small>
                     <small class="mx-sm-3 mx-1"><ion-icon name="time"></ion-icon><span
                             class="align-text-bottom ml-1">Full-Time</span></small>
                     <small class="mx-sm-3 mx-1"><ion-icon name="calendar"></ion-icon><span class="align-text-bottom ml-1">31
@@ -53,7 +53,7 @@
                             </div>
                             <div class="col-md-8 mt-3 mt-md-0 text-center text-md-left">
                                 <h5 class="font-weight-bold">Shabat Printing</h5>
-                                <small class="text-muted">Jl. Perintis kemerdekaan No.20 C-F,Surakarta</small>
+                                <small class="text-muted">Jl. Perintis kemerdekaan No.20 C-F, Laweyan, Surakarta</small>
                                 <br>
                                 <a href="#" class=""><small>Kunjungi situs web</small></a>
                             </div>
