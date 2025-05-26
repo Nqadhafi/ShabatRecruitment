@@ -1,4 +1,4 @@
-    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+    <nav class="navbar navbar-expand-lg shadow-sm">
         <div class="container d-flex justify-content-between align-items-center">
             <!-- Logo PELNI -->
             <a class="navbar-brand" href="#">
