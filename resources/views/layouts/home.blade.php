@@ -15,6 +15,7 @@
       rel="stylesheet"
     />
     @stack('home-css')
+    <link rel="icon" href="{{ asset('app/img/Logo_square.png') }}" type="image/png">
     <title>@yield('title', 'E-Recuitment - Shabat Printing')</title>
 </head>
 <body>
