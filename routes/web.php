@@ -5,6 +5,7 @@ use App\Http\Controllers\JobController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\ApplicantDashboardController;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 /*
 |----------------------------------------------------------------------
@@ -42,3 +43,17 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('grades', function () { return view('admin.grades.index'); })->name('admin.grades.index');
     Route::get('majorities', function () { return view('admin.majorities.index'); })->name('admin.majorities.index');
 });
+
+Route::get('register', function(){
+    return view('auth.register');
+});
+
+Route::get('email/verify', function () {
+    return view('auth.verify');
+})->middleware('auth')->name('verification.notice');
+
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill();
+ 
+    return redirect('/home');
+})->middleware(['auth', 'signed'])->name('verification.verify');
