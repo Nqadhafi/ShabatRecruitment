@@ -33,6 +33,19 @@ class Register extends Component
         return redirect()->route('verification.notice');
     }
 
+    public function messages()
+    {
+        return [
+            'email.regex' => 'Format email yang kamu masukkan tidak valid. Contoh: user@example.com',
+            'email.required' => 'Email wajib diisi.',
+            'email.email' => 'Format email tidak sesuai.',
+            'email.unique' => 'Email sudah terdaftar.',
+            'password.required' => 'Password wajib diisi.',
+            'password.min' => 'Password minimal 8 karakter.',
+            'password.confirmed' => 'Konfirmasi password tidak cocok.',
+        ];
+    }
+
     public function render()
     {
         return view('livewire.register');
