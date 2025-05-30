@@ -21,6 +21,9 @@
             <input type="password" wire:model="password_confirmation" class="form-control" required placeholder="Password">
             @error('password_confirmation') <small class="form-text text-danger"> {{ $message }}</small> @enderror
         </div>
+                <div class="form-group p-0 m-0">
+            <a href="{{ route('login') }}"><small>Sudah punya akun? Login di sini</small></a>
+        </div>
         <div class="text-center">
         <button type="submit" class="btn btn-primary my-3">Daftar</button>
         </div>

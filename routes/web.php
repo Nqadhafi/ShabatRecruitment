@@ -44,9 +44,9 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('majorities', function () { return view('admin.majorities.index'); })->name('admin.majorities.index');
 });
 
-Route::get('register', function(){
-    return view('auth.register');
-});
+// Route::get('register', function(){
+//     return view('auth.register')->name('register');
+// });
 
 Route::get('email/verify', function () {
     return view('auth.verify');
