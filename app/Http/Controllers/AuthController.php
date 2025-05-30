@@ -26,6 +26,7 @@ class AuthController extends Controller
         $request->validate([
             'email' => 'required|email',
             'password' => 'required',
+            'g-recaptcha-response' => 'required|captcha', // Validasi captcha
         ]);
     
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
@@ -47,23 +48,6 @@ class AuthController extends Controller
     }
 
     // Fungsi untuk registrasi
-    public function register(Request $request)
-    {
-        $request->validate([
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|confirmed|min:8',
-        ]);
-
-        $user = User::create([
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'role' => 'user', // Default role as user
-        ]);
-
-        Auth::login($user);
-
-        return redirect()->route('dashboard');
-    }
 
     // Fungsi untuk logout
     public function logout()

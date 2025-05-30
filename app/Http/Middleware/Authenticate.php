@@ -15,6 +15,7 @@ class Authenticate extends Middleware
     protected function redirectTo($request)
     {
         if (! $request->expectsJson()) {
+            session()->flash('registration_success', 'Registrasi sukses, silakan cek email Anda untuk verifikasi akun.');
             return route('login');
         }
     }

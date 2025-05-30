@@ -25,7 +25,6 @@ Route::middleware('guest')->group(function () {
     Route::get('login', [AuthController::class, 'showLoginForm'])->name('login');
     Route::post('login', [AuthController::class, 'login']);
     Route::get('register', [AuthController::class, 'showRegistrationForm'])->name('register');
-    Route::post('register', [AuthController::class, 'register']);
 });
 
 Route::middleware('auth')->group(function () {
@@ -44,9 +43,6 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('majorities', function () { return view('admin.majorities.index'); })->name('admin.majorities.index');
 });
 
-// Route::get('register', function(){
-//     return view('auth.register')->name('register');
-// });
 
 Route::get('email/verify', function () {
     return view('auth.verify');
@@ -55,5 +51,5 @@ Route::get('email/verify', function () {
 Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
     $request->fulfill();
  
-    return redirect('/home');
+    return redirect('/login');
 })->middleware(['auth', 'signed'])->name('verification.verify');

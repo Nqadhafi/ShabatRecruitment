@@ -9,11 +9,12 @@ use Livewire\Component;
 
 class Register extends Component
 {
-    public $email, $password, $password_confirmation;
+    public $email, $password, $password_confirmation ,$captcha;
 
     protected $rules = [
         'email' => 'required|email|regex:/^[\w\.\-]+@[a-zA-Z0-9\-]+\.[a-zA-Z]{2,}$/|unique:users,email',
         'password' => 'required|min:8|confirmed',
+        'captcha' => 'required|captcha'
     ];
 
     public function register()
@@ -28,9 +29,9 @@ class Register extends Component
         // Kirimkan email verifikasi
         event(new Registered($user));
 
-        session()->flash('message', 'Silakan cek email Anda untuk verifikasi akun.');
+        session()->flash('registration_success', 'Registrasi sukses, silakan cek email Anda untuk verifikasi.');
 
-        return redirect()->route('verification.notice');
+        return redirect()->route('verification.notice')->with('success','Pendaftaran berhasil! Silakan cek email Anda untuk verifikasi akun.');
     }
 
     public function messages()
@@ -43,6 +44,8 @@ class Register extends Component
             'password.required' => 'Password wajib diisi.',
             'password.min' => 'Password minimal 8 karakter.',
             'password.confirmed' => 'Konfirmasi password tidak cocok.',
+            'captcha.required' => 'Silakan selesaikan verifikasi captcha.',
+            'captcha.captcha' => 'Verifikasi captcha gagal, silakan coba lagi.'
         ];
     }
 
