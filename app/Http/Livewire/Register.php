@@ -12,7 +12,7 @@ class Register extends Component
     public $email, $password, $password_confirmation;
 
     protected $rules = [
-        'email' => 'required|email|unique:users,email',
+        'email' => 'required|email|regex:/^[\w\.\-]+@[a-zA-Z0-9\-]+\.[a-zA-Z]{2,}$/|unique:users,email',
         'password' => 'required|min:8|confirmed',
     ];
 
