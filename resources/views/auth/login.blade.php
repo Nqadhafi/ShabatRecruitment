@@ -10,9 +10,15 @@
         <img src="{{ asset('app/img/Logo_square.png')}}" class="img-fluid text-center mb-2" alt="" style="max-width: 5rem;">
         <h3 class="text-center mb-5">E-recruitment Login</h3>
         </div>
-        @if(session('registration_success'))
-    <div class="alert alert-success">
+@if (session('registration_success'))
+    <div class="alert alert-warning">
         {{ session('registration_success') }}
+    </div>
+@endif
+
+@if (session('verification_message'))
+    <div class="alert alert-success">
+        {{ session('verification_message') }}
     </div>
 @endif
         @csrf
