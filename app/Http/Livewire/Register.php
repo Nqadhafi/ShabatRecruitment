@@ -32,7 +32,7 @@ class Register extends Component
 
         session()->flash('registration_success', 'Registrasi sukses, silakan cek email Anda untuk verifikasi.');
 
-        return redirect()->route('verification.notice')->with('success','Pendaftaran berhasil! Silakan cek email Anda untuk verifikasi akun.');
+        // return redirect()->route('verification.notice')->with('success','Pendaftaran berhasil! Silakan cek email Anda untuk verifikasi akun.');
     }
 
     public function messages()

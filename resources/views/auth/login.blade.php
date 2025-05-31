@@ -10,7 +10,12 @@
         <img src="{{ asset('app/img/Logo_square.png')}}" class="img-fluid text-center mb-2" alt="" style="max-width: 5rem;">
         <h3 class="text-center mb-5">E-recruitment Login</h3>
         </div>
-@if (session('registration_success'))
+ @if (session('must_login'))
+    <div class="alert alert-warning">
+        {{ session('must_login') }}
+    </div>
+@endif
+{{-- @if (session('registration_success'))
     <div class="alert alert-warning">
         {{ session('registration_success') }}
     </div>
@@ -20,7 +25,7 @@
     <div class="alert alert-success">
         {{ session('verification_message') }}
     </div>
-@endif
+@endif --}}
         @csrf
         <div class="form-group">
             <label for="email" class="text-muted">Email:</label>
