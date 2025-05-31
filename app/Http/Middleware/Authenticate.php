@@ -16,7 +16,6 @@ class Authenticate extends Middleware
     {
         if (! $request->expectsJson()) {
 
-                session()->flash('must_login', 'Anda harus login terlebih dahulu sebelum melanjutkan.');
             
             return route('login');
         }
