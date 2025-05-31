@@ -32,7 +32,7 @@ Route::middleware('auth')->group(function () {
 });
 
 // Dashboard Pelamar dan Admin dengan middleware
-Route::middleware('applicant')->get('applicant/dashboard', [ApplicantDashboardController::class, 'index'])->name('applicant.dashboard');
+Route::middleware(['applicant','verified'])->get('applicant/dashboard', [ApplicantDashboardController::class, 'index'])->name('applicant.dashboard');
 Route::middleware('admin')->get('admin/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
 
 // Rute Admin untuk Manajemen Lowongan Pekerjaan

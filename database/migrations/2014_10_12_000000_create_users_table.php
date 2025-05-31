@@ -18,7 +18,7 @@ class CreateUsersTable extends Migration
         $table->string('email')->unique();
         $table->string('password');
         $table->uuid('profiles_uuid')->nullable();
-        $table->enum('role', ['admin', 'user'])->default('user');
+        $table->enum('role', ['admin', 'user' ,'applicant'])->default('user');
         $table->timestamps();
         });
     }

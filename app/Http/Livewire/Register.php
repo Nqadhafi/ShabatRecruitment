@@ -9,7 +9,7 @@ use Livewire\Component;
 
 class Register extends Component
 {
-    public $email, $password, $password_confirmation ,$captcha;
+    public $email, $password, $password_confirmation ,$captcha ,$role;
 
     protected $rules = [
         'email' => 'required|email|regex:/^[\w\.\-]+@[a-zA-Z0-9\-]+\.[a-zA-Z]{2,}$/|unique:users,email',
@@ -24,6 +24,7 @@ class Register extends Component
         $user = User::create([
             'email' => $this->email,
             'password' => Hash::make($this->password),
+            'role' => 'applicant', // Atur role sebagai 'applicant'
         ]);
 
         // Kirimkan email verifikasi
