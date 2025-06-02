@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Livewire\Component;
 
@@ -29,6 +30,7 @@ class Register extends Component
 
         // Kirimkan email verifikasi
         event(new Registered($user));
+        Auth::login($user);
 
         // session()->flash('registration_success', 'Registrasi sukses, silakan cek email Anda untuk verifikasi.');
 
