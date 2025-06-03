@@ -16,6 +16,10 @@ class Job extends Model
     protected $fillable = ['name', 'requirement', 'description', 'photo_path', 'is_active'];
 
         // Saat menyimpan data, otomatis menambahkan UUID
+     public function grade()
+    {
+        return $this->belongsTo(Grade::class, 'grade_uuid', 'id');
+    }
         protected static function boot()
         {
             parent::boot();

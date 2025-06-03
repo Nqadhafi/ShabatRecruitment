@@ -20,6 +20,10 @@ class Grade extends Model
     {
         return $this->hasMany(Majority::class, 'grade_uuid');
     }
+    public function jobs()
+    {
+        return $this->hasMany(Job::class, 'min_grades');
+    }
     protected static function boot()
     {
         parent::boot();
