@@ -10,7 +10,7 @@ class Jobcontrol extends Component
     public $jobs, $selectedJob;
 
     public function mount(){
-        $this->jobs = Job::where('is_active', '1')->get();
+        $this->jobs = Job::with('grade')->where('is_active', '1')->get();
         $this->selectedJob = null;
     }
 

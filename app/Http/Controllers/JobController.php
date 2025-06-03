@@ -22,7 +22,8 @@ class JobController extends Controller
     // Menampilkan form untuk membuat lowongan baru
     public function create()
     {
-        return view('admin.jobs.create');
+        $grades = \App\Models\Grade::all(); // Mengambil semua data grade untuk dropdown
+        return view('admin.jobs.create', compact('grades'));
     }
 
     // Menyimpan lowongan pekerjaan yang baru
@@ -39,6 +40,7 @@ class JobController extends Controller
             'min_grades' => 'required|string|exists:grades,id', // Validasi min_grades sebagai UUID yang ada di tabel grades
             'contract' => 'required|string|max:255',
             'photo_path' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'deadline' => 'required|date|after:today', // Validasi deadline harus setelah hari ini
         ]);
     
         // Proses penyimpanan job
@@ -49,6 +51,7 @@ class JobController extends Controller
         $job->min_grades = $request->min_grades;
         $job->gender = $request->gender;
         $job->contract = $request->contract;
+        $job->deadline = $request->deadline; // Simpan deadline
         $job->is_active = true;
     
         if ($request->hasFile('photo_path')) {

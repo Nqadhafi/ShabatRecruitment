@@ -23,12 +23,13 @@
                         <small class="text-muted">Laweyan,Surakarta</small>
                     </div>
                     <ul class="card-text px-3">
-                        <li><small>Berpenampilan menarik</small></li>
-                        <li><small>Berpenampilan menarik</small></li>
-                        <li><small>Berpenampilan menarik</small></li>
+                        <li><small>{{ $job->contract}}</small></li>
+                        <li><small>{{ $job->gender}}</small></li>
+                        <li><small>Minimal pendidikan {{ $job->grade->name }}</small></li>
                     </ul>
                     <p class="text-muted text-center m-0">
-                    <small >Batas Waktu : 31 Februari 2025</small>
+
+                    <small >Batas Waktu : {{ \Carbon\Carbon::parse($job->deadline)->translatedFormat('d F Y') }}</small>
                     </p>
                         <a wire:click.prevent="selectJob('{{ $job->id }}')" class="stretched-link"></a>
                         </li>
@@ -45,8 +46,8 @@
                 <div class="card-header">Detail Lowongan</div>
                 <div class="card-body">
                     <h5>{{ $selectedJob->name }}</h5>
-                    <p><strong>Lokasi:</strong> {{ $selectedJob->requirement }}</p>
-                    <p>{{ $selectedJob->description }}</p>
+                    <p><strong>Deskripsi Pekerjaan:</strong>{!! $selectedJob->description !!}</p>
+                    <p><strong>Persyaratan:</strong> {!! $selectedJob->requirement !!}</p>
                 </div>
             </div>
         @else
