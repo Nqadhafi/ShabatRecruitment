@@ -22,7 +22,7 @@ class JobController extends Controller
     // Menampilkan form untuk membuat lowongan baru
     public function create()
     {
-        $grades = \App\Models\Grade::all(); // Mengambil semua data grade untuk dropdown
+        $grades = \App\Models\Grade::orderByDesc('created_at')->get(); // Mengambil semua data grade untuk dropdown
         return view('admin.jobs.create', compact('grades'));
     }
 
