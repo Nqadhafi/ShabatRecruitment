@@ -14,7 +14,7 @@ class JobController extends Controller
     public function index()
     {
         // Mengambil data job dengan pagination, menampilkan 10 data per halaman
-        $jobs = Job::select('id', 'name', 'description','requirement', 'is_active', 'photo_path')->get();
+        $jobs = Job::select('id', 'name', 'description','requirement', 'is_active', 'photo_path','updated_at', 'gender','contract')->with('grade')->get();
         return view('admin.jobs.index', compact('jobs'));
     }
     
@@ -35,6 +35,9 @@ class JobController extends Controller
             'name' => 'required|string|max:255',
             'description' => 'required|string',
             'requirement' => 'required|string',
+            'gender' => 'required|in:Pria,Wanita,Pria/Wanita',
+            'min_grades' => 'required|string|exists:grades,id', // Validasi min_grades sebagai UUID yang ada di tabel grades
+            'contract' => 'required|string|max:255',
             'photo_path' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
     
@@ -43,6 +46,9 @@ class JobController extends Controller
         $job->name = $request->name;
         $job->description = $request->description;
         $job->requirement = $request->requirement;
+        $job->min_grades = $request->min_grades;
+        $job->gender = $request->gender;
+        $job->contract = $request->contract;
         $job->is_active = true;
     
         if ($request->hasFile('photo_path')) {

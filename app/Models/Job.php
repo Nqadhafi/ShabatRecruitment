@@ -18,7 +18,7 @@ class Job extends Model
         // Saat menyimpan data, otomatis menambahkan UUID
      public function grade()
     {
-        return $this->belongsTo(Grade::class, 'grade_uuid', 'id');
+        return $this->belongsTo(Grade::class, 'min_grades', 'id');
     }
         protected static function boot()
         {
