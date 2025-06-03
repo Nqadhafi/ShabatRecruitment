@@ -7,6 +7,13 @@
             
             <!-- Register and Login Buttons (Always Visible) -->
             <div class="d-lg-none ml-auto mr-2">
+                @auth
+                    <form action="{{ route('logout') }}" method="POST" style="display:inline;">
+                    @csrf
+                    <button type="submit" class="btn btn-link nav-link">Logout</button>
+                </form>
+                @endauth
+                @guest
                 <a href="{{ route('register')}}" class="mr-1">
                     
                     <button class="btn btn-outline-primary"><ion-icon name="create-outline"></ion-icon><span class="d-none d-lg-block">Daftar Akun</span></button>
@@ -15,6 +22,7 @@
                     
                     <button class="btn btn-primary"><ion-icon name="log-in"></ion-icon><p class="d-none d-lg-block">Masuk</p></button>
                 </a>
+                 @endguest
             </div>
 
             <!-- Toggle Button for Small Screens -->
@@ -42,14 +50,26 @@
             </div>
 
             <!-- Register and Login Buttons (Desktop View) -->
+            
+
+          
             <div class="d-none d-lg-flex ml-auto">
-                <a href="{{ route('register')}}" class="mr-2">
-                    <button class="btn btn-outline-primary d-flex"><ion-icon name="create-outline" class="align-self-center mr-1"></ion-icon><span>Daftar Akun</span></button>
-                </a>
-                <a href="{{ route('login') }}">
-                    
-                    <button class="btn btn-primary d-flex"><ion-icon name="log-in" class="align-self-center mr-1"></ion-icon><span>Masuk</span></button>
-                </a>
+                @auth
+                <form action="{{ route('logout') }}" method="POST" style="display:inline;">
+                    @csrf
+                    <button type="submit" class="btn btn-link nav-link">Logout</button>
+                </form>
+
+                @endauth
+                  @guest
+                  <a href="{{ route('register')}}" class="mr-2">
+                      <button class="btn btn-outline-primary d-flex"><ion-icon name="create-outline" class="align-self-center mr-1"></ion-icon><span>Daftar Akun</span></button>
+                  </a>
+                  <a href="{{ route('login') }}">
+                      
+                      <button class="btn btn-primary d-flex"><ion-icon name="log-in" class="align-self-center mr-1"></ion-icon><span>Masuk</span></button>
+                  </a>
+            @endguest
             </div>
         </div>
     </nav>

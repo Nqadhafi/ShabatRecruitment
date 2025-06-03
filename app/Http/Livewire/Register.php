@@ -30,11 +30,10 @@ class Register extends Component
 
         // Kirimkan email verifikasi
         event(new Registered($user));
-        Auth::login($user);
 
         // session()->flash('registration_success', 'Registrasi sukses, silakan cek email Anda untuk verifikasi.');
 
-        return redirect()->route('verification.notice')->with('success','Pendaftaran berhasil! Silakan cek email Anda untuk verifikasi akun.');
+        return redirect()->route('login')->with('info','Pendaftaran berhasil! Silakan cek email Anda untuk verifikasi akun.');
     }
 
     public function messages()

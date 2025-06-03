@@ -4,7 +4,7 @@
 @section('title', 'Create Job')
 
 @section('content_header')
-    <h1>Create New Job</h1>
+    <h1>Buat Lowongan Pekerjaan</h1>
 @stop
 @push('css')
 <link rel="stylesheet" href="{{ asset('adminlte/plugins/summernote/summernote-bs4.min.css') }}">
@@ -27,22 +27,22 @@
             </div>
         @endif
         <div class="form-group">
-            <label for="name">Job Name</label>
+            <label for="name">Nama Lowongan</label>
             <input type="text" name="name" class="form-control" required>
         </div>
 
         <div class="form-group">
-            <label for="description">Description</label>
+            <label for="description">Deskripsi Pekerjaan</label>
             <textarea name="description" id="description" class="form-control" required></textarea>
         </div>
 
         <div class="form-group">
-            <label for="requirement">Requirements</label>
+            <label for="requirement">Kualifikasi / Persyaratan</label>
             <textarea name="requirement" id="requirement" class="form-control" required></textarea>
         </div>
 
         <div class="form-group">
-            <label for="photo_path">Upload Logo</label>
+            <label for="photo_path">Upload Gambar (Opsional)</label>
             <input type="file" name="photo_path" class="form-control">
         </div>
 
@@ -62,7 +62,7 @@
     // Inisialisasi Summernote untuk deskripsi dan persyaratan
     $(document).ready(function() {
         $('#description').summernote({
-            height: 200, // Atur tinggi editor
+            height: 150, // Atur tinggi editor
             placeholder: 'Enter job description here...',
             toolbar: [
                 ['style', ['bold', 'italic', 'underline']],
@@ -75,7 +75,7 @@
         });
 
         $('#requirement').summernote({
-            height: 200, // Atur tinggi editor
+            height: 150, // Atur tinggi editor
             placeholder: 'Enter job requirements here...',
             toolbar: [
                 ['style', ['bold', 'italic', 'underline']],
