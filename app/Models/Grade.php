@@ -40,5 +40,11 @@ class Grade extends Model
                 throw new \Exception("Grade tidak bisa dihapus karena masih ada Jurusan yang terkait.");
             }
         });
+        static::deleting(function ($grade) {
+            // Cek apakah ada majority yang terkait
+            if ($grade->jobs()->count() > 0) {
+                throw new \Exception("Grade tidak bisa dihapus karena masih ada Lowongan yang terkait.");
+            }
+        });
     }
 }
