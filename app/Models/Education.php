@@ -11,6 +11,7 @@ class Education extends Model
 {
     use HasFactory;
 
+    protected $table = 'educations';
     protected $primaryKey = 'id';
     protected $keyType = 'string';
     public $incrementing = false;

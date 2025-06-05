@@ -24,9 +24,10 @@ class ApplicantProfile extends Model
         return $this->belongsTo(Education::class, 'education_uuid');
     }
 
-    public function user(){
-        return $this->belongsTo(User::class, 'id', 'profiles_uuid');
-    }
+public function user()
+{
+    return $this->belongsTo(User::class, 'id', 'profiles_uuid');
+}
 
         protected static function boot()
     {

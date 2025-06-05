@@ -22,6 +22,10 @@ Route::get('/job-detail', function () {
     return view('home.job-detail');
 });
 
+Route::get('/complete', function(){
+    return view('test');
+});
+
 
 // Login, Register, dan Logout (gunakan middleware guest dan auth)
 Route::middleware('guest')->group(function () {

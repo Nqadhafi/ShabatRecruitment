@@ -1,8 +1,17 @@
 <!-- Main Sidebar Container -->
+                @auth
+                    @if(Auth::user()->role == 'admin')
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
-    <a href="#" class="brand-link">
-        <span class="brand-text font-weight-light">Admin Panel</span>
+        <a href="#" class="brand-link">
+        <span class="brand-text font-weight-light">Portal HRD</span>
     </a>
+                    @elseif(Auth::user()->role == 'applicant')
+<aside class="main-sidebar sidebar-white-primary elevation-4">
+        <a href="#" class="brand-link">
+        <span class="brand-text font-weight-light">Portal Pelamar</span>
+    </a>
+                    @endif
+                @endauth
 
     <div class="sidebar">
         <nav class="mt-2">

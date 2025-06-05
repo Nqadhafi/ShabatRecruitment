@@ -1,8 +1,8 @@
 <!-- Navbar -->
 <nav class="navbar navbar-expand navbar-white navbar-light">
-    <a href="/" class="navbar-brand">
+    {{-- <a href="/" class="navbar-brand">
         <span class="brand-text font-weight-light">Recruitment</span>
-    </a>
+    </a> --}}
 
     <!-- Navbar Right Menu -->
     <ul class="navbar-nav ml-auto">

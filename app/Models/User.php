@@ -23,10 +23,11 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array<int, string>
      */
     protected $fillable = ['email', 'password', 'profiles_uuid', 'role'];
-    public function applicantProfile()
-    {
-        return $this->hasOne(ApplicantProfile::class, 'id', 'profiles_uuid');
-    }
+public function applicantProfile()
+{
+    return $this->hasOne(ApplicantProfile::class, 'profiles_uuid', 'id');
+}
+
     /**
      * The attributes that should be hidden for serialization.
      *
