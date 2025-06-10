@@ -53,7 +53,7 @@ class CompleteProfile extends Component
         }
         elseif($step == 3){
                 $this->validate([
-                    'photo_path' => 'image|max:2048',
+                    'photo_path' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
                     'instagram_surname' => 'nullable|string|max:255',
                     'linkedin_surname' => 'nullable|string|max:255',
                 ]);
@@ -69,18 +69,17 @@ class CompleteProfile extends Component
         'last_score' => $this->last_score,
         'majority_uuid' => $this->selectedMajority,
     ]);
-        if ($this->photo_path) {
-        $photoPath = $this->photo_path->store('photos', 'public');
-    } else {
         $photoPath = null;
-    }
+        if ($this->photo_path) {
+            $photoPath = $this->photo_path->store('photos', 'public'); // Upload file ke folder 'photos'
+        }
         $profile = ApplicantProfile::create([
             'full_name' => $this->full_name,
             'surname' => $this->surname,
             'ktp_number' => $this->ktp_number,
             'address' => $this->address,
             'phone_number' => $this->phone_number,
-            'photo_path' => $this->photo_path,
+            'photo_path' => $photoPath,
             'instagram_surname' =>$this->instagram_surname,
             'linkedin_surname' => $this->linkedin_surname
         ]);

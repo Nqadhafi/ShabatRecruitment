@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 
-class CheckProfileCompletion
+class VerifiedProfile
 {
     /**
      * Handle an incoming request.
@@ -17,19 +17,12 @@ class CheckProfileCompletion
     public function handle(Request $request, Closure $next)
     {
 
-        // Mengecek apakah pengguna sudah login
-        if (auth()->check()) {
+         if (auth()->check()) {
             // Jika profil belum lengkap, arahkan ke halaman melengkapi profil
-            if (is_null(auth()->user()->profiles_uuid)) {
-                return redirect()->route('profile.complete');
-            }
-            
-            // Jika profil sudah lengkap, mencegah mereka mengakses halaman melengkapi profil
-            if (!is_null(auth()->user()->profiles_uuid) && $request->is('profile/complete')) {
-                return redirect()->route('applicant.dashboard'); // Ganti 'dashboard' dengan rute yang sesuai
+            if (!is_null(auth()->user()->profiles_uuid)) {
+                return redirect()->route('applicant.dashboard');
             }
         }
-
         return $next($request);
     }
 }

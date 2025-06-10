@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use Illuminate\Auth\Events\Verified;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -66,5 +67,6 @@ class Kernel extends HttpKernel
         'applicant' => \App\Http\Middleware\ApplicantMiddleware::class,
         'admin' => \App\Http\Middleware\AdminMiddleware::class,
         'profile' => \App\Http\Middleware\CheckProfileCompletion::class,
+        'profile-verified' => \App\Http\Middleware\VerifiedProfile::class,
     ];
 }

@@ -39,11 +39,16 @@ Route::middleware('auth')->group(function () {
 });
 
 // Dashboard Pelamar dan Admin dengan middleware
-Route::middleware(['applicant','verified'])->get('applicant/dashboard', [ApplicantDashboardController::class, 'index'])->name('applicant.dashboard');
-Route::middleware(['applicant', 'verified'])->prefix('applicant')->group(function(){
+// Route::middleware(['applicant','verified'])->get('applicant/dashboard', [ApplicantDashboardController::class, 'index'])->name('applicant.dashboard');
+Route::middleware(['applicant', 'verified', 'profile'])->prefix('applicant')->group(function(){
     Route::get('/jobs-panel', function () {return view('applicant.job'); })->name('applicant.jobs-panel');
+    Route::get('/dashboard', [ApplicantDashboardController::class, 'index'])->name('applicant.dashboard');
 });
 
+Route::middleware(['applicant','verified','profile-verified'])->prefix('applicant')->group(function(){
+    Route::get('/profile/complete', function(){ return view('applicant.boarding');} )->name('profile.complete');
+
+});
 
 Route::middleware('admin')->get('admin/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
 

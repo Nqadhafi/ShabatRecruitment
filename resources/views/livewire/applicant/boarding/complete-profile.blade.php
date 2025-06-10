@@ -1,6 +1,5 @@
 
 <div class="container">
-    {{ auth()->user()->id }}
     @if ($step == 1)
         {{-- Form profile umum part 1 --}}
         <label for="" class="mt-2">Nomor KTP :</label>
