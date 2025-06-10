@@ -1,13 +1,16 @@
 <?php
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminDashboardController;
+use App\Http\Controllers\Admin\ExamTitleController;
+use App\Http\Controllers\Admin\ExamImportController;
+use App\Http\Controllers\Admin\ExamQuestionController;
 use App\Http\Controllers\ApplicantDashboardController;
-use App\Http\Controllers\VerifyEmailWithoutLoginController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
-use Illuminate\Http\Request;
+use App\Http\Controllers\VerifyEmailWithoutLoginController;
 
 
 /*
@@ -47,6 +50,29 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::patch('jobs/{job}/toggle', [JobController::class, 'toggle'])->name('admin.jobs.toggle');
     Route::get('grades', function () { return view('admin.grades.index'); })->name('admin.grades.index');
     Route::get('majorities', function () { return view('admin.majorities.index'); })->name('admin.majorities.index');
+
+// Exam Titles
+    Route::get('/exam-titles', [ExamTitleController::class, 'index'])->name('exam-titles.index');
+    Route::get('/exam-titles/create', [ExamTitleController::class, 'create'])->name('exam-titles.create');
+    Route::post('/exam-titles', [ExamTitleController::class, 'store'])->name('exam-titles.store');
+    Route::get('/exam-titles/{examTitle}', [ExamTitleController::class, 'show'])->name('exam-titles.show');
+    Route::get('/exam-titles/{examTitle}/edit', [ExamTitleController::class, 'edit'])->name('exam-titles.edit');
+    Route::put('/exam-titles/{examTitle}', [ExamTitleController::class, 'update'])->name('exam-titles.update');
+    Route::delete('/exam-titles/{examTitle}', [ExamTitleController::class, 'destroy'])->name('exam-titles.destroy');
+
+    // Exam Questions (Nested)
+    Route::get('/exam-titles/{examTitle}/questions', [ExamQuestionController::class, 'index'])->name('exam-questions.index');
+    Route::get('/exam-titles/{examTitle}/questions/create', [ExamQuestionController::class, 'create'])->name('exam-questions.create');
+    Route::post('/exam-titles/{examTitle}/questions', [ExamQuestionController::class, 'store'])->name('exam-questions.store');
+    Route::get('/exam-titles/{examTitle}/questions/{examQuestion}', [ExamQuestionController::class, 'show'])->name('exam-questions.show');
+    Route::get('/exam-titles/{examTitle}/questions/{examQuestion}/edit', [ExamQuestionController::class, 'edit'])->name('exam-questions.edit');
+    Route::put('/exam-titles/{examTitle}/questions/{examQuestion}', [ExamQuestionController::class, 'update'])->name('exam-questions.update');
+    Route::delete('/exam-titles/{examTitle}/questions/{examQuestion}', [ExamQuestionController::class, 'destroy'])->name('exam-questions.destroy');
+
+    // Import & Export
+    Route::get('/exam-titles/{examTitle}/questions/import', [ExamImportController::class, 'form'])->name('exam-questions.import.form');
+    Route::post('/exam-titles/{examTitle}/questions/import', [ExamImportController::class, 'import'])->name('exam-questions.import.store');
+    Route::get('/exam-titles/{examTitle}/questions/export', [ExamImportController::class, 'export'])->name('exam-questions.export');
 });
 
 

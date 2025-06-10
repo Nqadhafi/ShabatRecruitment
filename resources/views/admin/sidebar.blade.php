@@ -22,3 +22,9 @@
                                 <p>Master Majority</p>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a href="{{ route('exam-titles.index') }}" class="nav-link">
+                                <i class="nav-icon fas fa-book"></i>
+                                <p>Manajemen Ujian</p>
+                            </a>
+                        </li>
