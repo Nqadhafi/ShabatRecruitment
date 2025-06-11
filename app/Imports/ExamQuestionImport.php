@@ -17,30 +17,45 @@ class ExamQuestionImport implements ToModel, WithHeadingRow
         $this->examTitleId = $examTitleId;
     }
 
-    public function model(array $row)
-    {
-        Validator::make($row, [
-            'soal' => 'required',
-            'a' => 'required',
-            'b' => 'required',
-            'c' => 'required',
-            'd' => 'required',
-        ])->validate();
+public function model(array $row)
+{
+    Validator::make($row, $this->rules())->validate();
 
-        $examTitle = ExamTitle::findOrFail($this->examTitleId);
+    return new ExamQuestion([
+        'exam_title_id' => $this->examTitleId,
+        'question_text' => $row['soal'],
+        'option_a' => $row['a'],
+        'option_b' => $row['b'],
+        'option_c' => $row['c'],
+        'option_d' => $row['d'],
+        'correct_answer' => $row['jawaban_benar'] ?? null,
+        'point_a' => $row['poin_a'] ?? 0,
+        'point_b' => $row['poin_b'] ?? 0,
+        'point_c' => $row['poin_c'] ?? 0,
+        'point_d' => $row['poin_d'] ?? 0,
+    ]);
+}
 
-        return new ExamQuestion([
-            'exam_title_id' => $this->examTitleId,
-            'question_text' => $row['soal'],
-            'option_a' => $row['a'],
-            'option_b' => $row['b'],
-            'option_c' => $row['c'],
-            'option_d' => $row['d'],
-            'correct_answer' => $examTitle->exam_type === 'benar_salah' ? $row['jawaban_benar'] : null,
-            'point_a' => $examTitle->exam_type === 'poin' ? $row['poin_a'] : 0,
-            'point_b' => $examTitle->exam_type === 'poin' ? $row['poin_b'] : 0,
-            'point_c' => $examTitle->exam_type === 'poin' ? $row['poin_c'] : 0,
-            'point_d' => $examTitle->exam_type === 'poin' ? $row['poin_d'] : 0,
-        ]);
+private function rules()
+{
+    $examTitle = ExamTitle::find($this->examTitleId);
+    $rules = [
+        'soal' => 'required',
+        'a' => 'required',
+        'b' => 'required',
+        'c' => 'required',
+        'd' => 'required',
+    ];
+
+    if ($examTitle->exam_type === 'benar_salah') {
+        $rules['jawaban_benar'] = 'required|in:A,B,C,D';
+    } else {
+        $rules['poin_a'] = 'required|integer|min:0';
+        $rules['poin_b'] = 'required|integer|min:0';
+        $rules['poin_c'] = 'required|integer|min:0';
+        $rules['poin_d'] = 'required|integer|min:0';
     }
+
+    return $rules;
+}
 }
