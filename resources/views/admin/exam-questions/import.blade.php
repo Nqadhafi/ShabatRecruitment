@@ -2,11 +2,17 @@
 @section('page-title', 'Import Soal Ujian')
 @section('content')
     <div class="row">
-        <div class="alert alert-info">
+<div class="alert alert-info">
     <strong>Panduan Format Excel:</strong><br>
     Kolom wajib: <code>soal</code>, <code>a</code>, <code>b</code>, <code>c</code>, <code>d</code><br>
-    Jika tipe ujian <strong>Benar/Salah</strong>: tambahkan kolom <code>jawaban_benar</code><br>
-    Jika tipe ujian <strong>Poin</strong>: tambahkan kolom <code>poin_a</code>, <code>poin_b</code>, dll.
+
+    @if($examTitle->exam_type === 'benar_salah')
+        Tipe ujian <strong>Benar/Salah</strong>: tambahkan kolom <code>jawaban_benar</code><br>
+    @else
+        Tipe ujian <strong>Poin</strong>: tambahkan kolom <code>poin_a</code>, <code>poin_b</code>, dll.<br>
+    @endif
+
+    <small>Nama kolom harus lowercase tanpa spasi (misal: <code>jawaban_benar</code>)</small>
 </div>
         <div class="col-md-6">
             <div class="card card-outline card-primary">
