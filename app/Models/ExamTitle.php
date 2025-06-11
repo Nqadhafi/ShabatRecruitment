@@ -11,7 +11,9 @@ class ExamTitle extends Model
     protected $fillable = [
         'title',
         'exam_type',
-        'is_active'
+        'is_active',
+        'is_random',
+        'duration_minutes'
     ];
 
     // Relasi ke soal

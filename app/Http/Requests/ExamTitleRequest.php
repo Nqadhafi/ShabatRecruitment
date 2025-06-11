@@ -27,6 +27,8 @@ class ExamTitleRequest extends FormRequest
             'title' => 'required|string|max:255',
             'exam_type' => 'required|in:poin,benar_salah',
             'is_active' => 'boolean',
+            'is_random' => 'boolean',
+            'duration_minutes' => 'numeric|nullable'
         ];
     }
 }

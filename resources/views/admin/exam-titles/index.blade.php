@@ -23,6 +23,8 @@
                                 <th>Judul Ujian</th>
                                 <th>Tipe Soal</th>
                                 <th>Status</th>
+                                <th>Urutan Soal</th>
+                                <th>Durasi Ujian (menit)</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -37,6 +39,20 @@
                                             <span class="badge badge-success">Aktif</span>
                                         @else
                                             <span class="badge badge-secondary">Tidak Aktif</span>
+                                        @endif
+                                    </td>
+                                        <td>
+                                        @if($title->is_random)
+                                            Diacak
+                                        @else
+                                            Berurutan
+                                        @endif
+                                    </td>
+                                        <td>
+                                        @if($title->duration_minutes)
+                                            {{ $title->duration_minutes }} menit
+                                        @else
+                                            Tidak ada batas waktu
                                         @endif
                                     </td>
                                     <td>

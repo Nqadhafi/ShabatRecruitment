@@ -28,3 +28,20 @@
         <label class="custom-control-label" for="is_active">Aktif?</label>
     </div>
 </div>
+
+<div class="form-group">
+        <input type="hidden" name="is_random" value="0">
+    <div class="custom-control custom-switch">
+        <input type="checkbox" name="is_random" class="custom-control-input" id="is_random"
+            value="1"
+               {{ old('is_random', $examTitle->is_random ?? false) ? 'checked' : '' }}>
+        <label class="custom-control-label" for="is_random">Acak Urutan Soal</label>
+    </div>
+</div>
+
+<div class="form-group">
+    <label for="duration_minutes">Durasi Ujian (menit)</label>
+    <input type="number" name="duration_minutes" id="duration_minutes" class="form-control"
+           value="{{ old('duration_minutes', $examTitle->duration_minutes ?? '') }}"
+           placeholder="Contoh: 60 (untuk 1 jam)">
+</div>
