@@ -27,7 +27,7 @@ class ExamQuestionController extends Controller
         public function store(ExamQuestionRequest $request, ExamTitle $examTitle)
         {
             $examTitle->questions()->create($request->validated());
-            return redirect()->route('admin.exam-questions.index', $examTitle)->with('success', 'Soal berhasil ditambahkan.');
+            return redirect()->route('exam-questions.index', $examTitle)->with('success', 'Soal berhasil ditambahkan.');
         }
 
     // Menampilkan detail soal
@@ -46,13 +46,13 @@ class ExamQuestionController extends Controller
     public function update(ExamQuestionRequest $request, ExamTitle $examTitle, ExamQuestion $examQuestion)
     {
         $examQuestion->update($request->validated());
-        return redirect()->route('admin.exam-questions.index', $examTitle)->with('success', 'Soal berhasil diubah.');
+        return redirect()->route('exam-questions.index', $examTitle)->with('success', 'Soal berhasil diubah.');
     }
 
     // Menghapus soal
     public function destroy(ExamTitle $examTitle, ExamQuestion $examQuestion)
     {
         $examQuestion->delete();
-        return redirect()->route('admin.exam-questions.index', $examTitle)->with('success', 'Soal berhasil dihapus.');
+        return redirect()->route('exam-questions.index', $examTitle)->with('success', 'Soal berhasil dihapus.');
     }
 }

@@ -7,7 +7,7 @@
                 <div class="card-header">
                     <h3 class="card-title">Form Edit Soal</h3>
                 </div>
-                <form action="{{ route('questions.update', [$examTitle, $examQuestion]) }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('exam-questions.update', [$examTitle, $examQuestion]) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <div class="card-body">
@@ -15,7 +15,7 @@
                     </div>
                     <div class="card-footer">
                         <button type="submit" class="btn btn-warning">Update</button>
-                        <a href="{{ route('questions.index', $examTitle) }}" class="btn btn-default">Batal</a>
+                        <a href="{{ route('exam-questions.index', $examTitle) }}" class="btn btn-default">Batal</a>
                     </div>
                 </form>
             </div>

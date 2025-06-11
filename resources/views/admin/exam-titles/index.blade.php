@@ -40,7 +40,7 @@
                                         @endif
                                     </td>
                                     <td>
-                                        <a href="{{ route('exam-titles.questions.index', $title) }}" class="btn btn-sm btn-info">
+                                        <a href="{{ route('exam-questions.index', $title) }}" class="btn btn-sm btn-info">
                                             <i class="fas fa-eye"></i> Lihat Soal
                                         </a>
                                         <a href="{{ route('exam-titles.edit', $title) }}" class="btn btn-sm btn-warning">

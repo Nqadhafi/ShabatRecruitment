@@ -5,8 +5,13 @@
         <div class="col-md-12">
             <div class="card card-outline card-primary">
                 <div class="card-header">
+                                            @if (session('success'))
+        <div class="alert alert-success text-center">
+            {{ session('success') }}
+        </div>
+    @endif
                     <h3 class="card-title">Soal untuk: <strong>{{ $examTitle->title }}</strong></h3>
-                    <a href="{{ route('exam-titles.questions.create', $examTitle) }}" class="btn btn-sm btn-primary float-right">
+                    <a href="{{ route('exam-questions.create', $examTitle) }}" class="btn btn-sm btn-primary float-right">
                         <i class="fas fa-plus"></i> Tambah Soal
                     </a>
                 </div>
@@ -34,12 +39,12 @@
                                     </td>
                                     <td>
                                         <!-- Tombol Edit -->
-                                        <a href="{{ route('questions.edit', [$examTitle, $question]) }}" class="btn btn-sm btn-warning">
+                                        <a href="{{ route('exam-questions.edit', [$examTitle, $question]) }}" class="btn btn-sm btn-warning">
                                             <i class="fas fa-edit"></i> Edit
                                         </a>
 
                                         <!-- Tombol Hapus -->
-                                        <form action="{{ route('questions.destroy', [$examTitle, $question]) }}" method="POST" class="d-inline">
+                                        <form action="{{ route('exam-questions.destroy', [$examTitle, $question]) }}" method="POST" class="d-inline">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Yakin hapus soal ini?')">
