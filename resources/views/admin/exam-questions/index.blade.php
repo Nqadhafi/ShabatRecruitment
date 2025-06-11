@@ -11,7 +11,16 @@
         </div>
     @endif
                     <h3 class="card-title">Soal untuk: <strong>{{ $examTitle->title }}</strong></h3>
-                    <a href="{{ route('exam-questions.create', $examTitle) }}" class="btn btn-sm btn-primary float-right">
+                            <!-- Tombol Import -->
+                    <a href="{{ route('exam-questions.import.form', $examTitle) }}" class="btn btn-sm btn-success ml-2">
+                        <i class="fas fa-file-import"></i> Import Excel
+                    </a>
+
+                    <!-- Tombol Export -->
+                    <a href="{{ route('exam-questions.export', $examTitle) }}" class="btn btn-sm btn-info ml-2">
+                        <i class="fas fa-file-export"></i> Export Excel
+                    </a>
+                     <a href="{{ route('exam-questions.create', $examTitle) }}" class="btn btn-sm btn-primary float-right">
                         <i class="fas fa-plus"></i> Tambah Soal
                     </a>
                 </div>
@@ -28,7 +37,7 @@
                         <tbody>
                             @foreach($questions as $question)
                                 <tr>
-                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $startNumber + $loop->iteration - 1 }}</td>
                                     <td>{!! Str::limit($question->question_text, 50) !!}</td>
                                     <td>
                                         @if($examTitle->exam_type === 'benar_salah')
@@ -58,7 +67,7 @@
                     </table>
                 </div>
                 <div class="card-footer">
-                    {{ $questions->links() }}
+                    {{ $questions->links('pagination::bootstrap-4') }}
                 </div>
             </div>
         </div>

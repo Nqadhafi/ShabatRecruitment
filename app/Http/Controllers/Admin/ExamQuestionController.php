@@ -11,11 +11,18 @@ use App\Http\Requests\ExamQuestionRequest;
 class ExamQuestionController extends Controller
 {
     // Menampilkan daftar soal berdasarkan judul ujian
-    public function index(ExamTitle $examTitle)
-    {
-        $questions = $examTitle->questions()->latest()->paginate(10);
-        return view('admin.exam-questions.index', compact('examTitle', 'questions'));
-    }
+public function index(ExamTitle $examTitle)
+{
+    // Ambil daftar pertanyaan dengan paginasi
+    $questions = $examTitle->questions()->latest()->paginate(10)->withQueryString();
+
+    // Hitung nomor pertanyaan untuk setiap halaman
+    $page = request()->get('page', 1);
+    $perPage = 10; // Set jumlah item per halaman
+    $startNumber = ($page - 1) * $perPage + 1;
+
+    return view('admin.exam-questions.index', compact('examTitle', 'questions', 'startNumber'));
+}
 
     // Menampilkan form tambah soal
     public function create(ExamTitle $examTitle)

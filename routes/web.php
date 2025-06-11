@@ -70,9 +70,9 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::delete('/exam-titles/{examTitle}/questions/{examQuestion}', [ExamQuestionController::class, 'destroy'])->name('exam-questions.destroy');
 
     // Import & Export
-    Route::get('/exam-titles/{examTitle}/questions/import', [ExamImportController::class, 'form'])->name('exam-questions.import.form');
-    Route::post('/exam-titles/{examTitle}/questions/import', [ExamImportController::class, 'import'])->name('exam-questions.import.store');
-    Route::get('/exam-titles/{examTitle}/questions/export', [ExamImportController::class, 'export'])->name('exam-questions.export');
+    Route::get('/exam-title/{examTitle}/questions/import', [ExamImportController::class, 'form'])->name('exam-questions.import.form');
+    Route::post('/exam-title/{examTitle}/questions/import', [ExamImportController::class, 'import'])->name('exam-questions.import.store');
+    Route::get('/exam-title/{examTitle}/questions/export', [ExamImportController::class, 'export'])->name('exam-questions.export');
 });
 
 

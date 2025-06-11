@@ -13,6 +13,7 @@ class ExamImportController extends Controller
 {
     public function form(ExamTitle $examTitle)
     {
+        
         return view('admin.exam-questions.import', compact('examTitle'));
     }
 
@@ -24,7 +25,7 @@ class ExamImportController extends Controller
 
         Excel::import(new ExamQuestionImport($examTitle->id), $request->file('file'));
 
-        return redirect()->route('admin.exam-questions.index', $examTitle)
+        return redirect()->route('exam-questions.index', $examTitle)
             ->with('success', 'Soal berhasil diimport dari Excel.');
     }
 
