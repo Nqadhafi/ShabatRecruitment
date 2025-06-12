@@ -87,14 +87,15 @@ public function index(ExamTitle $examTitle)
     // Hapus gambar lama jika ada
     $oldImagePath = $examQuestion->image_path;
 
-    // Upload gambar baru jika ada
     if ($request->hasFile('image')) {
-        // Hapus gambar lama dari server
+        $oldImagePath = $examQuestion->image_path;
+
+        // Hapus gambar lama jika ada
         if ($oldImagePath && file_exists(public_path('images/' . $oldImagePath))) {
             unlink(public_path('images/' . $oldImagePath));
         }
 
-        // Upload yang baru
+        // Upload gambar baru
         $file = $request->file('image');
         $filename = time() . '_' . Str::random(10) . '.' . $file->getClientOriginalExtension();
         $file->move(public_path('images/exam'), $filename);
@@ -116,7 +117,7 @@ public function index(ExamTitle $examTitle)
     if ($examTitle->exam_type === 'poin') {
         $data['points'] = json_encode($request->input('points'));
     }
-    $examTitle->questions()->update($data);
+$examQuestion->update($data);
         return redirect()->route('exam-questions.index', $examTitle)->with('success', 'Soal berhasil diubah.');
     }
 

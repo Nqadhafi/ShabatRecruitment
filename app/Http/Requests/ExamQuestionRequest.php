@@ -28,7 +28,7 @@ class ExamQuestionRequest extends FormRequest
 
         $rules = [
             'question_text' => 'required|string',
-            'image' => 'nullable|image|mimes:jpg,jpeg,png,gif,webp|max:2048',
+            'image_path' => 'nullable|image|mimes:jpg,jpeg,png,gif,webp|max:2048',
             'options' => 'required|array|min:2',
             'options.A' => 'required_with:options|string',
             'options.B' => 'required_with:options|string',
@@ -37,9 +37,9 @@ class ExamQuestionRequest extends FormRequest
         ];
 
             if ($this->isMethod('post')) {
-                $rules['image'] = 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048';
+                $rules['image_path'] = 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048';
             } else {
-                $rules['image'] = 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048';
+                $rules['image_path'] = 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048';
             }
 
         // Jawaban benar (untuk tipe benar_salah)

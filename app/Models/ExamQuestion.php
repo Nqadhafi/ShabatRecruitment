@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
 
 class ExamQuestion extends Model
 {
@@ -17,9 +18,15 @@ class ExamQuestion extends Model
         'points',
     ];
 
+    
+
     // Relasi ke judul ujian
     public function examTitle()
     {
         return $this->belongsTo(ExamTitle::class);
+    }
+        public function point($key)
+    {
+        return Arr::get($this->points, $key, 0);
     }
 }

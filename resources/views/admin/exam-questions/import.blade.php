@@ -1,18 +1,22 @@
 @extends('layouts.app')
 @section('page-title', 'Import Soal Ujian')
 @section('content')
+@if (session('error'))
+    <div class="alert alert-danger">
+        {{ session('error') }}
+    </div>
+@endif
     <div class="row">
 <div class="alert alert-info">
     <strong>Panduan Format Excel:</strong><br>
-    Kolom wajib: <code>soal</code>, <code>a</code>, <code>b</code>, <code>c</code>, <code>d</code><br>
+    - Kolom wajib: <code>soal</code>, <code>a</code>, <code>b</code>, <code>c</code>, <code>d</code><br>
+    - Untuk tambahan jawaban, tambahkan kolom <code>e</code>, <code>f</code>, dst.<br>
 
     @if($examTitle->exam_type === 'benar_salah')
-        Tipe ujian <strong>Benar/Salah</strong>: tambahkan kolom <code>jawaban_benar</code><br>
+        - Wajib isi <code>jawaban_benar</code> (boleh E/F/G...)
     @else
-        Tipe ujian <strong>Poin</strong>: tambahkan kolom <code>poin_a</code>, <code>poin_b</code>, dll.<br>
+        - Wajib isi semua poin (termasuk <code>poin_e</code>, <code>poin_f</code>, dst.)
     @endif
-
-    <small>Nama kolom harus lowercase tanpa spasi (misal: <code>jawaban_benar</code>)</small>
 </div>
         <div class="col-md-6">
             <div class="card card-outline card-primary">
