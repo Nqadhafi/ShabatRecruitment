@@ -33,6 +33,12 @@ class ExamQuestionRequest extends FormRequest
             'option_d' => 'required|string',
         ];
 
+            if ($this->isMethod('post')) {
+                $rules['image'] = 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048';
+            } else {
+                $rules['image'] = 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048';
+            }
+
         if ($examTitle && $examTitle->exam_type === 'benar_salah') {
             $rules['correct_answer'] = 'required|in:A,B,C,D';
         } elseif ($examTitle && $examTitle->exam_type === 'poin') {

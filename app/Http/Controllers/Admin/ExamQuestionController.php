@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\ExamQuestion;
 use App\Models\ExamTitle;
+use Illuminate\Support\Str;
+use App\Models\ExamQuestion;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ExamQuestionRequest;
@@ -33,7 +34,17 @@ public function index(ExamTitle $examTitle)
     // Menyimpan soal baru
         public function store(ExamQuestionRequest $request, ExamTitle $examTitle)
         {
-            $examTitle->questions()->create($request->validated());
+
+            $data = $request->validated();
+    // Upload gambar jika ada
+            if ($request->hasFile('image')) {
+                $file = $request->file('image');
+                $filename = time() . '_' . Str::random(10) . '.' . $file->getClientOriginalExtension();
+                $file->move(public_path('images/exam'), $filename);
+                $data['image_path'] = 'exam/' . $filename;
+            }
+
+            $examTitle->questions()->create($data);
             return redirect()->route('exam-questions.index', $examTitle)->with('success', 'Soal berhasil ditambahkan.');
         }
 
@@ -52,7 +63,25 @@ public function index(ExamTitle $examTitle)
     // Mengupdate soal
     public function update(ExamQuestionRequest $request, ExamTitle $examTitle, ExamQuestion $examQuestion)
     {
-        $examQuestion->update($request->validated());
+        $data = $request->validated();
+    // Hapus gambar lama jika ada
+    $oldImagePath = $examQuestion->image_path;
+
+    // Upload gambar baru jika ada
+    if ($request->hasFile('image')) {
+        // Hapus gambar lama dari server
+        if ($oldImagePath && file_exists(public_path('images/' . $oldImagePath))) {
+            unlink(public_path('images/' . $oldImagePath));
+        }
+
+        // Upload yang baru
+        $file = $request->file('image');
+        $filename = time() . '_' . Str::random(10) . '.' . $file->getClientOriginalExtension();
+        $file->move(public_path('images/exam'), $filename);
+        $data['image_path'] = 'exam/' . $filename;
+    }
+
+    $examQuestion->update($data);
         return redirect()->route('exam-questions.index', $examTitle)->with('success', 'Soal berhasil diubah.');
     }
 
