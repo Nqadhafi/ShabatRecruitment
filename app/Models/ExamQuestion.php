@@ -12,15 +12,9 @@ class ExamQuestion extends Model
         'exam_title_id',
         'question_text',
         'image_path',
-        'option_a',
-        'option_b',
-        'option_c',
-        'option_d',
+        'options',
         'correct_answer',
-        'point_a',
-        'point_b',
-        'point_c',
-        'point_d',
+        'points',
     ];
 
     // Relasi ke judul ujian

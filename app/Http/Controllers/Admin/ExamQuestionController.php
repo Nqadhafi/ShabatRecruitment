@@ -8,6 +8,7 @@ use App\Models\ExamQuestion;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ExamQuestionRequest;
+use Illuminate\Support\Arr;
 
 class ExamQuestionController extends Controller
 {
@@ -42,6 +43,25 @@ public function index(ExamTitle $examTitle)
                 $filename = time() . '_' . Str::random(10) . '.' . $file->getClientOriginalExtension();
                 $file->move(public_path('images/exam'), $filename);
                 $data['image_path'] = 'exam/' . $filename;
+            }
+
+   // Simpan options sebagai JSON
+            $data['options'] = json_encode($request->input('options'));
+
+            // Jika tipe benar_salah, validasi correct_answer ada di options
+    if ($examTitle->exam_type === 'benar_salah') {
+        $data['correct_answer'] = $request->input('correct_answer');
+
+        // Validasi tambahan di sini (opsional)
+        $validKeys = array_keys((array) json_decode($data['options'], true));
+        if (!in_array($data['correct_answer'], $validKeys)) {
+            return back()->withErrors(['correct_answer' => 'Jawaban benar tidak ditemukan di opsi']);
+        }
+    }
+
+            // Simpan points jika tipe poin
+            if ($examTitle->exam_type === 'poin') {
+                $data['points'] = json_encode($request->input('points'));
             }
 
             $examTitle->questions()->create($data);
@@ -81,7 +101,22 @@ public function index(ExamTitle $examTitle)
         $data['image_path'] = 'exam/' . $filename;
     }
 
-    $examQuestion->update($data);
+    // Simpan options sebagai JSON
+        $data['options'] = json_encode($request->input('options'));
+    
+    // Validasi jawaban benar
+        if ($examTitle->exam_type === 'benar_salah') {
+        $validKeys = array_keys((array) json_decode($data['options'], true));
+        if (!in_array($request->input('correct_answer'), $validKeys)) {
+            return back()->withErrors(['correct_answer' => 'Jawaban benar tidak ditemukan di opsi']);
+        }
+    }
+
+    // Simpan points jika tipe poin
+    if ($examTitle->exam_type === 'poin') {
+        $data['points'] = json_encode($request->input('points'));
+    }
+    $examTitle->questions()->update($data);
         return redirect()->route('exam-questions.index', $examTitle)->with('success', 'Soal berhasil diubah.');
     }
 

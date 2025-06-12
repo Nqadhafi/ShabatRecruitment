@@ -21,62 +21,164 @@
     @enderror
 </div>
 
-<div class="form-group">
-    <label>Opsi Jawaban</label>
-    <div class="row">
-        <div class="col-md-6">
-            <input type="text" name="option_a" class="form-control mb-2 @error('option_a') is-invalid @enderror"
-                   placeholder="Opsi A" value="{{ old('option_a', $examQuestion->option_a ?? '') }}" required>
-            <input type="text" name="option_b" class="form-control mb-2 @error('option_b') is-invalid @enderror"
-                   placeholder="Opsi B" value="{{ old('option_b', $examQuestion->option_b ?? '') }}" required>
-        </div>
-        <div class="col-md-6">
-            <input type="text" name="option_c" class="form-control mb-2 @error('option_c') is-invalid @enderror"
-                   placeholder="Opsi C" value="{{ old('option_c', $examQuestion->option_c ?? '') }}" required>
-            <input type="text" name="option_d" class="form-control mb-2 @error('option_d') is-invalid @enderror"
-                   placeholder="Opsi D" value="{{ old('option_d', $examQuestion->option_d ?? '') }}" required>
-        </div>
+<!-- Opsi Jawaban Dinamis -->
+<div id="options-container">
+    <div class="form-group">
+        <label>Opsi Jawaban</label>
+
+        @php
+            // Ambil data dari session atau model
+            $options = old('options', json_decode($examQuestion->options ?? '', true) ?: ['A' => '', 'B' => '', 'C' => '', 'D' => '']);
+            $points = old('points', json_decode($examQuestion->points ?? '', true) ?: []);
+            $correctAnswer = old('correct_answer', $examQuestion->correct_answer ?? '');
+        @endphp
+
+        <!-- Loop Opsi Awal -->
+        @foreach(['A', 'B', 'C', 'D'] as $key)
+            <div class="row mb-2 option-row">
+                <div class="col-md-1 d-flex align-items-center">
+                    <strong>{{ $key }}</strong>
+                </div>
+                <div class="col-md-5">
+                    <input type="text" name="options[{{ $key }}]" class="form-control" value="{{ $options[$key] ?? '' }}" required>
+                </div>
+                @if($examTitle->exam_type === 'benar_salah')
+                    <div class="col-md-5">
+                        <div class="form-check mt-2">
+                            <input class="form-check-input" type="radio" name="correct_answer" value="{{ $key }}"
+                                {{ $correctAnswer == $key ? 'checked' : '' }}>
+                            <label class="form-check-label">Jawaban Benar</label>
+                        </div>
+                    </div>
+                @elseif($examTitle->exam_type === 'poin')
+                    <div class="col-md-3">
+                        <input type="number" name="points[{{ $key }}]" class="form-control mt-2" min="0"
+                               value="{{ $points[$key] ?? 0 }}" placeholder="Poin">
+                    </div>
+                @endif
+            </div>
+        @endforeach
+
+        <!-- Opsi Tambahan -->
+        @if(is_array($options))
+            @foreach(array_slice(array_keys($options), 4) as $key)
+                <div class="row mb-2 option-row">
+                    <div class="col-md-1 d-flex align-items-center">
+                        <strong>{{ $key }}</strong>
+                    </div>
+                    <div class="col-md-5">
+                        <input type="text" name="options[{{ $key }}]" class="form-control" value="{{ $options[$key] }}" required>
+                    </div>
+                    @if($examTitle->exam_type === 'benar_salah')
+                        <div class="col-md-5">
+                            <div class="form-check mt-2">
+                                <input class="form-check-input" type="radio" name="correct_answer" value="{{ $key }}"
+                                    {{ $correctAnswer == $key ? 'checked' : '' }}>
+                                <label class="form-check-label">Jawaban Benar</label>
+                            </div>
+                        </div>
+                    @elseif($examTitle->exam_type === 'poin')
+                        <div class="col-md-3">
+                            <input type="number" name="points[{{ $key }}]" class="form-control mt-2" min="0"
+                                   value="{{ $points[$key] ?? 0 }}" placeholder="Poin">
+                        </div>
+                    @endif
+                    <div class="col-md-1">
+                        <button type="button" class="btn btn-danger btn-sm remove-option"><i class="fas fa-trash"></i></button>
+                    </div>
+                </div>
+            @endforeach
+        @endif
+    </div>
+
+    <div class="form-group mt-3">
+        <button type="button" id="add-option-btn" class="btn btn-sm btn-success">
+            <i class="fas fa-plus"></i> Tambah Jawaban
+        </button>
     </div>
 </div>
 
-@if($examTitle->exam_type === 'benar_salah')
-    <div class="form-group">
-        <label for="correct_answer">Jawaban Benar</label>
-        <select name="correct_answer" id="correct_answer" class="form-control @error('correct_answer') is-invalid @enderror" required>
-            <option value="">-- Pilih Jawaban --</option>
-            <option value="A" {{ old('correct_answer', $examQuestion->correct_answer ?? '') == 'A' ? 'selected' : '' }}>A</option>
-            <option value="B" {{ old('correct_answer', $examQuestion->correct_answer ?? '') == 'B' ? 'selected' : '' }}>B</option>
-            <option value="C" {{ old('correct_answer', $examQuestion->correct_answer ?? '') == 'C' ? 'selected' : '' }}>C</option>
-            <option value="D" {{ old('correct_answer', $examQuestion->correct_answer ?? '') == 'D' ? 'selected' : '' }}>D</option>
-        </select>
-        @error('correct_answer')
-            <span class="invalid-feedback">{{ $message }}</span>
-        @enderror
-    </div>
-@else
-    <div class="form-group">
-        <label>Poin Jawaban</label>
-        <div class="row">
-            <div class="col-md-3">
-                <input type="number" name="point_a" class="form-control mb-2 @error('point_a') is-invalid @enderror"
-                       placeholder="Poin A" min="0"
-                       value="{{ old('point_a', $examQuestion->point_a ?? 0) }}" required>
-            </div>
-            <div class="col-md-3">
-                <input type="number" name="point_b" class="form-control mb-2 @error('point_b') is-invalid @enderror"
-                       placeholder="Poin B" min="0"
-                       value="{{ old('point_b', $examQuestion->point_b ?? 0) }}" required>
-            </div>
-            <div class="col-md-3">
-                <input type="number" name="point_c" class="form-control mb-2 @error('point_c') is-invalid @enderror"
-                       placeholder="Poin C" min="0"
-                       value="{{ old('point_c', $examQuestion->point_c ?? 0) }}" required>
-            </div>
-            <div class="col-md-3">
-                <input type="number" name="point_d" class="form-control mb-2 @error('point_d') is-invalid @enderror"
-                       placeholder="Poin D" min="0"
-                       value="{{ old('point_d', $examQuestion->point_d ?? 0) }}" required>
-            </div>
-        </div>
-    </div>
-@endif
+
+
+<!-- Script JS untuk Tambah Jawaban -->
+<script>
+    // Baca semua key dari opsi awal (A-D atau E-F jika sudah ditambah)
+    let existingKeys = [
+        @foreach(array_keys($options) as $key)
+            "{{ $key }}",
+        @endforeach
+    ];
+
+    // Cari huruf terakhir untuk lanjut menambahkan
+    let currentKey = existingKeys.length > 0
+        ? String.fromCharCode(existingKeys.slice(-1)[0].charCodeAt(0) + 1)
+        : 'E';
+
+    document.getElementById('add-option-btn').addEventListener('click', function () {
+        const container = document.getElementById('options-container');
+
+        const div = document.createElement('div');
+        div.className = 'row mb-2 option-row';
+
+        @if($examTitle->exam_type === 'benar_salah')
+            div.innerHTML = `
+                <div class="col-md-1 d-flex align-items-center">
+                    <strong>${currentKey}</strong>
+                </div>
+                <div class="col-md-5">
+                    <input type="text" name="options[${currentKey}]" class="form-control" required>
+                </div>
+                <div class="col-md-5">
+                    <div class="form-check mt-2">
+                        <input class="form-check-input" type="radio" name="correct_answer" value="${currentKey}">
+                        <label class="form-check-label">Jawaban Benar</label>
+                    </div>
+                </div>
+                <div class="col-md-1">
+                    <button type="button" class="btn btn-danger btn-sm remove-option"><i class="fas fa-trash"></i></button>
+                </div>
+            `;
+        @elseif($examTitle->exam_type === 'poin')
+            div.innerHTML = `
+                <div class="col-md-1 d-flex align-items-center">
+                    <strong>${currentKey}</strong>
+                </div>
+                <div class="col-md-5">
+                    <input type="text" name="options[${currentKey}]" class="form-control" required>
+                </div>
+                <div class="col-md-3">
+                    <input type="number" name="points[${currentKey}]" class="form-control mt-2" min="0" value="0" placeholder="Poin">
+                </div>
+                <div class="col-md-1">
+                    <button type="button" class="btn btn-danger btn-sm remove-option"><i class="fas fa-trash"></i></button>
+                </div>
+            `;
+        @else
+            div.innerHTML = `
+                <div class="col-md-1 d-flex align-items-center">
+                    <strong>${currentKey}</strong>
+                </div>
+                <div class="col-md-5">
+                    <input type="text" name="options[${currentKey}]" class="form-control" required>
+                </div>
+                <div class="col-md-1">
+                    <button type="button" class="btn btn-danger btn-sm remove-option"><i class="fas fa-trash"></i></button>
+                </div>
+            `;
+        @endif
+
+        container.appendChild(div);
+        existingKeys.push(currentKey); // Simpan key baru
+        currentKey = String.fromCharCode(currentKey.charCodeAt(0) + 1); // Lanjut ke huruf berikutnya
+    });
+
+    // Hapus jawaban dinamis
+    document.addEventListener('click', function (e) {
+        if (e.target.closest('.remove-option')) {
+            const row = e.target.closest('.option-row');
+            const keyToRemove = row.querySelector('strong').textContent.trim();
+            existingKeys = existingKeys.filter(key => key !== keyToRemove);
+            row.remove();
+        }
+    });
+</script>
