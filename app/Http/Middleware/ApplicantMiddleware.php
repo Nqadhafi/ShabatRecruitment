@@ -20,6 +20,6 @@ class ApplicantMiddleware
             return $next($request);
         }
 
-        return redirect()->route('login')->with('error', 'You do not have applicant access');
+        return redirect()->route('login')->with('error', 'Anda harus login terlebih dahulu');
     }
 }
