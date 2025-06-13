@@ -9,8 +9,12 @@ use App\Http\Controllers\Admin\ExamTitleController;
 use App\Http\Controllers\Admin\ExamImportController;
 use App\Http\Controllers\Admin\ExamQuestionController;
 use App\Http\Controllers\ApplicantDashboardController;
+use App\Http\Controllers\ExamStartController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\VerifyEmailWithoutLoginController;
+use App\Models\ExamTitle;
+
+
 
 
 /*
@@ -37,6 +41,15 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['applicant', 'verified', 'profile'])->prefix('applicant')->group(function(){
     Route::get('/jobs-panel', function () {return view('applicant.job'); })->name('applicant.jobs-panel');
     Route::get('/dashboard', [ApplicantDashboardController::class, 'index'])->name('applicant.dashboard');
+    Route::get('/exam/start', [ExamStartController::class, 'start'])->name('applicant.exam.start');
+    Route::get('/exam/thanks', function () {
+        return view('user.exam.thanks');
+    })->name('applicant.exam.thanks');
+
+    // Untuk Livewire Component
+    Route::get('/exam/{examTitle}/start', function (ExamTitle $examTitle) {
+        return view('applicant.exam', ['examTitle' => $examTitle]);
+    })->name('applicant.exam.run');
 });
 
 Route::middleware(['applicant','verified','profile-verified'])->prefix('applicant')->group(function(){
