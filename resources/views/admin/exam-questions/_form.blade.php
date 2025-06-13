@@ -144,7 +144,7 @@
                     <strong>${currentKey}</strong>
                 </div>
                 <div class="col-md-5">
-                    <input type="text" name="options[${currentKey}]" class="form-control" required>
+                    <input type="text" name="options[${currentKey}]" class="form-control" >
                 </div>
                 <div class="col-md-3">
                     <input type="number" name="points[${currentKey}]" class="form-control mt-2" min="0" value="0" placeholder="Poin">

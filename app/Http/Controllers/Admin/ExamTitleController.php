@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\ExamTitle;
+use App\Models\ExamQuestion;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\File;
 use App\Http\Requests\ExamTitleRequest;
+
 class ExamTitleController extends Controller
 {
     // Menampilkan daftar semua judul ujian
@@ -48,9 +51,25 @@ class ExamTitleController extends Controller
     }
 
     // Menghapus judul ujian
-    public function destroy(ExamTitle $examTitle)
-    {
-        $examTitle->delete();
-        return redirect()->route('exam-titles.index')->with('success', 'Judul ujian berhasil dihapus.');
+public function destroy(ExamTitle $examTitle)
+{
+    // Ambil semua soal dalam judul ujian ini
+    $questions = $examTitle->questions;
+
+    // Hapus semua gambar dari soal
+    foreach ($questions as $question) {
+        if ($question->image_path && File::exists(public_path('images/' . $question->image_path))) {
+            File::delete(public_path('images/' . $question->image_path));
+        }
     }
+
+    // Hapus semua soal (ini akan otomatis terhapus jika examTitle di-delete karena foreignId)
+    // Tapi kalau kamu ingin eksplisit:
+    ExamQuestion::where('exam_title_id', $examTitle->id)->delete();
+
+    // Hapus judul ujian
+    $examTitle->delete();
+
+    return redirect()->route('exam-titles.index')->with('success', 'Judul ujian dan semua soal/gambar terkait berhasil dihapus.');
+}
 }

@@ -3,12 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\ExamTitle;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use App\Models\ExamQuestion;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\File;
 use App\Http\Requests\ExamQuestionRequest;
-use Illuminate\Support\Arr;
 
 class ExamQuestionController extends Controller
 {
@@ -117,13 +118,16 @@ public function index(ExamTitle $examTitle)
     if ($examTitle->exam_type === 'poin') {
         $data['points'] = json_encode($request->input('points'));
     }
-$examQuestion->update($data);
+    $examQuestion->update($data);
         return redirect()->route('exam-questions.index', $examTitle)->with('success', 'Soal berhasil diubah.');
     }
 
     // Menghapus soal
     public function destroy(ExamTitle $examTitle, ExamQuestion $examQuestion)
     {
+            if ($examQuestion->image_path && File::exists(public_path('images/' . $examQuestion->image_path))) {
+        File::delete(public_path('images/' . $examQuestion->image_path));
+    }
         $examQuestion->delete();
         return redirect()->route('exam-questions.index', $examTitle)->with('success', 'Soal berhasil dihapus.');
     }
