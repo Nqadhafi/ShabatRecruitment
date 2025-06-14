@@ -8,65 +8,82 @@ use Livewire\Component;
 
 class Exam extends Component
 {
-    public $examTitle;
+    public $titles = [];
+    public $currentTitleIndex = 0;
     public $questions = [];
     public $currentQuestionIndex = 0;
     public $answers = [];
-
     public $timeLeft = 0;
     public $startTime;
+    public $examTitle;
 
-    protected $queryString = ['examTitle'];
-
-    public function mount(ExamTitle $examTitle)
+    public function mount()
     {
-        dd($examTitle);        // Cek apakah ujian aktif
-        if (!$examTitle->is_active) {
-            abort(403, 'Ujian tidak tersedia');
-        }
-        // Cek apakah user sudah pernah ikut ujian ini
-        $existing = ExamResult::where('exam_title_id', $examTitle->id)
-            ->where('user_id', Auth::id())
-            ->first();
-        if ($existing) {
+        // Ambil semua judul ujian yang aktif
+        $this->titles = ExamTitle::where('is_active', true)
+            ->with('questions')
+            ->orderBy('id')
+            ->get()
+            ->filter(fn($title) => !$this->hasTaken($title))
+            ->values();
+
+        if ($this->titles->isEmpty()) {
             return redirect()->route('applicant.exam.thanks');
         }
-        // Simpan data judul ujian
-        $this->examTitle = $examTitle;
-        // Ambil soal
-        $this->questions = $examTitle->questions->toArray();
-        // Acak jika diperlukan
-        if ($examTitle->is_random) {
+
+        // Muat soal pertama
+        $this->loadCurrentExam();
+    }
+
+    protected function hasTaken(ExamTitle $title)
+    {
+        return ExamResult::where('exam_title_id', $title->id)
+            ->where('user_id', Auth::id())
+            ->exists();
+    }
+
+    protected function loadCurrentExam()
+    {
+        $title = $this->titles[$this->currentTitleIndex];
+
+        // Simpan judul aktif saat ini
+        $this->examTitle = $title;
+
+        // Ambil soal dalam judul ini
+        $this->questions = $title->questions->toArray();
+
+        // Acak urutan jika diperlukan
+        if ($title->is_random) {
             shuffle($this->questions);
         }
+
         // Timer
-        if ($examTitle->duration_minutes) {
-            $this->timeLeft = $examTitle->duration_minutes * 60;
-        }
+        $this->timeLeft = $title->duration_minutes ? $title->duration_minutes * 60 : 0;
+
         // Waktu mulai
         $this->startTime = now();
     }
 
-        public function nextQuestion()
+    public function nextQuestion()
     {
         if ($this->currentQuestionIndex < count($this->questions) - 1) {
             $this->currentQuestionIndex++;
         }
     }
 
-        public function prevQuestion()
+    public function prevQuestion()
     {
         if ($this->currentQuestionIndex > 0) {
             $this->currentQuestionIndex--;
         }
     }
 
-        public function goToQuestion($index)
+    public function goToQuestion($index)
     {
         $this->currentQuestionIndex = $index;
     }
 
-        public function submit()
+    public function submit()
     {
         $totalScore = 0;
 
@@ -87,18 +104,30 @@ class Exam extends Component
         // Simpan hasil ujian
         ExamResult::create([
             'exam_title_id' => $this->examTitle->id,
-            'user_id' => Auth::user()->id,
+            'user_id' => Auth::id(),
             'score' => $totalScore,
             'started_at' => $this->startTime,
             'finished_at' => now(),
         ]);
 
-        // Redirect ke halaman terima kasih
-        return redirect()->route('applicant.exam.thanks');
+        // Cek apakah masih ada ujian berikutnya
+        if ($this->currentTitleIndex + 1 < $this->titles->count()) {
+            $this->currentTitleIndex++;
+            $this->currentQuestionIndex = 0;
+            $this->answers = []; // Reset jawaban
+            $this->loadCurrentExam(); // Muat ujian baru
+        } else {
+            return redirect()->route('applicant.exam.thanks');
+        }
     }
+
 
     public function render()
     {
-        return view('livewire.applicant.exam');
+        $current = $this->questions[$this->currentQuestionIndex] ?? [];
+        return view('livewire.applicant.exam', [
+            'current' => $current,
+            'examTitle' => $this->examTitle,
+        ]);
     }
 }
