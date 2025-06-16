@@ -48,6 +48,7 @@
                     <h5>{{ $selectedJob->name }}</h5>
                     <p><strong>Deskripsi Pekerjaan:</strong>{!! $selectedJob->description !!}</p>
                     <p><strong>Persyaratan:</strong> {!! $selectedJob->requirement !!}</p>
+                    <button class="btn btn-success">Lamar Sekarang!</button>
                 </div>
             </div>
         @else
