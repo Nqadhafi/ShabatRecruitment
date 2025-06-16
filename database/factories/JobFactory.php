@@ -1,7 +1,7 @@
 <?php
 
 namespace Database\Factories;
-
+use App\Models\Grade;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class JobFactory extends Factory
@@ -19,6 +19,7 @@ class JobFactory extends Factory
             'requirement' => $this->faker->paragraph,  // Menghasilkan persyaratan pekerjaan
             'is_active' => $this->faker->boolean,  // Status aktif atau tidak
             'photo_path' => $this->faker->imageUrl(640, 480, 'business', true),  // URL gambar p
+            'min_grades' => Grade::inRandomOrder()->first()->id,  // Mengambil ID grade acak dari tabel Grades
         ];
     }
 }
