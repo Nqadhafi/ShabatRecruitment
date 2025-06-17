@@ -16,17 +16,17 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $primaryKey = 'id';
     protected $keyType = 'string';
     public $incrementing = false;
-    
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
     protected $fillable = ['email', 'password', 'profiles_uuid', 'role'];
-public function applicantProfile()
-{
-    return $this->hasOne(ApplicantProfile::class, 'profiles_uuid', 'id');
-}
+    public function applicantProfile()
+    {
+        return $this->hasOne(ApplicantProfile::class, 'id', 'profiles_uuid');
+    }
 
     /**
      * The attributes that should be hidden for serialization.
@@ -47,7 +47,7 @@ public function applicantProfile()
         'email_verified_at' => 'datetime',
         'profiles_uuid' => 'string',
     ];
-    
+
     protected static function boot()
     {
         parent::boot();
