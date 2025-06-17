@@ -41,6 +41,9 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['applicant', 'verified', 'profile'])->prefix('applicant')->group(function(){
     Route::get('/jobs-panel', function () {return view('applicant.job'); })->name('applicant.jobs-panel');
     Route::get('/dashboard', [ApplicantDashboardController::class, 'index'])->name('applicant.dashboard');
+    Route::get('/apply/{jobId}', function ($jobId) {
+            return view('applicant.apply', compact('jobId'));
+        })->name('applicant.apply.form');
     Route::get('/exam/start', function(){return view('applicant.exam'); })->name('applicant.exam.start');
     Route::get('/exam/thanks', function () {
         return view('applicant.exam-thanks');

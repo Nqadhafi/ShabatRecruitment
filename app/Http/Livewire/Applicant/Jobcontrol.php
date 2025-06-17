@@ -75,6 +75,7 @@ class Jobcontrol extends Component
         if ($this->canApply) {
             // Nanti disini kita tambahkan logika upload dokumen
             session()->flash('success', 'Anda memenuhi kriteria grade. Lanjutkan mengunggah dokumen.');
+            return redirect()->route('applicant.apply.form', $this->selectedJob->id);
             // Contoh: redirect ke form lamaran
             // return redirect()->route('applicant.apply.form', $this->selectedJob->id);
         }
