@@ -17,8 +17,8 @@ class ApplicationForm extends Component
 
     protected $rules = [
         'cv' => 'required|file|mimes:pdf|max:2048',
-        'pakelaring' => 'required|file|mimes:pdf|max:2048',
-        'transkrip' => 'nullable|file|mimes:pdf|max:2048',
+        'transkrip' => 'required|file|mimes:pdf|max:2048',
+        'pakelaring' => 'nullable|file|mimes:pdf|max:2048',
         'sertifikat' => 'nullable|file|mimes:pdf|max:2048',
     ];
 
@@ -33,8 +33,8 @@ class ApplicationForm extends Component
 
         // Simpan file
         $cvPath = $this->cv->store('applications/cv', 'public');
-        $pakelaringPath = $this->pakelaring->store('applications/pakelaring', 'public');
-        $transkripPath = $this->transkrip ? $this->transkrip->store('applications/transkrip', 'public') : null;
+        $transkripPath = $this->transkrip->store('applications/transkrip', 'public');
+        $pakelaringPath = $this->pakelaring ? $this->pakelaring->store('applications/pakelaring', 'public') : null;
         $sertifikatPath = $this->sertifikat ? $this->sertifikat->store('applications/sertifikat', 'public') : null;
 
         Application::create([
@@ -42,9 +42,9 @@ class ApplicationForm extends Component
             'job_id' => $this->jobId,
             'applicant_profile_id' => auth()->user()->applicantProfile->id,
             'cv_path' => $cvPath,
-            'pakelaring_path' => $pakelaringPath,
+            'pakelaring_path' => $pakelaringPath ?? '-',
             'transkrip_path' => $transkripPath,
-            'sertifikat_path' => $sertifikatPath,
+            'sertifikat_path' => $sertifikatPath ?? '-',
             'status' => 'applied'
         ]);
 
