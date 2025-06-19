@@ -68,5 +68,6 @@ class Kernel extends HttpKernel
         'admin' => \App\Http\Middleware\AdminMiddleware::class,
         'profile' => \App\Http\Middleware\CheckProfileCompletion::class,
         'profile-verified' => \App\Http\Middleware\VerifiedProfile::class,
+        'ensure.not.applied' => \App\Http\Middleware\EnsureHasNotAppliedYet::class,
     ];
 }

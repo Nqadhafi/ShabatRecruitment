@@ -1,9 +1,13 @@
-@push('css')
+<div>@push('css')
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
 @endpush
 @push('scripts')
-    <script src="https://cdn.jsdelivr.net/npm/ionicons@5.5.2/dist/ionicons.js"></script>
+<script type="module" src="https://cdn.jsdelivr.net/npm/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule="" src="https://cdn.jsdelivr.net/npm/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 @endpush
+            @if (session()->has('error'))
+                <div class="alert alert-warning">{{ session('error') }}</div>
+            @endif
 <div class="row">
     <!-- Panel Kiri - Daftar Lowongan -->
 
@@ -76,4 +80,5 @@
             <div class="modal-backdrop fade show"></div>
         @endif
     </div>
+</div>
 </div>
