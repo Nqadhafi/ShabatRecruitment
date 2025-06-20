@@ -37,7 +37,7 @@ class ApplicationForm extends Component
         $pakelaringPath = $this->pakelaring ? $this->pakelaring->store('applications/pakelaring', 'public') : null;
         $sertifikatPath = $this->sertifikat ? $this->sertifikat->store('applications/sertifikat', 'public') : null;
 
-        Application::create([
+        $application = Application::create([
             'id' => \Illuminate\Support\Str::uuid(),
             'job_id' => $this->jobId,
             'applicant_profile_id' => auth()->user()->applicantProfile->id,
@@ -48,8 +48,8 @@ class ApplicationForm extends Component
             'status' => 'applied'
         ]);
 
-        session()->flash('success', 'Lamaran berhasil dikirim!');
-        return redirect()->route('applicant.dashboard');
+  session()->put('application_id', $application->id);
+        return redirect()->route('applicant.exam.start');
     }
 
     public function render()

@@ -18,11 +18,10 @@ class EnsureHasApplied
      */
     public function handle(Request $request, Closure $next)
     {
-               $jobId = session('applied_job_id'); // Atau ambil dari cara lain
+               $hasApplied = session('application_id'); // Atau ambil dari cara lain
 
-        if (!$jobId || !Application::where('job_id', $jobId)
-                                    ->where('user_id', Auth::id())
-                                    ->exists()) {
+        if (!$hasApplied){
+                                  
             return redirect()
                 ->route('applicant.jobs-panel')
                 ->with('error', 'Anda harus melamar terlebih dahulu untuk mengikuti ujian.');

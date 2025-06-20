@@ -47,7 +47,7 @@ Route::middleware(['applicant', 'verified', 'profile'])->prefix('applicant')->gr
     Route::get('/exam/start', function(){return view('applicant.exam'); })->name('applicant.exam.start')->middleware('ensure.has.applied');
     Route::get('/exam/thanks', function () {
         return view('applicant.exam-thanks');
-    })->name('applicant.exam.thanks')->middleware('ensure.has.applied');
+    })->name('applicant.exam.thanks');
 });
 
 Route::middleware(['applicant','verified','profile-verified'])->prefix('applicant')->group(function(){

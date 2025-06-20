@@ -24,7 +24,7 @@ class Exam extends Component
             ->with('questions')
             ->orderBy('id')
             ->get()
-            ->filter(fn($title) => !$this->hasTaken($title))
+            // ->filter(fn($title) => !$this->hasTaken($title))
             ->values();
 
         if ($this->titles->isEmpty()) {
@@ -33,13 +33,6 @@ class Exam extends Component
 
         // Muat soal pertama
         $this->loadCurrentExam();
-    }
-
-    protected function hasTaken(ExamTitle $title)
-    {
-        return ExamResult::where('exam_title_id', $title->id)
-            ->where('user_id', Auth::id())
-            ->exists();
     }
 
     protected function loadCurrentExam()
@@ -100,11 +93,12 @@ class Exam extends Component
                 $totalScore += $points[$userAnswer] ?? 0;
             }
         }
-
+        $applicationId = session('application_id');
         // Simpan hasil ujian
         ExamResult::create([
             'exam_title_id' => $this->examTitle->id,
             'user_id' => Auth::id(),
+            'application_id' => $applicationId,       
             'score' => $totalScore,
             'started_at' => $this->startTime,
             'finished_at' => now(),
@@ -117,6 +111,7 @@ class Exam extends Component
             $this->answers = []; // Reset jawaban
             $this->loadCurrentExam(); // Muat ujian baru
         } else {
+            session()->forget('application_id');
             return redirect()->route('applicant.exam.thanks');
         }
     }
@@ -124,6 +119,7 @@ class Exam extends Component
 
     public function render()
     {
+        
         $current = $this->questions[$this->currentQuestionIndex] ?? [];
         return view('livewire.applicant.exam', [
             'current' => $current,
