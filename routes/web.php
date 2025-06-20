@@ -28,31 +28,23 @@ Route::get('/', function () {
 Route::get('/job-detail', function () {
     return view('home.job-detail');
 });
-
+Route::middleware('auth')->group(function () {Route::post('logout', [AuthController::class, 'logout'])->name('logout');});
 Route::middleware('guest')->group(function () {
     Route::get('login', [AuthController::class, 'showLoginForm'])->name('login');
     Route::post('login', [AuthController::class, 'login']);
     Route::get('register', [AuthController::class, 'showRegistrationForm'])->name('register');
 });
 
-Route::middleware('auth')->group(function () {
-    Route::post('logout', [AuthController::class, 'logout'])->name('logout');
-});
 Route::middleware(['applicant', 'verified', 'profile'])->prefix('applicant')->group(function(){
     Route::get('/jobs-panel', function () {return view('applicant.job'); })->name('applicant.jobs-panel');
     Route::get('/dashboard', [ApplicantDashboardController::class, 'index'])->name('applicant.dashboard');
-    Route::get('/apply/{jobId}', function ($jobId) {
-            return view('applicant.apply', compact('jobId'));
-        })->name('applicant.apply.form')->middleware('ensure.not.applied');
+    Route::get('/apply/{jobId}', function ($jobId) {return view('applicant.apply', compact('jobId'));})->name('applicant.apply.form')->middleware('ensure.not.applied');
     Route::get('/exam/start', function(){return view('applicant.exam'); })->name('applicant.exam.start')->middleware('ensure.has.applied');
-    Route::get('/exam/thanks', function () {
-        return view('applicant.exam-thanks');
-    })->name('applicant.exam.thanks');
+    Route::get('/exam/thanks', function () {return view('applicant.exam-thanks');})->name('applicant.exam.thanks');
 });
 
 Route::middleware(['applicant','verified','profile-verified'])->prefix('applicant')->group(function(){
     Route::get('/profile/complete', function(){ return view('applicant.boarding');} )->name('profile.complete');
-
 });
 
 Route::middleware('admin')->get('admin/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
@@ -80,22 +72,15 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::put('/exam-titles/{examTitle}/questions/{examQuestion}', [ExamQuestionController::class, 'update'])->name('exam-questions.update');
     Route::delete('/exam-titles/{examTitle}/questions/{examQuestion}', [ExamQuestionController::class, 'destroy'])->name('exam-questions.destroy');
 
-    // Import & Export
+    // Import & Export 
     Route::get('/exam-title/{examTitle}/questions/import', [ExamImportController::class, 'form'])->name('exam-questions.import.form');
     Route::post('/exam-title/{examTitle}/questions/import', [ExamImportController::class, 'import'])->name('exam-questions.import.store');
     Route::get('/exam-title/{examTitle}/questions/export', [ExamImportController::class, 'export'])->name('exam-questions.export');
 });
 
-
-Route::get('email/verify', function () {
-    
-    return view('auth.verify');
-})->middleware('auth')->name('verification.notice');
-
+//Route untuk Email Verification
+Route::get('email/verify', function () {return view('auth.verify');})->middleware('auth')->name('verification.notice');
 Route::get('/email/verify/{id}/{hash}', [VerifyEmailWithoutLoginController::class, 'verify'])->name('verification.verify');
-
-Route::post('/email/verification-notification', function (Request $request) {
-    $request->user()->sendEmailVerificationNotification();
- 
-    return back()->with('success', 'Verification link sent!');
+Route::post('/email/verification-notification', function (Request $request) {$request->user()->sendEmailVerificationNotification();
+return back()->with('success', 'Verification link sent!');
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
