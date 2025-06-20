@@ -1,10 +1,11 @@
 <?php
 
 namespace App\Http\Livewire\Applicant;
+use Livewire\Component;
 use App\Models\ExamTitle;
 use App\Models\ExamResult;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
-use Livewire\Component;
 
 class Exam extends Component
 {
@@ -16,6 +17,7 @@ class Exam extends Component
     public $timeLeft = 0;
     public $startTime;
     public $examTitle;
+    
 
     public function mount()
     {
@@ -50,11 +52,26 @@ class Exam extends Component
             shuffle($this->questions);
         }
 
-        // Timer
-        $this->timeLeft = $title->duration_minutes ? $title->duration_minutes * 60 : 0;
+         $duration = $title->duration_minutes * 60;
+            if (session()->has("exam_{$title->id}_start_time") && session()->has("exam_{$title->id}_time_left")) {
+            $this->startTime = session()->get("exam_{$title->id}_start_time");
+            $elapsed = now()->diffInSeconds(Carbon::parse($this->startTime));
+            $remaining = max(0, session()->get("exam_{$title->id}_time_left") - $elapsed);
 
-        // Waktu mulai
-        $this->startTime = now();
+            $this->timeLeft = $remaining;
+        } else {
+            $this->startTime = now();
+            $this->timeLeft = $duration;
+
+            session()->put("exam_{$title->id}_start_time", $this->startTime);
+            session()->put("exam_{$title->id}_time_left", $this->timeLeft);
+        }
+    }
+
+    public function updatedTimeLeft()
+    {
+        $titleId = $this->examTitle->id;
+        session()->put("exam_{$titleId}_time_left", $this->timeLeft);
     }
 
     public function nextQuestion()
@@ -111,6 +128,10 @@ class Exam extends Component
             $this->answers = []; // Reset jawaban
             $this->loadCurrentExam(); // Muat ujian baru
         } else {
+
+            foreach ($this->titles as $title) {
+            session()->forget(["exam_{$title->id}_start_time", "exam_{$title->id}_time_left"]);
+        }
             session()->forget('application_id');
             return redirect()->route('applicant.exam.thanks');
         }
