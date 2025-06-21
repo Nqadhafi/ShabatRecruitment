@@ -1,21 +1,61 @@
 <div>
-<section id="hero" class="container-fluid bg-success">
-        <div class="jumbotron container bg-success">
-            <div class="row">
-                <div class="col-md-6">
-        <h1 class="display-5">Bergabunglah bersama kami !</h1>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto reiciendis rem, sint autem adipisci esse? Impedit quidem saepe eum inventore.</p>
-        <a class="btn btn-primary btn-md" href="#" role="button">Learn more</a>
-                </div>
-                <div class="d-none col-md-6 d-flex justify-content-center">
-                <img src="{{asset('app/img/Jumbotron.png')}}" alt="" class="img-fluid" style="height: 20rem;">
-                </div>
-            </div>
+<!-- Carousel -->
+<div id="heroCarousel" class="carousel slide vh-100" data-ride="carousel">
+  <div class="carousel-inner h-100">
 
+    <!-- Slide 1 -->
+    <div class="carousel-item active h-100">
+      <div class="d-flex align-items-center justify-content-center h-100 text-white text-center" style="background: url('{{asset('app/img/Jumbotron1.webp')}}') center center / cover no-repeat; position: relative;">
+        <div style="position: absolute; top: 0; left: 0; height: 100%; width: 100%; background-color: rgba(0, 0, 0, 0.5);"></div>
+        <div class="container position-relative">
+          <h1 class=" font-weight-bold">Bergabunglah bersama kami!</h1>
+          <p class="lead">Slide pertama - Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+          <a href="#" class="btn btn-primary btn-lg mt-3">Learn more</a>
         </div>
-    </section>
+      </div>
+    </div>
+
+    <!-- Slide 2 -->
+    <div class="carousel-item h-100">
+      <div class="d-flex align-items-center justify-content-center h-100 text-white text-center" style="background: url('{{asset('app/img/Jumbotron2.webp')}}') center center / cover no-repeat; position: relative;">
+        <div style="position: absolute; top: 0; left: 0; height: 100%; width: 100%; background-color: rgba(0, 0, 0, 0.5);"></div>
+        <div class="container position-relative">
+          <h1 class=" font-weight-bold">Temukan peluang baru!</h1>
+          <p class="lead">Slide kedua - Sint autem adipisci esse? Impedit quidem saepe eum inventore.</p>
+          <a href="#" class="btn btn-light btn-lg mt-3">Get Started</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 3 -->
+    <div class="carousel-item h-100">
+      <div class="d-flex align-items-center justify-content-center h-100 text-white text-center" style="background: url('{{asset('app/img/Jumbotron3.webp')}}') center center / cover no-repeat; position: relative;">
+        <div style="position: absolute; top: 0; left: 0; height: 100%; width: 100%; background-color: rgba(0, 0, 0, 0.5);"></div>
+        <div class="container position-relative">
+          <h1 class=" font-weight-bold">Ayo mulai sekarang!</h1>
+          <p class="lead">Slide ketiga - Reiciendis rem, sint autem adipisci esse?</p>
+          <a href="#" class="btn btn-outline-light btn-lg mt-3">Gabung Sekarang</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Controls -->
+  <a class="carousel-control-prev" href="#heroCarousel" role="button" data-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="sr-only">Sebelumnya</span>
+  </a>
+  <a class="carousel-control-next" href="#heroCarousel" role="button" data-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="sr-only">Selanjutnya</span>
+  </a>
+</div>
+
+
+
 <section id="jobs" class="mx-auto container mt-5 pt-5">
-    <h2 class="display-5 text-center">Available Jobs</h2>
+    <h2 class="display-5 text-center">Lowongan tersedia</h2>
 
     <div class="text-center">
         <div class="btn-group-toggle" data-toggle="buttons">
