@@ -12,6 +12,7 @@ use App\Http\Controllers\ApplicantDashboardController;
 use App\Http\Controllers\ExamStartController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\VerifyEmailWithoutLoginController;
+use App\Http\Controllers\JobDetailController;
 use App\Models\ExamTitle;
 
 
@@ -25,9 +26,7 @@ use App\Models\ExamTitle;
 Route::get('/', function () {
     return view('home.index');
 });
-Route::get('/job-detail', function () {
-    return view('home.job-detail');
-});
+Route::get('/job-detail/{slug}', [JobDetailController::class, 'show'])->name('job.detail');
 Route::middleware('auth')->group(function () {Route::post('logout', [AuthController::class, 'logout'])->name('logout');});
 Route::middleware('guest')->group(function () {
     Route::get('login', [AuthController::class, 'showLoginForm'])->name('login');

@@ -3,7 +3,7 @@
         <div class="container d-flex justify-content-between align-items-center">
             <!-- Logo PELNI -->
             <a class="navbar-brand" href="#">
-                <img src="{{ asset('app/img/Logo_white.png') }}" alt="Shabat Printing Logo" class="img-fluid"
+                <img src="{{ asset(Request::is('/') ? 'app/img/Logo_white.png' : 'app/img/Logo_panjang.png') }}" alt="Shabat Printing Logo" class="img-fluid"
                     style="width: 8rem;">
             </a>
 
@@ -18,12 +18,12 @@
                 @guest
                     <a href="{{ route('register') }}" class="mr-1">
 
-                        <button class="btn btn-outline-light button-nav-register"><ion-icon name="create-outline"></ion-icon><span
+                        <button class="{{Request::is('/') ? 'btn btn-outline-light button-nav-register' : 'btn btn-outline-primary'}} "><ion-icon name="create-outline"></ion-icon><span
                                 class="d-none d-lg-block">Daftar Akun</span></button>
                     </a>
                     <a href="{{ route('login') }}">
 
-                        <button class="btn btn-light button-nav"><ion-icon name="log-in"></ion-icon>
+                        <button class="{{ Request::is('/') ? 'btn btn-light button-nav' : 'btn btn-primary' }}"><ion-icon name="log-in"></ion-icon>
                             <p class="d-none d-lg-block">Masuk</p>
                         </button>
                     </a>
@@ -41,16 +41,16 @@
                 <ul class="navbar-nav mx-auto">
                     <!-- Menu items -->
                     <li class="nav-item ">
-                        <a class="nav-link text-white" href="/">Home</a>
+                        <a class="nav-link {{ Request::is('/') ? 'text-white' : '' }}" href="/">Home</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link text-white" href="/#jobs">Lowongan</a>
+                        <a class="nav-link {{ Request::is('/') ? 'text-white' : '' }}" href="/#jobs">Lowongan</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="/#about">Tentang Kami</a>
+                        <a class="nav-link {{ Request::is('/') ? 'text-white' : '' }}" href="/#about">Tentang Kami</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="/#contact">Kontak</a>
+                        <a class="nav-link {{ Request::is('/') ? 'text-white' : '' }}" href="/#contact">Kontak</a>
                     </li>
                 </ul>
             </div>
@@ -66,12 +66,12 @@
                 @endauth
                 @guest
                     <a href="{{ route('register') }}" class="mr-2">
-                        <button class="btn btn-outline-light d-flex button-nav-register"><ion-icon name="create-outline"
+                        <button class="{{Request::is('/') ? 'btn btn-outline-light d-flex button-nav-register' : 'btn btn-outline-primary d-flex'}}"><ion-icon name="create-outline"
                                 class="align-self-center mr-1"></ion-icon><span>Daftar Akun</span></button>
                     </a>
                     <a href="{{ route('login') }}">
 
-                        <button class="btn btn-light d-flex button-nav"><ion-icon name="log-in"
+                        <button class="{{ Request::is('/') ? 'btn btn-light d-flex button-nav' : 'btn btn-primary d-flex'}}"><ion-icon name="log-in"
                                 class="align-self-center mr-1"></ion-icon><span>Masuk</span></button>
                     </a>
                 @endguest

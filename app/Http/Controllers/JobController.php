@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Job;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class JobController extends Controller
 {
@@ -57,7 +58,13 @@ class JobController extends Controller
         if ($request->hasFile('photo_path')) {
             $job->photo_path = $request->file('photo_path')->store('public/jobs');
         }
-    
+        $slugBase = Str::slug($job->name);
+        $slug = $slugBase;
+        $count = 1;
+        while (Job::where('slug', $slug)->exists()) {
+    $slug = $slugBase . '-' . $count++;
+}
+$job->slug = $slug;
         $job->save();
     
         return redirect()->route('jobs.index')->with('success', 'Job created successfully');

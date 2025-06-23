@@ -13,7 +13,7 @@ class Job extends Model
     protected $keyType = 'string';
     public $incrementing = false;
 
-    protected $fillable = ['name', 'requirement', 'description', 'photo_path', 'is_active'];
+    protected $fillable = ['name', 'requirement', 'description', 'photo_path', 'is_active' ,'slug'];
 
         // Saat menyimpan data, otomatis menambahkan UUID
      public function grade()

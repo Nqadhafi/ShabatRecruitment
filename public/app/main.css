@@ -10,11 +10,18 @@
         color: #00A2E9 !important;
     }
 
-    text-blue {
+    .text-blue {
         color: #144C99 !important;
     }
-    bg-blue {
-        color: #144C99 !important;
+    .bg-blue {
+        background-color: #144C99 !important;
+    }
+
+    .bg-magenta{
+        background-color: #D5006D !important;
+    }
+    .text-magenta {
+        color: #D5006D !important;
     }
         #scrollToTopBtn {
       position: fixed;
