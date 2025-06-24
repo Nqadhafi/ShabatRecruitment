@@ -9,11 +9,9 @@ use App\Http\Controllers\Admin\ExamTitleController;
 use App\Http\Controllers\Admin\ExamImportController;
 use App\Http\Controllers\Admin\ExamQuestionController;
 use App\Http\Controllers\ApplicantDashboardController;
-use App\Http\Controllers\ExamStartController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\VerifyEmailWithoutLoginController;
 use App\Http\Controllers\JobDetailController;
-use App\Models\ExamTitle;
 
 
 

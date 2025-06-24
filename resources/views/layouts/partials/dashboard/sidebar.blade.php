@@ -6,7 +6,7 @@
         <span class="brand-text font-weight-light">Portal HRD</span>
     </a>
                     @elseif(Auth::user()->role == 'applicant')
-<aside class="main-sidebar sidebar-white-primary elevation-4">
+<aside class="main-sidebar sidebar-light-primary elevation-4">
         <a href="#" class="brand-link">
         <span class="brand-text font-weight-light">Portal Pelamar</span>
     </a>

@@ -5,6 +5,7 @@
     </a> --}}
 
     <!-- Navbar Right Menu -->
+    <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
     <ul class="navbar-nav ml-auto">
         @guest
             <li class="nav-item">
