@@ -10,7 +10,7 @@
                     <small class="mx-sm-3 mx-1"><ion-icon name="location"></ion-icon><span
                             class="align-text-bottom ml-1">Laweyan, Surakarta</span></small>
                     <small class="mx-sm-3 mx-1"><ion-icon name="time"></ion-icon><span
-                            class="align-text-bottom ml-1">{{ $job->contract}}/span></small>
+                            class="align-text-bottom ml-1">{{ $job->contract}}</span></small>
                     <small class="mx-sm-3 mx-1"><ion-icon name="calendar"></ion-icon><span class="align-text-bottom ml-1">{{ \Carbon\Carbon::parse($job->deadline)->translatedFormat('d F Y') }}</span></small>
                 </div>
             </div>
@@ -24,13 +24,13 @@
                 <div class="col-md-8 pr-md-5 p-3">
                     <div class="card px-5 py-4">
                         <h3 class="font-weight-bold">Deskripsi Pekerjaan</h3>
-                        <p class="text-justify">{{ $job->description }}</p>
+                        <p class="text-justify">{!! $job->description !!}</p>
                         </p>
                         <h3 class="font-weight-bold">Kualifikasi</h3>
-                        <ul>
-                            {{ $job->requirement }}
-                        </ul>
-                        <a href="#" class="btn shadow-lg btn-md btn-primary mx-auto my-4 py-2"> Daftar akun untuk melamar </a>
+                 
+                            {!! $job->requirement !!}
+                        
+                        <a href="{{ route('register')}}" class="btn shadow-lg btn-md btn-primary mx-auto my-4 py-2"> Daftar akun untuk melamar </a>
                         
 
                     </div>
