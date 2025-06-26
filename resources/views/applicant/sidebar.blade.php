@@ -1,5 +1,5 @@
                         <li class="nav-item">
-                            <a href="{{ route('applicant.dashboard') }}" class="nav-link">
+                            <a href="{{ route('applicant.profile') }}" class="nav-link">
                                 <i class="nav-icon fas fa-user"></i>
                                 <p>Profil</p>
                             </a>
