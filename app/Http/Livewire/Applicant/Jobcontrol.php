@@ -2,6 +2,8 @@
 
 namespace App\Http\Livewire\Applicant;
 
+use App\Models\Application;
+use App\Models\ExamResult;
 use App\Models\Job;
 use Livewire\Component;
 
@@ -13,11 +15,22 @@ class Jobcontrol extends Component
     public $showConfirmModal = false;
     public $confirmMessage = '';
     public $canApply = true;
+    public $applications = [];
+    public $hasTakenExam = false;
 
     public function mount()
     {
         $this->jobs = Job::with('grade')->where('is_active', '1')->get();
         $this->selectedJob = null;
+
+            $applicantId = auth()->user()->applicantProfile->id ?? null;
+    
+    if ($applicantId) {
+        // Ambil semua job_id yang sudah dilamar
+        $this->applications = Application::where('applicant_profile_id', $applicantId)
+            ->pluck('job_id')
+            ->toArray();
+    }
     }
 
     public function selectJob($jobId)
