@@ -7,19 +7,7 @@
                         <li class="nav-item">
                             <a href="{{ route('jobs.index') }}" class="nav-link">
                                 <i class="nav-icon fas fa-light fa-briefcase"></i>
-                                <p>Job Management</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('admin.grades.index') }}" class="nav-link">
-                                <i class="nav-icon fas fa-solid fa-user-graduate"></i>
-                                <p>Master Grade</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('admin.majorities.index') }}" class="nav-link">
-                                <i class="nav-icon fas fa-solid fa-flask"></i> 
-                                <p>Master Majority</p>
+                                <p>Lowongan Pekerjaan</p>
                             </a>
                         </li>
                         <li class="nav-item">
@@ -27,4 +15,26 @@
                                 <i class="nav-icon fas fa-book"></i>
                                 <p>Manajemen Ujian</p>
                             </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-cogs"></i>
+                                <p>Setting Pendidikan</p>
+                                <i class="fas fa-angle-left right"></i>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.grades.index') }}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Jenjang Pendidikan</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.majorities.index') }}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Pilihan Jurusan</p>
+                                    </a>
+                                </li>
+
+                            </ul>
                         </li>
