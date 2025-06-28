@@ -14,6 +14,10 @@ class ModifyDefaultValueOnApplicationsTable extends Migration
     public function up()
     {
         //
+                Schema::table('applications', function (Blueprint $table) {
+            // Hapus kolom status lama (hati-hati, data akan hilang jika tidak ditangani sebelumnya)
+            $table->dropColumn('status');
+        });
         Schema::table('applications', function (Blueprint $table) {
                     $table->enum('status', ['applied', 'processed', 'rejected', 'hired'])
                   ->default('applied')
