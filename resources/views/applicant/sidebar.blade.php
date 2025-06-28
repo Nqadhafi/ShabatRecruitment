@@ -11,7 +11,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('applicant.jobs-panel') }}" class="nav-link">
+                            <a href="{{ route('applicant.application.history') }}" class="nav-link">
                                 <i class="nav-icon fas fa-user"></i>
                                 <p>Cek Status Lamaran</p>
                             </a>

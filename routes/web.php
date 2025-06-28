@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\ExamImportController;
 use App\Http\Controllers\ApplicantProfileController;
 use App\Http\Controllers\Admin\ExamQuestionController;
 use App\Http\Controllers\ApplicantDashboardController;
+use App\Http\Controllers\ApplicationDetailController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\VerifyEmailWithoutLoginController;
 
@@ -41,6 +42,8 @@ Route::middleware(['applicant', 'verified', 'profile'])->prefix('applicant')->gr
     Route::get('/exam/thanks', function () {return view('applicant.exam-thanks');})->name('applicant.exam.thanks');
     Route::get('/profile/', [ApplicantProfileController::class, 'edit'])->name('applicant.profile');
     Route::post('/profile/update', [ApplicantProfileController::class, 'update'])->name('applicant.profile.update');
+     Route::get('/application/history', [ApplicationDetailController::class, 'history'])->name('applicant.application.history');
+    Route::get('/application/detail/{id}', [ApplicationDetailController::class, 'applicationDetail'])->name('applicant.application.detail');
 });
 
 Route::middleware(['applicant','verified','profile-verified'])->prefix('applicant')->group(function(){
