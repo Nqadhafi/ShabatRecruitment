@@ -29,6 +29,10 @@ public function user()
     return $this->belongsTo(User::class, 'id', 'profiles_uuid');
 }
 
+public function application()
+{
+    return $this->hasOne(Application::class, 'applicant_profile_id');
+}
         protected static function boot()
     {
         parent::boot();
