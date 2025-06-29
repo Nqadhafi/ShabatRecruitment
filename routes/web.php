@@ -56,6 +56,7 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::patch('jobs/{job}/toggle', [JobController::class, 'toggle'])->name('admin.jobs.toggle');
     Route::get('grades', function () { return view('admin.grades.index'); })->name('admin.grades.index');
     Route::get('majorities', function () { return view('admin.majorities.index'); })->name('admin.majorities.index');
+    Route::get('manajemen-lowongan', function() { return view('admin.manajemen-lowongan.index');})->name('admin.manajemen-lowongan');
 
 // Exam Titles
     Route::get('/exam-titles', [ExamTitleController::class, 'index'])->name('exam-titles.index');
