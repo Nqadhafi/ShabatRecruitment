@@ -1,5 +1,5 @@
 
-<div class="container mb-5">
+<div class="container mb-5 pb-5">
     <h5 class="text-center mt-5 alert alert-info">Lengkapi data diri anda</h5>
     @if ($step == 1)
         {{-- Form profile umum part 1 --}}
