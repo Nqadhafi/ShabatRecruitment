@@ -26,7 +26,7 @@ class ApplicantProfile extends Model
 
 public function user()
 {
-    return $this->belongsTo(User::class, 'profiles_uuid', 'id');
+    return $this->belongsTo(User::class, 'id', 'profiles_uuid');
 }
 
         protected static function boot()
