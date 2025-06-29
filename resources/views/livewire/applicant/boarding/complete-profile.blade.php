@@ -1,5 +1,6 @@
 
-<div class="container">
+<div class="container mb-5">
+    <h5 class="text-center mt-5 alert alert-info">Lengkapi data diri anda</h5>
     @if ($step == 1)
         {{-- Form profile umum part 1 --}}
         <label for="" class="mt-2">Nomor KTP :</label>
