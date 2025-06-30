@@ -5,9 +5,15 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a href="{{ route('admin.manajemen-lowongan') }}" class="nav-link">
+                                <i class="nav-icon fas fa-light fa-briefcase"></i>
+                                <p>Cek Lamaran</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a href="{{ route('jobs.index') }}" class="nav-link">
                                 <i class="nav-icon fas fa-light fa-briefcase"></i>
-                                <p>Lowongan Pekerjaan</p>
+                                <p>Buat Lowongan</p>
                             </a>
                         </li>
                         <li class="nav-item">
