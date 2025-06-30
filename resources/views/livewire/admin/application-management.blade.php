@@ -26,7 +26,10 @@
                                     class="btn btn-sm btn-secondary">
                                     Lihat Dokumen
                                 </button>
-                                <button class="btn btn-sm btn-info">Hasil Ujian</button>
+                                <button wire:click="viewExam('{{ $app->applicant_profile_id }}')"
+                                    class="btn btn-sm btn-info">
+                                    Hasil Ujian
+                                </button>
                                 <button class="btn btn-sm btn-warning">Proses Lamaran</button>
                                 <button class="btn btn-sm btn-success">Download Profil</button>
                                 <button class="btn btn-sm btn-dark">Download Berkas</button>
@@ -189,6 +192,57 @@
 
         <!-- Backdrop -->
         @if ($showDocumentModal)
+            <div class="modal-backdrop fade show"></div>
+        @endif
+
+        <!-- Modal Hasil Ujian -->
+        @if ($showExamModal && !empty($examResults))
+            <div class="modal fade show d-block" id="examModal" tabindex="-1" role="dialog">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Hasil Ujian Pelamar</h5>
+                            <button type="button" class="close" wire:click="closeExamModal">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            @if (!empty($examResults))
+                                <table class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Judul Ujian</th>
+                                            <th>Tipe Ujian</th>
+                                            <th>Skor Akhir</th>
+                                            <th>Mulai</th>
+                                            <th>Selesai</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($examResults as $result)
+                                            <tr>
+                                                <td>{{ $result['exam_title'] }}</td>
+                                                <td>{{ $result['exam_type'] }}</td>
+                                                <td>{{ $result['score'] }}</td>
+                                                <td>{{ $result['started_at'] }}</td>
+                                                <td>{{ $result['finished_at'] }}</td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            @else
+                                <p class="text-muted text-center">Tidak ada hasil ujian.</p>
+                            @endif
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary"
+                                wire:click="closeExamModal">Tutup</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Backdrop -->
             <div class="modal-backdrop fade show"></div>
         @endif
 
