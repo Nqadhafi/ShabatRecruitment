@@ -36,7 +36,7 @@ public function update(Request $request)
         'ktp_number' => 'required|string|max:16',
         'address' => 'required|string',
         'phone_number' => 'required|string|max:15',
-        'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:1024',
     ]);
 
     // Cek apakah KTP diubah

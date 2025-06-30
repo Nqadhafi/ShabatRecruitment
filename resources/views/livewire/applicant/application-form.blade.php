@@ -23,7 +23,7 @@
                 <div class="form-group">
                     <label for="cv">Curiculum Vitae (Wajib)</label>
                     <div class="custom-upload">
-                        <div class="upload-text" wire:ignore>Click or drag file here to upload (PDF, max 2MB) </div>
+                        <div class="upload-text" wire:ignore>Click or drag file here to upload (PDF, max 1MB) </div>
                         <input type="file" wire:model="cv" id="cv" class="form-control">
                     </div>
                     @error('cv')
@@ -34,7 +34,7 @@
                 <div class="form-group ">
                     <label for="transkrip">Transkrip Nilai (Wajib)</label>
                     <div class="custom-upload">
-                        <div class="upload-text" wire:ignore>Click or drag file here to upload (PDF, max 2MB) </div>
+                        <div class="upload-text" wire:ignore>Click or drag file here to upload (PDF, max 1MB) </div>
                         <input type="file" wire:model="transkrip" id="transkrip" class="form-control">
                     </div>
                     @error('transkrip')
@@ -44,7 +44,7 @@
                 <div class="form-group">
                     <label for="pakelaring">Pakelaring / Surat Keterangan Kerja (Opsional)</label>
                     <div class="custom-upload" wire:ignore>
-                        <div class="upload-text">Click or drag file here to upload (PDF, max 2MB) </div>
+                        <div class="upload-text">Click or drag file here to upload (PDF, max 1MB) </div>
                         <input type="file" wire:model="pakelaring" id="pakelaring" class="form-control">
                     </div>
                     @error('pakelaring')
@@ -57,7 +57,7 @@
                 <div class="form-group">
                     <label for="sertifikat">Sertifikat Pendukung (Opsional)</label>
                     <div class="custom-upload">
-                        <div class="upload-text" wire:ignore>Click or drag file here to upload (PDF, max 2MB) </div>
+                        <div class="upload-text" wire:ignore>Click or drag file here to upload (PDF, max 1MB) </div>
                         <input type="file" wire:model="sertifikat" id="sertifikat" class="form-control">
                     </div>
                     @error('sertifikat')

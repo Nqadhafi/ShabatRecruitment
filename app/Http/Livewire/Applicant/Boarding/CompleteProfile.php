@@ -53,7 +53,7 @@ class CompleteProfile extends Component
         }
         elseif($step == 3){
                 $this->validate([
-                    'photo_path' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                    'photo_path' => 'image|mimes:jpeg,png,jpg,gif,svg|max:1024',
                     'instagram_surname' => 'nullable|string|max:255',
                     'linkedin_surname' => 'nullable|string|max:255',
                 ]);

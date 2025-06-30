@@ -16,10 +16,10 @@ class ApplicationForm extends Component
     public $cvPath, $pakelaringPath, $transkripPath, $sertifikatPath;
 
     protected $rules = [
-        'cv' => 'required|file|mimes:pdf|max:2048',
-        'transkrip' => 'required|file|mimes:pdf|max:2048',
-        'pakelaring' => 'nullable|file|mimes:pdf|max:2048',
-        'sertifikat' => 'nullable|file|mimes:pdf|max:2048',
+        'cv' => 'required|file|mimes:pdf|max:1024',
+        'transkrip' => 'required|file|mimes:pdf|max:1024',
+        'pakelaring' => 'nullable|file|mimes:pdf|max:1024',
+        'sertifikat' => 'nullable|file|mimes:pdf|max:1024',
     ];
 
     public function mount($jobId)

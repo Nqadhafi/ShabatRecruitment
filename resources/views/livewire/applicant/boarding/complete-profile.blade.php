@@ -77,7 +77,7 @@
         <button wire:click="nextStep" class="btn btn-primary">Next</button>
     @elseif($step == 3)
         {{-- Form profile umum part 2 --}}
-        <label class="mt-2">Pas Foto Terbaru</label>
+        <label class="mt-2">Pas Foto Terbaru (Maksimal 1MB)</label>
         @error('photo_path')
             <div class="text-danger p-0 m-0"><small>{{ $message }}</small></div>
         @enderror
