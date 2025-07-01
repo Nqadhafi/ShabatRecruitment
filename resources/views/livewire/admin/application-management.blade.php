@@ -30,7 +30,8 @@
                                     class="btn btn-sm btn-info">
                                     Hasil Ujian
                                 </button>
-                                <button class="btn btn-sm btn-warning">Proses Lamaran</button>
+                                <button class="btn btn-sm btn-warning"
+                                    wire:click="processApplication('{{ $app->id }}')">Proses Lamaran</button>
                                 <button class="btn btn-sm btn-success">Download Profil</button>
                                 <button class="btn btn-sm btn-dark">Download Berkas</button>
                             </td>
@@ -245,6 +246,71 @@
             <!-- Backdrop -->
             <div class="modal-backdrop fade show"></div>
         @endif
+
+        <!-- Modal Proses Lamaran -->
+        @if ($showProcessModal)
+            <div class="modal fade show d-block" id="processModal" tabindex="-1" role="dialog">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Proses Lamaran - {{ $applicantName }}</h5>
+                            <button type="button" wire:click="closeProcessModal" class="close">&times;</button>
+                        </div>
+                        <div class="modal-body">
+
+                            <p><strong>Lowongan:</strong> {{ $jobName }}</p>
+                            <p><strong>Email Pelamar:</strong> {{ $applicantEmail }}</p>
+
+                            <div class="form-group">
+                                <label for="status">Ubah Status Lamaran</label>
+                                <select wire:model="selectedStatus" class="form-control">
+                                    <option value="">Pilih Status</option>
+                                    <option value="processed">Processed (Wawancara)</option>
+                                    <option value="rejected">Rejected (Tidak Lolos)</option>
+                                    <option value="hired">Hired (Diterima Bekerja)</option>
+                                </select>
+                            </div>
+
+                            @if ($selectedStatus === 'processed')
+                                <div class="form-group">
+                                    <label>Pesan Pemanggilan Wawancara</label>
+                                    <textarea wire:model="interviewMessage" class="form-control" rows="4"></textarea>
+                                </div>
+                            @endif
+
+                            @if ($selectedStatus === 'rejected')
+                                <div class="form-group">
+                                    <label>Alasan Penolakan</label>
+                                    <input wire:model="rejectionReason" class="form-control" disabled>
+                                </div>
+                            @endif
+
+                            @if ($selectedStatus === 'hired')
+                                <div class="form-group">
+                                    <label>Isi Offering Letter</label>
+                                    <textarea wire:model="offeringLetter" class="form-control" rows="4"></textarea>
+                                </div>
+                            @endif
+
+                            <button wire:click="updateApplicationStatus" class="btn btn-primary mt-3">
+                                Simpan & Kirim Notifikasi
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endif
+
+
+        @push('scripts')
+            <script>
+                document.addEventListener('livewire:load', function() {
+                    Livewire.on('open-whatsapp', data => {
+                        window.open(data.url, '_blank');
+                    });
+                });
+            </script>
+        @endpush
 
         <div class="mt-3 d-flex justify-content-center">
             {{ $applications->links() }}

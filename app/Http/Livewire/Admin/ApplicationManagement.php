@@ -6,6 +6,10 @@ use Livewire\Component;
 use App\Models\ExamResult;
 use App\Models\Application;
 use App\Models\ApplicantProfile;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\InterviewCallMail;
+use App\Mail\RejectionMail;
+use App\Mail\HiredMail;
 
 class ApplicationManagement extends Component
 {
@@ -15,7 +19,89 @@ class ApplicationManagement extends Component
     public $selectedDocuments = null;
     public $showExamModal = false;
     public $examResults = [];
+
+    public $showProcessModal = false;
+    public $selectedApplicationId = null;
+    public $selectedStatus = '';
+    public $interviewMessage = '';
+    public $rejectionReason = '';
+    public $offeringLetter = '';
+    public $applicantName = '';
+    public $applicantEmail = '';
+    public $applicantPhone = '';
+    public $jobName = '';
+
     protected $applications;
+
+public function processApplication($applicationId)
+{
+    $application = Application::with(['applicantProfile.user', 'job'])->find($applicationId);
+
+    if (!$application) {
+        session()->flash('error', 'Lamaran tidak ditemukan.');
+        return;
+    }
+
+    $this->selectedApplicationId = $application->id;
+    $this->selectedStatus = $application->status;
+    $this->applicantName = $application->applicantProfile->full_name ?? '-';
+    $this->applicantEmail = optional($application->applicantProfile->user)->email ?? '-';
+    $this->applicantPhone = $application->applicantProfile->phone_number ?? '-';
+    $this->jobName = optional($application->job)->name ?? '-';
+
+    $this->interviewMessage = $application->interview_message ?? '';
+    $this->rejectionReason = $application->rejection_reason ?? '';
+    $this->offeringLetter = $application->offering_letter ?? '';
+
+    $this->showProcessModal = true;
+}
+
+public function updateApplicationStatus()
+{
+    $application = Application::find($this->selectedApplicationId);
+    if (!$application) {
+        session()->flash('error', 'Lamaran tidak ditemukan.');
+        return;
+    }
+
+    $data = ['status' => $this->selectedStatus];
+
+    if ($this->selectedStatus === 'processed') {
+        $data['interview_message'] = $this->interviewMessage;
+    } elseif ($this->selectedStatus === 'rejected') {
+        $data['rejection_reason'] = $this->rejectionReason;
+    } elseif ($this->selectedStatus === 'hired') {
+        $data['offering_letter'] = $this->offeringLetter;
+    }
+
+    $application->update($data);
+
+    // Kirim email sesuai status
+    if ($this->selectedStatus === 'processed') {
+        Mail::to($application->applicantProfile->user->email)
+            ->send(new InterviewCallMail($application, $this->interviewMessage));
+
+        $whatsappUrl = "https://wa.me/ {$this->applicantPhone}?text=" . urlencode("Halo, Anda dipanggil wawancara untuk lowongan {$this->jobName}. Detail: {$this->interviewMessage}");
+
+    } elseif ($this->selectedStatus === 'rejected') {
+        Mail::to($application->applicantProfile->user->email)
+            ->send(new RejectionMail($application, $this->rejectionReason));
+
+        $whatsappUrl = "https://wa.me/ {$this->applicantPhone}?text=" . urlencode("Mohon maaf, lamaran Anda belum dapat dilanjutkan.");
+
+    } elseif ($this->selectedStatus === 'hired') {
+        Mail::to($application->applicantProfile->user->email)
+            ->send(new HiredMail($application, $this->offeringLetter));
+
+        $whatsappUrl = "https://wa.me/ {$this->applicantPhone}?text=" . urlencode("Selamat! Anda diterima di posisi {$this->jobName}.\n\n{$this->offeringLetter}");
+    }
+
+    $this->showProcessModal = false;
+    session()->flash('success', 'Status lamaran berhasil diperbarui & notifikasi telah dikirim.');
+
+    // Buka WhatsApp secara otomatis
+    $this->dispatchBrowserEvent('open-whatsapp', ['url' => $whatsappUrl]);
+}
 
     // Method untuk buka modal profil
     public function viewProfile($applicantProfileId)
@@ -31,12 +117,6 @@ class ApplicationManagement extends Component
         }
 
         $this->showProfileModal = true;
-    }
-
-    public function closeModal()
-    {
-        $this->showProfileModal = false;
-        $this->selectedProfile = null;
     }
 
     public function viewDocuments($applicantProfileId)
@@ -95,6 +175,26 @@ class ApplicationManagement extends Component
         $this->showExamModal = false;
         $this->examResults = [];
     }
+    public function closeModal()
+    {
+        $this->showProfileModal = false;
+        $this->selectedProfile = null;
+    }
+
+    public function closeProcessModal()
+    {
+        $this->showProcessModal = false;
+        $this->selectedApplicationId = null;
+        $this->selectedStatus = '';
+        $this->interviewMessage = '';
+        $this->rejectionReason = '';
+        $this->offeringLetter = '';
+        $this->applicantName = '';
+        $this->applicantEmail = '';
+        $this->applicantPhone = '';
+        $this->jobName = '';
+    }
+
     public function render()
     {
         $applications = Application::with([
