@@ -1,5 +1,22 @@
 <div>
     {{-- Care about people's approval and you will be their prisoner. --}}
+
+    @if (session()->has('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ session('success') }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    @endif
+    @if (session()->has('error'))
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{ session('error') }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    @endif
     <div class="container-fluid mt-4">
         <h4>Daftar Lamaran</h4>
 
@@ -304,11 +321,10 @@
 
         @push('scripts')
             <script>
-                document.addEventListener('livewire:load', function() {
-                    Livewire.on('open-whatsapp', data => {
-                        window.open(data.url, '_blank');
-                    });
-                });
+    window.addEventListener('open-whatsapp', event => {
+        const url = event.detail.url;
+        window.open(url, '_blank');
+    });
             </script>
         @endpush
 

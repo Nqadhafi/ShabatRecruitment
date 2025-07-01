@@ -81,19 +81,19 @@ public function updateApplicationStatus()
         Mail::to($application->applicantProfile->user->email)
             ->send(new InterviewCallMail($application, $this->interviewMessage));
 
-        $whatsappUrl = "https://wa.me/ {$this->applicantPhone}?text=" . urlencode("Halo, Anda dipanggil wawancara untuk lowongan {$this->jobName}. Detail: {$this->interviewMessage}");
+        $whatsappUrl = "https://wa.me/{$this->applicantPhone}?text=" . urlencode("Halo, Anda dipanggil wawancara untuk lowongan {$this->jobName}. Detail: {$this->interviewMessage}");
 
     } elseif ($this->selectedStatus === 'rejected') {
         Mail::to($application->applicantProfile->user->email)
             ->send(new RejectionMail($application, $this->rejectionReason));
 
-        $whatsappUrl = "https://wa.me/ {$this->applicantPhone}?text=" . urlencode("Mohon maaf, lamaran Anda belum dapat dilanjutkan.");
+        $whatsappUrl = "https://wa.me/{$this->applicantPhone}?text=" . urlencode("Mohon maaf, lamaran Anda belum dapat dilanjutkan.");
 
     } elseif ($this->selectedStatus === 'hired') {
         Mail::to($application->applicantProfile->user->email)
             ->send(new HiredMail($application, $this->offeringLetter));
 
-        $whatsappUrl = "https://wa.me/ {$this->applicantPhone}?text=" . urlencode("Selamat! Anda diterima di posisi {$this->jobName}.\n\n{$this->offeringLetter}");
+        $whatsappUrl = "https://wa.me/{$this->applicantPhone}?text=" . urlencode("Selamat! Anda diterima di posisi {$this->jobName}.\n\n{$this->offeringLetter}");
     }
 
     $this->showProcessModal = false;
