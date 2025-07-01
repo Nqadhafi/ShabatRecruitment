@@ -80,20 +80,29 @@ public function updateApplicationStatus()
     if ($this->selectedStatus === 'processed') {
         Mail::to($application->applicantProfile->user->email)
             ->send(new InterviewCallMail($application, $this->interviewMessage));
-
-        $whatsappUrl = "https://wa.me/{$this->applicantPhone}?text=" . urlencode("Halo, Anda dipanggil wawancara untuk lowongan {$this->jobName}. Detail: {$this->interviewMessage}");
+        $nomorWhatsapp = $application->applicantProfile->phone_number;
+        if (substr($nomorWhatsapp, 0, 2) !== '62') {
+    $nomorWhatsapp = '62' . substr($nomorWhatsapp, 1); // Ganti 08... → 628...
+        }
+        $whatsappUrl = "https://wa.me/{$nomorWhatsapp}?text=" . urlencode("Halo, Anda dipanggil wawancara untuk lowongan {$this->jobName}. Detail: {$this->interviewMessage}");
 
     } elseif ($this->selectedStatus === 'rejected') {
         Mail::to($application->applicantProfile->user->email)
             ->send(new RejectionMail($application, $this->rejectionReason));
-
-        $whatsappUrl = "https://wa.me/{$this->applicantPhone}?text=" . urlencode("Mohon maaf, lamaran Anda belum dapat dilanjutkan.");
+        $nomorWhatsapp = $application->applicantProfile->phone_number;
+        if (substr($nomorWhatsapp, 0, 2) !== '62') {
+    $nomorWhatsapp = '62' . substr($nomorWhatsapp, 1); // Ganti 08... → 628...
+        }
+        $whatsappUrl = "https://wa.me/{$nomorWhatsapp}?text=" . urlencode("Mohon maaf, lamaran Anda belum dapat dilanjutkan.");
 
     } elseif ($this->selectedStatus === 'hired') {
         Mail::to($application->applicantProfile->user->email)
             ->send(new HiredMail($application, $this->offeringLetter));
-
-        $whatsappUrl = "https://wa.me/{$this->applicantPhone}?text=" . urlencode("Selamat! Anda diterima di posisi {$this->jobName}.\n\n{$this->offeringLetter}");
+        $nomorWhatsapp = $application->applicantProfile->phone_number;
+        if (substr($nomorWhatsapp, 0, 2) !== '62') {
+    $nomorWhatsapp = '62' . substr($nomorWhatsapp, 1); // Ganti 08... → 628...
+        }
+        $whatsappUrl = "https://wa.me/{$nomorWhatsapp}?text=" . urlencode("Selamat! Anda diterima di posisi {$this->jobName}.\n\n{$this->offeringLetter}");
     }
 
     $this->showProcessModal = false;

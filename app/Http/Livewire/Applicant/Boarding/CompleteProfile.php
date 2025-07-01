@@ -37,7 +37,7 @@ class CompleteProfile extends Component
                 'ktp_number' => 'required|string|regex:/^[0-9]{16}$/',
                 'full_name' => 'required|string|max:50',
                 'surname' => 'required|string|max:50',
-                'phone_number' => 'required|numeric|regex:/^[0-9]{9,14}$/',
+                'phone_number' => 'required|string|regex:/^([0][8][1-9][0-9]{7,11})$/',
                 'address' => 'required|max:255'
             ]);
         
