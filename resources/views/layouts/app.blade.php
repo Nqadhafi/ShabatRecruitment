@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'AdminLTE Dashboard')</title>
+    <link rel="icon" href="{{ asset('app/img/Logo_square.png') }}" type="image/png">
+    <title>@yield('title', 'E-Recuitment - Shabat Printing')</title>
     
     <!-- AdminLTE CSS -->
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
@@ -29,7 +30,7 @@
             </div>
 
             <!-- Main Content -->
-            <div class="content">
+            <div class="content overflow-auto">
                 @yield('content')
             </div>
         </div>
