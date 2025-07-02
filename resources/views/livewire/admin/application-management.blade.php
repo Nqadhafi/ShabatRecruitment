@@ -298,7 +298,7 @@
                             @if ($selectedStatus === 'rejected')
                                 <div class="form-group">
                                     <label>Alasan Penolakan</label>
-                                    <input wire:model="rejectionReason" class="form-control" disabled>
+                                    <input wire:model="rejectionReason" class="form-control" rows="4">
                                 </div>
                             @endif
 
