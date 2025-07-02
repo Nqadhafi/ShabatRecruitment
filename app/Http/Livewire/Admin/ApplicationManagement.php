@@ -128,50 +128,62 @@ public function updateApplicationStatus()
         $this->showProfileModal = true;
     }
 
-    public function viewDocuments($applicantProfileId)
-    {
-        $profile = ApplicantProfile::with('application')->find($applicantProfileId);
 
-        if (!$profile || !$profile->application) {
-            session()->flash('error', 'Dokumen tidak ditemukan.');
-            return;
-        }
+    public function viewDocuments($applicationId)
+{
+    // Ambil application beserta applicant & job
+    $application = Application::with(['applicantProfile', 'job'])->find($applicationId);
 
-        $this->selectedDocuments = [
-            'cv' => $profile->application->cv_path,
-            'transkrip' => $profile->application->transkrip_path,
-            'pakelaring' => $profile->application->pakelaring_path,
-            'sertifikat' => $profile->application->sertifikat_path,
-        ];
-
-        $this->showDocumentModal = true;
+    if (!$application) {
+        session()->flash('error', 'Lamaran tidak ditemukan.');
+        return;
     }
 
-    public function viewExam($applicantProfileId)
-    {
-        // Ambil semua exam_result dengan relasi application → job
-        $this->examResults = ExamResult::with(['application.job'])
-            ->whereHas('application', function ($query) use ($applicantProfileId) {
-                $query->where('applicant_profile_id', $applicantProfileId);
-            })
-            ->get()
-            ->map(function ($result) {
-                return [
-                    'exam_title' => optional($result->examTitle)->title ?? '-',
-                    'exam_type' => optional($result->examTitle)->exam_type ?? '-',
-                    'score' => $result->score,
-                    'started_at' => \Carbon\Carbon::parse($result->started_at)->format('d F Y H:i'),
-                    'finished_at' => \Carbon\Carbon::parse($result->finished_at)->format('d F Y H:i'),
-                ];
-            })->toArray();
+    // Cek apakah ada dokumen
+    $this->selectedDocuments = [
+        'cv' => $application->cv_path,
+        'transkrip' => $application->transkrip_path,
+        'pakelaring' => $application->pakelaring_path,
+        'sertifikat' => $application->sertifikat_path,
+    ];
 
-        if (empty($this->examResults)) {
-            session()->flash('error', 'Belum ada hasil ujian ditemukan.');
-            return;
-        }
+    $this->showDocumentModal = true;
+}
 
-        $this->showExamModal = true;
+public function viewExam($applicationId)
+{
+    // Ambil application beserta applicant & job
+    $application = Application::with(['applicantProfile.user', 'job'])->find($applicationId);
+
+    if (!$application) {
+        session()->flash('error', 'Lamaran tidak ditemukan.');
+        return;
     }
+
+    // Ambil semua exam_result berdasarkan application_id
+    $this->examResults = ExamResult::with('examTitle')
+        ->where('application_id', $applicationId)
+        ->get()
+        ->map(function ($result) {
+            return [
+                'exam_title' => optional($result->examTitle)->title ?? '-',
+                'exam_type' => optional($result->examTitle)->exam_type ?? '-',
+                'score' => $result->score,
+                'started_at' => \Carbon\Carbon::parse($result->started_at)->format('d F Y H:i'),
+                'finished_at' => \Carbon\Carbon::parse($result->finished_at)->format('d F Y H:i'),
+            ];
+        })->toArray();
+
+    if (empty($this->examResults)) {
+        session()->flash('error', 'Belum ada hasil ujian untuk lamaran ini.');
+        return;
+    }
+
+    // Simpan data tambahan untuk ditampilkan di modal
+    $this->applicantName = $application->applicantProfile->full_name ?? '-';
+    $this->jobName = $application->job->name ?? '-';
+    $this->showExamModal = true;
+}
 
     public function closeDocumentModal()
     {

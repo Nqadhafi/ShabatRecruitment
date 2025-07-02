@@ -39,11 +39,11 @@
                                     class="btn btn-sm btn-primary">
                                     Lihat Profil
                                 </button>
-                                <button wire:click="viewDocuments('{{ $app->applicant_profile_id }}')"
+                                <button wire:click="viewDocuments('{{ $app->id }}')"
                                     class="btn btn-sm btn-secondary">
                                     Lihat Dokumen
                                 </button>
-                                <button wire:click="viewExam('{{ $app->applicant_profile_id }}')"
+                                <button wire:click="viewExam('{{ $app->id }}')"
                                     class="btn btn-sm btn-info">
                                     Hasil Ujian
                                 </button>
