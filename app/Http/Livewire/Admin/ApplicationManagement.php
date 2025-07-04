@@ -10,15 +10,20 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\InterviewCallMail;
 use App\Mail\RejectionMail;
 use App\Mail\HiredMail;
+use Illuminate\Support\Facades\Storage;
+use Livewire\WithFileUploads;
+use Illuminate\Support\Str;
 
 class ApplicationManagement extends Component
 {
+    use WithFileUploads;
     public $showProfileModal = false;
     public $selectedProfile = null;
     public $showDocumentModal = false;
     public $selectedDocuments = null;
     public $showExamModal = false;
     public $examResults = [];
+    public $offeringLetterPdf;
 
     public $showProcessModal = false;
     public $selectedApplicationId = null;
@@ -52,7 +57,7 @@ public function processApplication($applicationId)
     $this->interviewMessage = $application->interview_message ?? '';
     $this->rejectionReason = $application->rejection_reason ?? '';
     $this->offeringLetter = $application->offering_letter ?? '';
-
+    $this->offeringLetterPdf = null; // Reset file upload
     $this->showProcessModal = true;
 }
 
@@ -64,6 +69,7 @@ public function updateApplicationStatus()
         return;
     }
 
+    // Update status lamaran
     $data = ['status' => $this->selectedStatus];
 
     if ($this->selectedStatus === 'processed') {
@@ -72,39 +78,46 @@ public function updateApplicationStatus()
         $data['rejection_reason'] = $this->rejectionReason;
     } elseif ($this->selectedStatus === 'hired') {
         $data['offering_letter'] = $this->offeringLetter;
+
+        // Validasi apakah file PDF sudah diupload
+        if ($this->offeringLetterPdf) {
+            // Simpan file ke storage/app/public/offering_letters/
+            
+            $filename = 'offering_letter_' . $application->applicantProfile->full_name . '.' . $this->offeringLetterPdf->getClientOriginalExtension();
+            $filePath = $this->offeringLetterPdf->storeAs('offering_letters', $filename, 'public');
+
+            // Update path di database
+            $application->update(['offering_letter_path' => $filePath]);
+
+            // Lampirkan file ke email
+            $mail = new HiredMail($application, $this->offeringLetter, $filePath);
+        } else {
+            $mail = new HiredMail($application, $this->offeringLetter, null);
+        }
+
+        Mail::to($application->applicantProfile->user->email)->send($mail);
     }
 
     $application->update($data);
 
-    // Kirim email sesuai status
-    if ($this->selectedStatus === 'processed') {
-        Mail::to($application->applicantProfile->user->email)
-            ->send(new InterviewCallMail($application, $this->interviewMessage));
-        $nomorWhatsapp = $application->applicantProfile->phone_number;
-        if (substr($nomorWhatsapp, 0, 2) !== '62') {
-    $nomorWhatsapp = '62' . substr($nomorWhatsapp, 1); // Ganti 08... → 628...
-        }
-        $whatsappUrl = "https://wa.me/{$nomorWhatsapp}?text=" . urlencode("Halo, Anda dipanggil wawancara untuk lowongan {$this->jobName}. Detail: {$this->interviewMessage}");
-
-    } elseif ($this->selectedStatus === 'rejected') {
-        Mail::to($application->applicantProfile->user->email)
-            ->send(new RejectionMail($application, $this->rejectionReason));
-        $nomorWhatsapp = $application->applicantProfile->phone_number;
-        if (substr($nomorWhatsapp, 0, 2) !== '62') {
-    $nomorWhatsapp = '62' . substr($nomorWhatsapp, 1); // Ganti 08... → 628...
-        }
-        $whatsappUrl = "https://wa.me/{$nomorWhatsapp}?text=" . urlencode("Mohon maaf, lamaran Anda belum dapat dilanjutkan.");
-
-    } elseif ($this->selectedStatus === 'hired') {
-        Mail::to($application->applicantProfile->user->email)
-            ->send(new HiredMail($application, $this->offeringLetter));
-        $nomorWhatsapp = $application->applicantProfile->phone_number;
-        if (substr($nomorWhatsapp, 0, 2) !== '62') {
-    $nomorWhatsapp = '62' . substr($nomorWhatsapp, 1); // Ganti 08... → 628...
-        }
-        $whatsappUrl = "https://wa.me/{$nomorWhatsapp}?text=" . urlencode("Selamat! Anda diterima di posisi {$this->jobName}.\n\n{$this->offeringLetter}");
+    // Format nomor HP untuk WhatsApp
+    $nomorWhatsapp = $application->applicantProfile->phone_number ?? '';
+    if (substr($nomorWhatsapp, 0, 1) === '0') {
+        $nomorWhatsapp = '62' . substr($nomorWhatsapp, 1); // Ganti format ke internasional
     }
 
+    // Buat pesan WhatsApp sesuai status
+    if ($this->selectedStatus === 'processed') {
+        $pesan = "Halo, Anda dipanggil wawancara untuk lowongan {$this->jobName}. Detail: {$this->interviewMessage}";
+    } elseif ($this->selectedStatus === 'rejected') {
+        $pesan = "Mohon maaf, lamaran Anda belum dapat dilanjutkan.";
+    } elseif ($this->selectedStatus === 'hired') {
+        $pesan = "Selamat! Lamaran Anda diterima.\n\nSilakan cek email Anda untuk detail offering letter.";
+    }
+
+    $whatsappUrl = "https://wa.me/ {$nomorWhatsapp}?text=" . urlencode($pesan);
+
+    // Tutup modal proses
     $this->showProcessModal = false;
     session()->flash('success', 'Status lamaran berhasil diperbarui & notifikasi telah dikirim.');
 

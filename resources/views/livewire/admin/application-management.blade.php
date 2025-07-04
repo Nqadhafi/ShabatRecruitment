@@ -43,8 +43,7 @@
                                     class="btn btn-sm btn-secondary">
                                     Lihat Dokumen
                                 </button>
-                                <button wire:click="viewExam('{{ $app->id }}')"
-                                    class="btn btn-sm btn-info">
+                                <button wire:click="viewExam('{{ $app->id }}')" class="btn btn-sm btn-info">
                                     Hasil Ujian
                                 </button>
                                 <button class="btn btn-sm btn-warning"
@@ -307,6 +306,13 @@
                                     <label>Isi Offering Letter</label>
                                     <textarea wire:model="offeringLetter" class="form-control" rows="4"></textarea>
                                 </div>
+                                <div class="form-group">
+                                    <label>Lampirkan PDF Offering Letter (Opsional)</label>
+                                    <input type="file" wire:model="offeringLetterPdf" class="form-control-file">
+                                    @error('offeringLetterPdf')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
                             @endif
 
                             <button wire:click="updateApplicationStatus" class="btn btn-primary mt-3">
@@ -321,10 +327,10 @@
 
         @push('scripts')
             <script>
-    window.addEventListener('open-whatsapp', event => {
-        const url = event.detail.url;
-        window.open(url, '_blank');
-    });
+                window.addEventListener('open-whatsapp', event => {
+                    const url = event.detail.url;
+                    window.open(url, '_blank');
+                });
             </script>
         @endpush
 

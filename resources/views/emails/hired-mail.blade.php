@@ -8,8 +8,8 @@
 
     <p>Selamat! Anda telah diterima untuk posisi <strong>{{ $application->job->name }}</strong>.</p>
 
-    <p><strong>Offering Letter:</strong></p>
-    <p>{!! nl2br(e($letter)) !!}</p>
+<p><strong>Pesan dari HRD:</strong></p>
+<p>{!! nl2br(e($letter)) !!}</p>
 
     <p>Silakan hubungi kami untuk konfirmasi lebih lanjut.</p>
 
