@@ -115,7 +115,7 @@ public function updateApplicationStatus()
         $pesan = "Selamat! Lamaran Anda diterima.\n\nSilakan cek email Anda untuk detail offering letter.";
     }
 
-    $whatsappUrl = "https://wa.me/ {$nomorWhatsapp}?text=" . urlencode($pesan);
+    $whatsappUrl = "https://wa.me/{$nomorWhatsapp}?text=" . urlencode($pesan);
 
     // Tutup modal proses
     $this->showProcessModal = false;
