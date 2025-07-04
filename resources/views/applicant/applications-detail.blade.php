@@ -49,6 +49,7 @@
                     Lihat CV
                 </button>
             </p>
+            <small class="text-muted m-3"><i> Silahkan cek e-mail anda secara berkala. Tidak menerima e-mail masuk? Cek folder spam</i></small>
         </div>
     </div>
 </div>
