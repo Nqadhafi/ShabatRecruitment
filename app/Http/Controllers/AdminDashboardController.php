@@ -23,22 +23,21 @@ public function index()
             ->get();
 
         // Data grafik lamaran per bulan (contoh 6 bulan terakhir)
-$sub = DB::table('applications')
-    ->selectRaw("DATE_FORMAT(created_at, '%Y%m') as ym, COUNT(*) as total")
-    ->groupByRaw("DATE_FORMAT(created_at, '%Y%m')");
+    $query = "
+        SELECT 
+            DATE_FORMAT(created_at, '%Y%m') AS ym,
+            DATE_FORMAT(created_at, '%M %Y') AS month,
+            COUNT(*) AS total
+        FROM applications
+        GROUP BY DATE_FORMAT(created_at, '%Y%m'), DATE_FORMAT(created_at, '%M %Y')
+        ORDER BY ym DESC
+        LIMIT 6
+    ";
 
-$applicationsPerMonth = DB::table(DB::raw("({$sub->toSql()}) as sub"))
-    ->mergeBindings($sub) // penting untuk menghindari binding error
-    ->select('ym', DB::raw("DATE_FORMAT(STR_TO_DATE(CONCAT(ym,'01'), '%Y%m%d'), '%M %Y') as month"), 'total')
-    ->orderBy('ym')
-    ->take(6)
-    ->get();
+    $applicationsPerMonth = collect(DB::select($query))->sortBy('ym');
 
-        // Persiapkan data untuk grafik
-
-
-$labels = $applicationsPerMonth->pluck('month');
-$data = $applicationsPerMonth->pluck('total');
+    $labels = $applicationsPerMonth->pluck('month');
+    $data = $applicationsPerMonth->pluck('total');
 
         return view('admin.dashboard', compact(
             'pending',

@@ -34,7 +34,7 @@
                 <div class="icon">
                     <i class="fas fa-check-circle"></i>
                 </div>
-                <a href="#" class="small-box-footer">
+                <a href="{{ route('admin.manajemen-lowongan') }}" class="small-box-footer">
                     Detail <i class="fas fa-arrow-circle-right"></i>
                 </a>
             </div>
@@ -49,7 +49,7 @@
                 <div class="icon">
                     <i class="fas fa-times-circle"></i>
                 </div>
-                <a href="#" class="small-box-footer">
+                <a href="{{ route('admin.manajemen-lowongan') }}" class="small-box-footer">
                     Detail <i class="fas fa-arrow-circle-right"></i>
                 </a>
             </div>
@@ -86,15 +86,9 @@
 
         <div class="col-md-4">
             <div class="card card-outline card-info">
-                <div class="card-header">
-                    <h5 class="card-title">Pengumuman</h5>
-                </div>
-                <div class="card-body">
-                    <ul>
-                        <li>Jadwal wawancara batch 2 akan dimulai pada 15 Januari 2025.</li>
-                        <li>Sistem telah diperbarui untuk memudahkan pelamar mengunggah dokumen.</li>
-                    </ul>
-                </div>
+    <div class="alert alert-warning mt-4">
+        <strong>Catatan:</strong> Jika tombol WhatsApp tidak berfungsi, pastikan nomor HP valid atau gunakan WhatsApp Desktop.
+    </div>
             </div>
         </div>
     </div>
@@ -122,12 +116,16 @@
                                     <td>{{ $app->applicantProfile->full_name ?? '-' }}</td>
                                     <td>{{ $app->job->name ?? '-' }}</td>
                                     <td>
-                                        <span class="badge bg-{{ $app->status === 'pending' ? 'warning' : ($app->status === 'hired' ? 'success' : 'secondary') }}">
+                                        <span class="badge bg-{{ $app->status === 'applied' ? 'warning' : 
+   ($app->status === 'hired' ? 'success' : 
+   ($app->status === 'processed' ? 'info' : 
+   ($app->status === 'rejected' ? 'danger' : 'secondary'))) 
+}}">
                                             {{ ucfirst($app->status) }}
                                         </span>
                                     </td>
                                     <td>
-                                        <a href="{{ route('admin.manajemen-lowongan', $app->id) }}" class="btn btn-sm btn-primary">Detail</a>
+                                        <a href="{{ route('admin.manajemen-lowongan') }}" class="btn btn-sm btn-primary">Detail</a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -147,37 +145,39 @@
     </div>
 
     <!-- WhatsApp Error Notice -->
-    <div class="alert alert-warning mt-4">
-        <strong>Catatan:</strong> Jika tombol WhatsApp tidak berfungsi, pastikan nomor HP valid atau gunakan WhatsApp Desktop.
-    </div>
+
 
 @endsection
 
 @push('scripts')
 <script src="https://cdn.jsdelivr.net/npm/chart.js "></script>
 <script>
-    const ctx = document.getElementById('applicationChart').getContext('2d');
-    const applicationChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: [@json($labels)],
-            datasets: [{
-                label: 'Jumlah Lamaran',
-                data: [@json($data)],
-                backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                borderColor: 'rgba(54, 162, 235, 1)',
-                borderWidth: 2,
-                fill: true,
-                tension: 0.4
-            }]
-        },
-        options: {
-            scales: {
-                y: {
+const ctx = document.getElementById('applicationChart').getContext('2d');
+const applicationChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: @json($labels),
+        datasets: [{
+            label: 'Jumlah Lamaran',
+            data: @json($data),
+            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+            borderColor: 'rgba(54, 162, 235, 1)',
+            borderWidth: 2,
+            fill: true,
+            lineTension: 0.4 // gunakan lineTension, bukan tension
+        }]
+    },
+    options: {
+        responsive: true,
+        scales: {
+            yAxes: [{
+                ticks: {
                     beginAtZero: true
                 }
-            }
+            }]
         }
-    });
+    }
+});
+
 </script>
 @endpush
