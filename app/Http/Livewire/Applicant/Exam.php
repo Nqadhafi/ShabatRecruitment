@@ -145,7 +145,7 @@ $duration = $title->duration_minutes ? $title->duration_minutes * 60 : null;
             session()->forget(["exam_{$title->id}_start_time", "exam_{$title->id}_time_left"]);
         }
             session()->forget('application_id');
-            return redirect()->route('applicant.exam.thanks');
+            return redirect()->route('applicant.application.history')->with('success', 'Ujian selesai! Hasil telah disimpan.');
         }
     }
 
