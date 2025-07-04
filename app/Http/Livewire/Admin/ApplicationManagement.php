@@ -74,8 +74,10 @@ public function updateApplicationStatus()
 
     if ($this->selectedStatus === 'processed') {
         $data['interview_message'] = $this->interviewMessage;
+        Mail::to($application->applicantProfile->user->email)->send(new InterviewCallMail($application, $this->interviewMessage));
     } elseif ($this->selectedStatus === 'rejected') {
         $data['rejection_reason'] = $this->rejectionReason;
+        Mail::to($application->applicantProfile->user->email)->send(new RejectionMail($application, $this->rejectionReason));
     } elseif ($this->selectedStatus === 'hired') {
         $data['offering_letter'] = $this->offeringLetter;
 
