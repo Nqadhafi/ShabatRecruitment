@@ -49,7 +49,7 @@ class ApplicationForm extends Component
         ]);
 
   session()->put('application_id', $application->id);
-        return redirect()->route('applicant.exam.start');
+        return redirect()->route('applicant.exam.preparation')->with('success', 'Lamaran berhasil dikirim. Silakan lanjut ke persiapan ujian.');
     }
 
     public function render()

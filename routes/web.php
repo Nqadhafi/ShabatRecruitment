@@ -14,6 +14,7 @@ use App\Http\Controllers\ApplicantDashboardController;
 use App\Http\Controllers\ApplicationDetailController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\VerifyEmailWithoutLoginController;
+use App\Http\Controllers\ExamController;
 
 
 
@@ -39,6 +40,7 @@ Route::middleware(['applicant', 'verified', 'profile'])->prefix('applicant')->gr
     Route::get('/dashboard', [ApplicantDashboardController::class, 'index'])->name('applicant.dashboard');
     Route::get('/apply/{jobId}', function ($jobId) {return view('applicant.apply', compact('jobId'));})->name('applicant.apply.form')->middleware('ensure.not.applied');
     Route::get('/exam/start', function(){return view('applicant.exam'); })->name('applicant.exam.start')->middleware('ensure.has.applied');
+    Route::get('/exam/preparation', [ExamController::class, 'examPreparation'])->name('applicant.exam.preparation')->middleware('ensure.has.applied');
     Route::get('/exam/thanks', function () {return view('applicant.exam-thanks');})->name('applicant.exam.thanks');
     Route::get('/profile/', [ApplicantProfileController::class, 'edit'])->name('applicant.profile');
     Route::post('/profile/update', [ApplicantProfileController::class, 'update'])->name('applicant.profile.update');
