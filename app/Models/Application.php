@@ -23,7 +23,8 @@ class Application extends Model
         'sertifikat_path',
         'interview_message',
         'reject_reason',
-        'offering_letter'
+        'offering_letter',
+        'offering_letter_path'
     ];
 
     protected $casts = [

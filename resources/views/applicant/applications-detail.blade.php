@@ -27,7 +27,7 @@
             @if ($application->offering_letter && $application->status === 'hired')
                 <p class="mt-3">
                     <strong>Surat Penawaran:</strong> 
-                    <a href="{{ asset('storage/'.$application->offering_letter) }}" target="_blank" class="btn btn-outline-primary btn-sm">Lihat Surat Penawaran</a>
+                    <a href="{{ asset('storage/'. $application->offering_letter_path) }}" target="_blank" class="btn btn-outline-primary btn-sm">Lihat Surat Penawaran</a>
                 </p>
             @elseif($application->interview_message && $application->status === 'processed')
                 <p class="mt-3">
