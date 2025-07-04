@@ -20,7 +20,10 @@ class Application extends Model
         'cv_path',
         'pakelaring_path',
         'transkrip_path',
-        'sertifikat_path'
+        'sertifikat_path',
+        'interview_message',
+        'reject_reason',
+        'offering_letter'
     ];
 
     protected $casts = [
