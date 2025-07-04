@@ -238,9 +238,15 @@ public function render()
 
     // Kelompokkan berdasarkan status
     $groupedApplications = $applications->groupBy('status');
-
+    $customStatuses = [
+        'applied' => 'Belum Diproses',
+        'processed' => 'Diproses / Interview',
+        'rejected' => 'Ditolak',
+        'hired' => 'Diterima / Offering Letter',
+    ];
     return view('livewire.admin.application-management', [
-        'groupedApplications' => $groupedApplications
+        'groupedApplications' => $groupedApplications,
+        'customStatuses' => $customStatuses,
     ]);
 }
 }

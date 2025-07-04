@@ -22,20 +22,35 @@
 
 <div class="container mt-4">
     @foreach ($groupedApplications as $status => $apps)
-        <h4>Status: {{ ucfirst($status) }}</h4>
-        <div class="table-responsive">
+        <h5 class="text-muted">Status: {{ $customStatuses[$status] ?? $status }}</h5>
+        
+        <div class="table-responsive mb-4">
             <table class="table table-bordered table-hover">
                 <thead class="table-light">
-                    <tr>
+                    <tr class="
+    @if ( $status == 'applied')
+        table-warning
+    @elseif ( $status == 'processed')
+        table-info
+    @elseif ( $status == 'hired')
+        table-success
+    @elseif ( $status == 'rejected')
+        table-danger
+    @endif
+">
+                        <th>No</th>
                         <th>Nama Pelamar</th>
                         <th>Lowongan</th>
+                        <th>Tanggal Dilamat</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
                     @forelse ($apps as $app)
                         <tr>
+                            <td>{{ $loop->iteration }}</td>
                             <td>{{ $app->applicantProfile->full_name ?? '-' }}</td>
+                            <td>{{ $app->created_at->format('d F Y') }}</td>
                             <td>{{ $app->job->name ?? '-' }}</td>
                             <td>
                                 <button wire:click="viewProfile('{{ $app->applicant_profile_id }}')"
@@ -51,8 +66,8 @@
                                 </button>
                                 <button class="btn btn-sm btn-warning"
                                     wire:click="processApplication('{{ $app->id }}')">Proses Lamaran</button>
-                                <button class="btn btn-sm btn-success">Download Profil</button>
-                                <button class="btn btn-sm btn-dark">Download Berkas</button>
+                                {{-- <button class="btn btn-sm btn-success">Download Profil</button>
+                                <button class="btn btn-sm btn-dark">Download Berkas</button> --}}
                             </td>
                         </tr>
                     @empty
