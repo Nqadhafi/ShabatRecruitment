@@ -52,26 +52,38 @@ class Exam extends Component
             shuffle($this->questions);
         }
 
-         $duration = $title->duration_minutes * 60;
-            if (session()->has("exam_{$title->id}_start_time") && session()->has("exam_{$title->id}_time_left")) {
-            $this->startTime = session()->get("exam_{$title->id}_start_time");
-            $elapsed = now()->diffInSeconds(Carbon::parse($this->startTime));
-            $remaining = max(0, session()->get("exam_{$title->id}_time_left") - $elapsed);
+$duration = $title->duration_minutes ? $title->duration_minutes * 60 : null;
 
-            $this->timeLeft = $remaining;
-        } else {
-            $this->startTime = now();
-            $this->timeLeft = $duration;
+    if (!$duration) {
+        $this->timeLeft = 0;
+        return;
+    }
 
-            session()->put("exam_{$title->id}_start_time", $this->startTime);
-            session()->put("exam_{$title->id}_time_left", $this->timeLeft);
-        }
+    $sessionStartTimeKey = "exam_{$title->id}_start_time";
+    $sessionTimeLeftKey = "exam_{$title->id}_time_left";
+
+    if (session()->has($sessionStartTimeKey) && session()->has($sessionTimeLeftKey)) {
+        $this->startTime = session()->get($sessionStartTimeKey);
+        $elapsed = now()->diffInSeconds(\Carbon\Carbon::parse($this->startTime));
+        $remaining = max(0, session()->get($sessionTimeLeftKey) - $elapsed);
+
+        $this->timeLeft = $remaining;
+    } else {
+        // Jika belum ada sesi, mulai timer baru
+        $this->startTime = now();
+        $this->timeLeft = $duration;
+
+        session()->put($sessionStartTimeKey, $this->startTime);
+        session()->put($sessionTimeLeftKey, $this->timeLeft);
+    }
     }
 
     public function updatedTimeLeft()
     {
-        $titleId = $this->examTitle->id;
-        session()->put("exam_{$titleId}_time_left", $this->timeLeft);
+    $titleId = $this->examTitle->id;
+    $key = "exam_{$titleId}_time_left";
+    
+    session()->put($key, $this->timeLeft);
     }
 
     public function nextQuestion()
