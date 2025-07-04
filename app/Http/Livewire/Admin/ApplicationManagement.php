@@ -229,15 +229,18 @@ public function viewExam($applicationId)
         $this->jobName = '';
     }
 
-    public function render()
-    {
-        $applications = Application::with([
-            'applicantProfile.user',
-            'job'
-        ])->paginate(10);
+public function render()
+{
+    $applications = Application::with([
+        'applicantProfile.user',
+        'job'
+    ])->get(); // ambil semua data
 
-        return view('livewire.admin.application-management', [
-            'applications' => $applications
-        ]);
-    }
+    // Kelompokkan berdasarkan status
+    $groupedApplications = $applications->groupBy('status');
+
+    return view('livewire.admin.application-management', [
+        'groupedApplications' => $groupedApplications
+    ]);
+}
 }

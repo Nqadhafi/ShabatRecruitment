@@ -20,9 +20,12 @@
     <div class="container-fluid mt-4">
         <h4>Daftar Lamaran</h4>
 
+<div class="container mt-4">
+    @foreach ($groupedApplications as $status => $apps)
+        <h4>Status: {{ ucfirst($status) }}</h4>
         <div class="table-responsive">
             <table class="table table-bordered table-hover">
-                <thead>
+                <thead class="table-light">
                     <tr>
                         <th>Nama Pelamar</th>
                         <th>Lowongan</th>
@@ -30,7 +33,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($applications as $app)
+                    @forelse ($apps as $app)
                         <tr>
                             <td>{{ $app->applicantProfile->full_name ?? '-' }}</td>
                             <td>{{ $app->job->name ?? '-' }}</td>
@@ -52,10 +55,16 @@
                                 <button class="btn btn-sm btn-dark">Download Berkas</button>
                             </td>
                         </tr>
-                    @endforeach
+                    @empty
+                        <tr>
+                            <td colspan="3" class="text-center">Tidak ada lamaran pada status ini.</td>
+                        </tr>
+                    @endforelse
                 </tbody>
             </table>
         </div>
+    @endforeach
+</div>
 
         <!-- Modal Profil -->
         @if ($showProfileModal && $selectedProfile)
@@ -333,9 +342,5 @@
                 });
             </script>
         @endpush
-
-        <div class="mt-3 d-flex justify-content-center">
-            {{ $applications->links() }}
-        </div>
     </div>
 </div>
