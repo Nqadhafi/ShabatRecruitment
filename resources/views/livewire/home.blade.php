@@ -52,8 +52,6 @@
   </a>
 </div>
 
-
-
 <section id="jobs" class="mx-auto container mt-5 pt-5">
     <h2 class="display-5 text-center">Lowongan tersedia</h2>
 
@@ -75,120 +73,117 @@
     </div>
 </div>
 
-
-
-    <div class="row gap-2 mt-4">
-        @foreach ($jobs as $job)
-        <div class="col-md-4 col-lg-3 col-sm-6 p-4 p-lg-4 p-md-3 p-sm-2">
-            <a class="card text-reset text-decoration-none" target="_blank" href="{{ route('job.detail', $job->slug ?? '')   }}">
-                <div class="card-body shadow-lg">
-                    <h6 class="card-title font-weight-bold mb-1 text-magenta">{{ $job->name }}</h6>
-                    <div class="card-text align-items-center d-flex">
-                        <ion-icon name="bookmark" class="mr-1" wire:ignore></ion-icon>
-                        <small>Shabat Printing</small>
-                    </div>
-                    <div class="card-text align-items-center d-flex mb-1">
-                        <ion-icon name="pin" class="mr-1" wire:ignore></ion-icon>
-                        <small class="text-muted">Laweyan, Surakarta</small>
-                    </div>
-                    <ul class="card-text px-3">
-                        <li><small>{{ $job->gender }}</small></li>
-                        <li><small>{{ $job->contract }}</small></li>
-                        <li><small>Minimal pendidikan {{ $job->grade->name }}</small></li>
-                    </ul>
-                    <p class="text-muted text-center m-0">
-                        <small>Batas Waktu: {{ \Carbon\Carbon::parse($job->deadline)->translatedFormat('d F Y') }}</small>
-                    </p>
+<div class="row gap-2 mt-4">
+    @foreach ($jobs as $job)
+    <div class="col-md-4 col-lg-3 col-sm-6 p-4 p-lg-4 p-md-3 p-sm-2">
+        <a class="card text-reset text-decoration-none" target="_blank" href="{{ route('job.detail', $job->slug ?? '') }}">
+            <div class="card-body shadow-lg">
+                <h6 class="card-title font-weight-bold mb-1 text-magenta">{{ $job->name }}</h6>
+                <div class="card-text align-items-center d-flex">
+                    <ion-icon name="bookmark" class="mr-1" wire:ignore></ion-icon>
+                    <small>Shabat Printing</small>
                 </div>
-            </a>
-        </div>
-        @endforeach
+                <div class="card-text align-items-center d-flex mb-1">
+                    <ion-icon name="pin" class="mr-1" wire:ignore></ion-icon>
+                    <small class="text-muted">Laweyan, Surakarta</small>
+                </div>
+                <ul class="card-text px-3">
+                    <li><small>{{ $job->gender }}</small></li>
+                    <li><small>{{ $job->contract }}</small></li>
+                    <li><small>Minimal pendidikan {{ $job->grade->name }}</small></li>
+                </ul>
+                <p class="text-muted text-center m-0">
+                    <small>Batas Waktu: {{ \Carbon\Carbon::parse($job->deadline)->translatedFormat('d F Y') }}</small>
+                </p>
+            </div>
+        </a>
     </div>
-                @if ($noJobsMessage)
-        <div class="text-center my-5 py-5">
-            <h4>{{ $noJobsMessage }}</h4>
-        </div>
-    @endif
-    <div class="text-center mb-5">
-        <a href="{{ route('register')}}" class="btn btn-primary shadow-lg">Siap bergabung dengan kami? Daftar di sini.</a>
+    @endforeach
+</div>
+
+@if ($noJobsMessage)
+    <div class="text-center my-5 py-5">
+        <h4>{{ $noJobsMessage }}</h4>
     </div>
+@endif
+
+<div class="text-center mb-5">
+    <a href="{{ route('register') }}" class="btn btn-primary shadow-lg">Siap bergabung dengan kami? Daftar di sini.</a>
+</div>
 </section>
 
-
-    <section id="about" class="container-fluid py-5">
-        <div class="jumbotron container bg-light p-0">
-            <div class="row">
-                <div class="d-none col-md-6 d-flex">
-                    <img src="{{asset('app/img/About-us.webp')}}" alt="" class="img-fluid">
-                </div>
-                <div class="col-md-6 d-flex flex-column justify-content-center p-5">
-                    <h1 class="display-5">Tentang Kami</h1>
-                    <h5 class="text-blue font-weight-bold p-0 m-0">Shabat Printing</h5>
-                    <p> adalah solusi percetakan digital dan offset terdepan di Kota Solo.
+<section id="about" class="container-fluid py-5">
+    <div class="jumbotron container bg-light p-0">
+        <div class="row">
+            <div class="d-none col-md-6 d-flex">
+                <img src="{{asset('app/img/About-us.webp')}}" alt="" class="img-fluid">
+            </div>
+            <div class="col-md-6 d-flex flex-column justify-content-center p-5">
+                <h1 class="display-5">Tentang Kami</h1>
+                <h5 class="text-blue font-weight-bold p-0 m-0">Shabat Printing</h5>
+                <p> adalah solusi percetakan digital dan offset terdepan di Kota Solo.
 Sebagai salah satu anak perusahaan PT. SHA Solo, kami berkomitmen menghadirkan layanan cetak berkualitas tinggi, cepat, dan terpercaya.
 Didukung teknologi modern dan tim profesional, Shabat Printing menjadi pilihan utama untuk berbagai kebutuhan percetakan , mulai dari skala retail hingga bisnis.</p>
-                    <a class="btn btn-primary btn-md w-50" href="https://shabatprinting.com" target="_blank">Selengkapnya</a>
-                </div>
+                <a class="btn btn-primary btn-md w-50" href="https://shabatprinting.com" target="_blank">Selengkapnya</a>
             </div>
+        </div>
+</section>
 
-    </section>
-    <section id="contact" class="mx-auto mt-5 container-fluid">
-        <div class="container">
-        <h2 class="text-center display-5"> Hubungi Kami </h2>
-        <div class="row mt-3">
-            <div class="col-lg-6 mt-3 p-4">
-                <div class="card rounded shadow-md bg-secondary">
-                    <div class="card-body p-5">
-                        <ion-icon name="location" size="large"></ion-icon>
-                        <h4 class="mt-1">Alamat</h4>
-                        <p class="card-text">Jl. Perintis Kemerdekaan No. 20 C-D, Kel. Sondakan, Kec. Laweyan, Kota Surakarta, Jawa Tengah</p>
-                    </div>
+<section id="contact" class="mx-auto mt-5 container-fluid">
+    <div class="container">
+    <h2 class="text-center display-5"> Hubungi Kami </h2>
+    <div class="row mt-3">
+        <div class="col-lg-6 mt-3 p-4">
+            <div class="card rounded shadow-md bg-secondary">
+                <div class="card-body p-5">
+                    <ion-icon name="location" size="large"></ion-icon>
+                    <h4 class="mt-1">Alamat</h4>
+                    <p class="card-text">Jl. Perintis Kemerdekaan No. 20 C-D, Kel. Sondakan, Kec. Laweyan, Kota Surakarta, Jawa Tengah</p>
                 </div>
             </div>
-            <div class="col-lg-6 mt-3 p-4">
-                <div class="card rounded shadow-md bg-secondary">
-                    <div class="card-body p-5">
-                        <ion-icon name="mail" size="large"></ion-icon>
-                        <h4 class="mt-1">E-mail</h4>
-                        <p class="card-text">hrd.shabatwarna@gmail.com
-                            <br>
-                            <br>
-                        </p>
-                    </div>
+        </div>
+        <div class="col-lg-6 mt-3 p-4">
+            <div class="card rounded shadow-md bg-secondary">
+                <div class="card-body p-5">
+                    <ion-icon name="mail" size="large"></ion-icon>
+                    <h4 class="mt-1">E-mail</h4>
+                    <p class="card-text">hrd.shabatwarna@gmail.com
+                        <br>
+                        <br>
+                    </p>
                 </div>
             </div>
-            <div class="col-lg-6 mt-3 p-4">
-                <div class="card rounded shadow-md bg-secondary">
-                    <div class="card-body p-5">
-                        <ion-icon name="call" size="large"></ion-icon>
-                        <h4 class="mt-1">Telepon</h4>
-                        <h6><i>(Text / Whatsapp Only)</i></h6>
-                        <p class="card-text">+62813 8883 9991</p>
-            
-                    </div>
+        </div>
+        <div class="col-lg-6 mt-3 p-4">
+            <div class="card rounded shadow-md bg-secondary">
+                <div class="card-body p-5">
+                    <ion-icon name="call" size="large"></ion-icon>
+                    <h4 class="mt-1">Telepon</h4>
+                    <h6><i>(Text / Whatsapp Only)</i></h6>
+                    <p class="card-text">+62813 8883 9991</p>
                 </div>
             </div>
-            <div class="col-lg-6 mt-3 p-4">
-                <div class="card rounded shadow-md bg-secondary">
-                    <div class="card-body p-5">
-                        <ion-icon name="time" size="large"></ion-icon>
-                        <h4 class="mt-1">Jam Operasional</h4>
-                        <div class="row">
-                            <div class="col-6">
-                        <p class="card-text p-0 m-0">Senin s/d Jum'at</p>
-                        <p class="card-text p-0 m-0">08.00 - 16.00</p>
-                            </div>
-                            <div class="col-6">
-                        <p class="card-text p-0 m-0">Sabtu </p>
-                        <p class="card-text p-0 m-0">10.00 - 15.30</p>    
-                            </div>
+        </div>
+        <div class="col-lg-6 mt-3 p-4">
+            <div class="card rounded shadow-md bg-secondary">
+                <div class="card-body p-5">
+                    <ion-icon name="time" size="large"></ion-icon>
+                    <h4 class="mt-1">Jam Operasional</h4>
+                    <div class="row">
+                        <div class="col-6">
+                            <p class="card-text p-0 m-0">Senin s/d Jum'at</p>
+                            <p class="card-text p-0 m-0">08.00 - 16.00</p>
+                        </div>
+                        <div class="col-6">
+                            <p class="card-text p-0 m-0">Sabtu </p>
+                            <p class="card-text p-0 m-0">10.00 - 15.30</p>    
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        </div>
-
-    </section>
     </div>
+    </div>
+</section>
+</div>
 
