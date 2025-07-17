@@ -2,11 +2,11 @@
     @if($this->titles->isNotEmpty() && $this->currentTitleIndex < count($this->titles))
         <div class="container mt-4">
             <!-- Judul Ujian -->
-            <h5 class="text-center mb-3">{{ $examTitle->title }}</h5>
+            <h5 class="text-center mb-3" wire:ignore>{{ $examTitle->title }}</h5>
 
             <!-- Timer -->
             @if($timeLeft > 0)
-                <div class="text-center mb-3">
+                <div class="text-center mb-3" wire:ignore>
                     <h5>Waktu tersisa: <span id="timer">{{ intdiv($timeLeft, 60) }}:{{ $timeLeft % 60 }}</span></h5>
                 </div>
             @else
@@ -31,15 +31,17 @@
                     <!-- Opsi Jawaban -->
                     @php $options = json_decode($current['options'], true); @endphp
 
-                    @foreach($options as $key => $value)
-                        <div class="form-check">
-                            <input type="radio"
-                                   wire:model="answers.{{ $currentQuestionIndex }}"
-                                   value="{{ $key }}"
-                                   class="form-check-input">
-                            <label class="form-check-label">{{ $key }}. {{ $value }}</label>
-                        </div>
-                    @endforeach
+                    <div class="btn-group-vertical w-100" data-toggle="buttons">
+                        @foreach($options as $key => $value)
+                            <label class="btn btn-outline-primary text-left mb-2 {{ (isset($answers[$currentQuestionIndex]) && $answers[$currentQuestionIndex] == $key) ? 'active' : '' }}">
+                                <input type="radio"
+                                       wire:model="answers.{{ $currentQuestionIndex }}"
+                                       value="{{ $key }}"
+                                       autocomplete="off"> 
+                                <strong>{{ $key }}.</strong> {{ $value }}
+                            </label>
+                        @endforeach
+                    </div>
 
                     <!-- Tombol Navigasi -->
                     <div class="mt-4 d-flex justify-content-between">
