@@ -16,7 +16,7 @@ class AuthController extends Controller
             // Jika pengguna sudah login, alihkan ke dashboard yang sesuai
             return redirect()->route(Auth::user()->role . '.dashboard'); // admin.dashboard atau applicant.dashboard
         }
-    
+
         return view('auth.login');
     }
 
@@ -28,16 +28,15 @@ class AuthController extends Controller
             'password' => 'required',
             'g-recaptcha-response' => 'required|captcha', // Validasi captcha
         ]);
-    
-        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
-            // Redirect berdasarkan role
-            if (Auth::user()->role === 'admin') {
-                return redirect()->route('admin.dashboard'); // Dashboard Admin
-            } else {
-                return redirect()->route('applicant.dashboard'); // Dashboard Pelamar
-            }
+
+        $credentials = $request->only('email', 'password');
+
+        if (Auth::attempt($credentials)) {
+            $role = Auth::user()->role;
+            $dashboardRoute = $role === 'admin' ? 'admin.dashboard' : 'applicant.dashboard';
+            return redirect()->route($dashboardRoute); // Redirect berdasarkan role
         }
-    
+
         return back()->withErrors(['email' => 'Invalid credentials']);
     }
 
@@ -46,8 +45,6 @@ class AuthController extends Controller
     {
         return view('auth.register');
     }
-
-    // Fungsi untuk registrasi
 
     // Fungsi untuk logout
     public function logout()
