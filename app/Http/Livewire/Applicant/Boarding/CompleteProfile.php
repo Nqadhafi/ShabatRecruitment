@@ -16,22 +16,28 @@ class CompleteProfile extends Component
     public $school_name, $graduate_year, $last_score;
     public $full_name, $surname, $ktp_number, $address, $phone_number, $photo_path, $instagram_surname, $linkedin_surname;
     public $grades, $majorities, $selectedGrade, $selectedMajority;
+    public $loading = false; // Add loading state
 
     public function mount(){
-        $this->grades = Grade::all();
+        $this->grades = cache()->remember('grades', 3600, function() {
+            return Grade::all();
+        });
         $this->selectedGrade = null;
     }
 
     public function updatedSelectedGrade($value)
     {
         if ($value) {
-            $this->majorities = Majority::where('grade_uuid', $value)->get(['id', 'name']);
+            $this->majorities = cache()->remember('majorities_' . $value, 3600, function() use ($value) {
+                return Majority::where('grade_uuid', $value)->get(['id', 'name']);
+            });
         } else {
             $this->majorities = [];
         }
     }
 
     public function validateStep($step){
+        $this->loading = true; // Set loading state
         if($step == 1){
             $this->validate([
                 'ktp_number' => 'required|string|regex:/^[0-9]{16}$/',
@@ -59,10 +65,11 @@ class CompleteProfile extends Component
                 ]);
             
         }
-
+        $this->loading = false; // Reset loading state
     }
 
     public function save(){
+        $this->loading = true; // Set loading state
         $education = Education::create([
         'school_name' => $this->school_name,
         'graduate_year' => $this->graduate_year,
@@ -91,6 +98,7 @@ $user->update(['profiles_uuid' => $profile->id]);
 
 
 
+$this->loading = false; // Reset loading state
 return redirect()->route('applicant.dashboard')->with('success', 'data berhasil di input');
 
 
