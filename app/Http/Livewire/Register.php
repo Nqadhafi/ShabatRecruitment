@@ -4,18 +4,17 @@ namespace App\Http\Livewire;
 
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Livewire\Component;
 
 class Register extends Component
 {
-    public $email, $password, $password_confirmation ,$captcha ,$role;
+    public $email, $password, $password_confirmation, $captcha;
 
     protected $rules = [
         'email' => 'required|email|regex:/^[\w\.\-]+@[a-zA-Z0-9\-]+\.[a-zA-Z]{2,}$/|unique:users,email',
         'password' => 'required|min:8|confirmed',
-        'captcha' => 'required|captcha'
+        'captcha' => 'required|captcha',
     ];
 
     public function register()
@@ -25,15 +24,12 @@ class Register extends Component
         $user = User::create([
             'email' => $this->email,
             'password' => Hash::make($this->password),
-            'role' => 'applicant', // Atur role sebagai 'applicant'
+            'role' => 'applicant',
         ]);
 
-        // Kirimkan email verifikasi
         event(new Registered($user));
 
-        // session()->flash('registration_success', 'Registrasi sukses, silakan cek email Anda untuk verifikasi.');
-
-        return redirect()->route('login')->with('info','Pendaftaran berhasil! Silakan cek email Anda untuk verifikasi akun.');
+        return redirect()->route('login')->with('info', 'Pendaftaran berhasil! Silakan cek email Anda untuk verifikasi akun.');
     }
 
     public function messages()
@@ -47,7 +43,7 @@ class Register extends Component
             'password.min' => 'Password minimal 8 karakter.',
             'password.confirmed' => 'Konfirmasi password tidak cocok.',
             'captcha.required' => 'Silakan selesaikan verifikasi captcha.',
-            'captcha.captcha' => 'Verifikasi captcha gagal, silakan coba lagi.'
+            'captcha.captcha' => 'Verifikasi captcha gagal, silakan coba lagi.',
         ];
     }
 

@@ -1,6 +1,6 @@
 <div class="bg-light m-0 p-5">
     <form wire:submit.prevent="register" class="register-form  mx-auto border rounded-lg p-5 bg-white"
-        style="max-width: 25rem;">
+        style="max-width: 25rem;" onsubmit="showLoading()">
         <div class="text-center">
             <img src="{{ asset('app/img/Logo_square.png') }}" class="img-fluid text-center mb-2" alt=""
                 style="max-width: 5rem;">
@@ -36,10 +36,6 @@
         @error('captcha')
             <small class="form-text text-danger"> {{ $message }}</small>
         @enderror
-        <div wire:loading wire:target="register" class="text-center mb-3 mx-auto">
-            <span class="spinner-border spinner-border-sm text-center" role="status" aria-hidden="true"></span>
-            Memproses pendaftaran...
-        </div>
 
         <div class="text-center">
             <button type="submit" class="btn btn-primary my-3">Daftar</button>
@@ -48,6 +44,13 @@
             <a href="{{ route('login') }}"><small>Sudah punya akun? Login di sini</small></a>
         </div>
     </form>
+
+    <div id="loading" class="loading-overlay" style="display: none;">
+        <div class="loading-content">
+            <img src="{{ asset('app/img/loading.gif') }}" alt="Loading..." style="width: 8rem;">
+            <p>Memproses pendaftaran...</p>
+        </div>
+    </div>
 
     @if (session()->has('message'))
         <div>{{ session('message') }}</div>
@@ -58,6 +61,28 @@
             function onSubmit(token) {
                 @this.set('captcha', token);
             }
+
+            function showLoading() {
+                document.getElementById('loading').style.display = 'flex';
+            }
         </script>
+        <style>
+            .loading-overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(255, 255, 255, 0.8);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                z-index: 9999;
+            }
+
+            .loading-content {
+                text-align: center;
+            }
+        </style>
     @endpush
 </div>
