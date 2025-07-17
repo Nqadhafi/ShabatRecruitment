@@ -1,6 +1,6 @@
 <div>
 <!-- Carousel -->
-<div id="heroCarousel" class="carousel slide vh-100" data-ride="carousel">
+<div id="heroCarousel" class="carousel slide vh-100" data-ride="carousel" wire:ignore>
   <div class="carousel-inner h-100">
 
     <!-- Slide 1 -->
@@ -107,12 +107,12 @@
     </div>
 @endif
 
-<div class="text-center mb-5">
+<div class="text-center mb-5" wire:ignore>
     <a href="{{ route('register') }}" class="btn btn-primary shadow-lg">Siap bergabung dengan kami? Daftar di sini.</a>
 </div>
 </section>
 
-<section id="about" class="container-fluid py-5">
+<section id="about" class="container-fluid py-5" wire:ignore>
     <div class="jumbotron container bg-light p-0">
         <div class="row">
             <div class="d-none col-md-6 d-flex">
@@ -129,7 +129,7 @@ Didukung teknologi modern dan tim profesional, Shabat Printing menjadi pilihan u
         </div>
 </section>
 
-<section id="contact" class="mx-auto mt-5 container-fluid">
+<section id="contact" class="mx-auto mt-5 container-fluid" wire:ignore>
     <div class="container">
     <h2 class="text-center display-5"> Hubungi Kami </h2>
     <div class="row mt-3">

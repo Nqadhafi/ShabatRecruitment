@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Livewire;
 
 use App\Models\Grade;
@@ -7,56 +8,58 @@ use App\Models\Job;
 
 class Home extends Component
 {
-    public $jobs;  // Store jobs data as an array or collection
+    public $allJobs;      // Menyimpan semua job dari awal
+    public $jobs;         // Untuk menampilkan hasil filter
     public $grades;
-    public $selectedGrade = null; // For storing the selected grade
-    public $page = 1;
-    public $noJobsMessage = null; // For displaying "no jobs" message
+    public $selectedGrade = null;
+    public $noJobsMessage = null;
 
-    // Prepare initial data
     public function mount()
     {
-        $this->grades = Grade::withCount('jobs')->get(); // Count the number of jobs per grade
-        $this->jobs = Job::with('grade')->get(); // Get all jobs initially
-        if ($this->jobs->isEmpty()) {
-            $this->noJobsMessage = "Tidak ada lowongan pekerjaan untuk kategori ini."; // Set the no jobs message
-        } else {
-            $this->noJobsMessage = null; // Clear message if jobs exist
-        }
+        // Ambil semua grade dengan hitungan job
+        $this->grades = Grade::withCount('jobs')->get();
+
+        // Ambil SEMUA job SEKALI dan simpan di $allJobs
+        $this->allJobs = Job::with('grade')->get();
+
+        // Inisialisasi jobs sebagai semua job
+        $this->jobs = $this->allJobs;
+
+        // Set pesan jika tidak ada job
+        $this->noJobsMessage = $this->jobs->isEmpty()
+            ? "Tidak ada lowongan pekerjaan untuk kategori ini."
+            : null;
     }
 
-    // Update jobs when selected grade changes
     public function updatedSelectedGrade()
     {
-        $this->page = 1; // Reset page when grade changes
-
-        // Filter jobs by selected grade
-        $this->jobs = Job::with('grade')
-                         ->where('min_grades', $this->selectedGrade)
-                         ->get(); // Use grade_id for filtering
-
-        // Check if no jobs are found for the selected grade
-        if ($this->jobs->isEmpty()) {
-            $this->noJobsMessage = "Tidak ada lowongan pekerjaan untuk kategori ini."; // Set the no jobs message
+        // Filter job dari data lokal (tanpa query ulang)
+        if ($this->selectedGrade) {
+            $this->jobs = $this->allJobs->filter(function ($job) {
+                return $job->min_grades == $this->selectedGrade;
+            });
         } else {
-            $this->noJobsMessage = null; // Clear message if jobs exist
+            $this->jobs = $this->allJobs;
         }
+
+        // Update pesan jika tidak ada job hasil filter
+        $this->noJobsMessage = $this->jobs->isEmpty()
+            ? "Tidak ada lowongan pekerjaan untuk kategori ini."
+            : null;
     }
 
-    // Show all jobs (reset grade filter)
     public function showAllJobs()
     {
-        $this->page = 1;
-        $this->jobs = Job::with('grade')->get(); // Get all jobs
-                if ($this->jobs->isEmpty()) {
-            $this->noJobsMessage = "Tidak ada lowongan pekerjaan untuk kategori ini."; // Set the no jobs message
-        } else {
-            $this->noJobsMessage = null; // Clear message if jobs exist
-        }
+        $this->selectedGrade = null;
+        $this->jobs = $this->allJobs;
+
+        $this->noJobsMessage = $this->jobs->isEmpty()
+            ? "Tidak ada lowongan pekerjaan untuk kategori ini."
+            : null;
     }
 
     public function render()
     {
-        return view('livewire.home'); // Render the home view
+        return view('livewire.home');
     }
 }
