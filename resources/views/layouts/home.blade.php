@@ -15,7 +15,7 @@
     <meta property="og:title" content="E-Recuitment - Shabat Printing" />
     <meta property="og:description"
         content="Bergabunglah dengan digital printing & offset printing terbaik di Kota Solo. Mulai perjalanan karirmu di Shabat Printing." />
-    <meta property="og:image" content="https://metatags.io/images/meta-tags.png" />
+    <meta property="og:image" content="https://shabatprinting.com/assets/img/shabatprinting.png" />
 
     <!-- X (Twitter) -->
     <meta property="twitter:card" content="summary_large_image" />
@@ -23,7 +23,7 @@
     <meta property="twitter:title" content="E-Recuitment - Shabat Printing" />
     <meta property="twitter:description"
         content="Bergabunglah dengan digital printing & offset printing terbaik di Kota Solo. Mulai perjalanan karirmu di Shabat Printing." />
-    <meta property="twitter:image" content="https://metatags.io/images/meta-tags.png" />
+    <meta property="twitter:image" content="https://shabatprinting.com/assets/img/shabatprinting.png" />
 
     <!-- Meta Tags Generated with https://metatags.io -->
     <link rel="stylesheet" href="{{ asset('adminlte/css/adminlte.min.css') }}">
