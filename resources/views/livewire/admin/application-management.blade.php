@@ -1,4 +1,4 @@
-<div>
+<div class="scroll-table-wrapper mb-4">
     {{-- Care about people's approval and you will be their prisoner. --}}
 
     @if (session()->has('success'))
@@ -17,6 +17,47 @@
             </button>
         </div>
     @endif
+
+<div class="row mb-3">
+    <div class="col-md-3">
+        <input wire:model.debounce.300ms="searchName" type="text" class="form-control"
+            placeholder="Cari nama pelamar...">
+    </div>
+
+    <div class="col-md-3">
+        <select wire:model="filterStatus" class="form-control">
+            <option value="">Semua Status</option>
+            @foreach ($customStatuses as $key => $label)
+                <option value="{{ $key }}">{{ $label }}</option>
+            @endforeach
+        </select>
+    </div>
+
+    <div class="col-md-3">
+        <select wire:model="filterJobId" class="form-control">
+            <option value="">Semua Lowongan</option>
+            @foreach ($jobOptions as $job)
+                <option value="{{ $job->id }}">{{ $job->name }}</option>
+            @endforeach
+        </select>
+    </div>
+
+    <div class="col-md-2">
+        <select wire:model="sortByDate" class="form-control">
+            <option value="desc">Tanggal Terbaru</option>
+            <option value="asc">Tanggal Terlama</option>
+        </select>
+    </div>
+
+    <div class="col-md-1">
+        <button class="btn btn-outline-secondary btn-block"
+            wire:click="$set('searchName', ''), $set('filterStatus', ''), $set('filterJobId', ''), $set('sortByDate', 'desc')">
+            ⟳
+        </button>
+    </div>
+</div>
+
+
     <div class="container-fluid mt-4">
         <h4>Daftar Lamaran</h4>
 
@@ -348,7 +389,18 @@
             </div>
         @endif
 
+            @push('css')
+<style>
+    .scroll-table-wrapper {
+        height: 100vh;
+        overflow-y: auto;
+        border: 1px solid #dee2e6;
+        padding: 0.5rem;
+        background-color: #fff;
+    }
+</style>
 
+            @endpush
         @push('scripts')
             <script>
                 window.addEventListener('open-whatsapp', event => {

@@ -35,6 +35,11 @@ class ApplicationManagement extends Component
     public $applicantEmail = '';
     public $applicantPhone = '';
     public $jobName = '';
+    public $searchName = '';
+    public $filterStatus = '';
+    public $sortByDate = 'desc'; // default newest
+    public $filterJobId = '';    // default semua lowongan
+
 
     protected $applications;
 
@@ -233,22 +238,42 @@ public function viewExam($applicationId)
 
 public function render()
 {
-    $applications = Application::with([
-        'applicantProfile.user',
-        'job'
-    ])->get(); // ambil semua data
+    $query = Application::with(['applicantProfile.user', 'job']);
 
-    // Kelompokkan berdasarkan status
+    if ($this->filterStatus) {
+        $query->where('status', $this->filterStatus);
+    }
+
+    if ($this->filterJobId) {
+        $query->where('job_id', $this->filterJobId);
+    }
+
+    if ($this->searchName) {
+        $query->whereHas('applicantProfile', function ($q) {
+            $q->where('full_name', 'like', '%' . $this->searchName . '%');
+        });
+    }
+
+    $query->orderBy('created_at', $this->sortByDate);
+
+    $applications = $query->get();
     $groupedApplications = $applications->groupBy('status');
+
     $customStatuses = [
         'applied' => 'Belum Diproses',
         'processed' => 'Diproses / Interview',
         'rejected' => 'Ditolak',
         'hired' => 'Diterima / Offering Letter',
     ];
+
+    $jobOptions = \App\Models\Job::select('id', 'name')->orderBy('name')->get();
+
     return view('livewire.admin.application-management', [
         'groupedApplications' => $groupedApplications,
         'customStatuses' => $customStatuses,
+        'jobOptions' => $jobOptions,
     ]);
 }
+
+
 }
