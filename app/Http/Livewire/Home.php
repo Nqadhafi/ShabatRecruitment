@@ -17,10 +17,14 @@ class Home extends Component
     public function mount()
     {
         // Ambil semua grade dengan hitungan job
-        $this->grades = Grade::withCount('jobs')->get();
+        $this->grades = Grade::withCount([
+            'jobs' => function ($query) {
+                $query->where('is_active', 1);
+            }
+        ])->get();
 
         // Ambil SEMUA job SEKALI dan simpan di $allJobs
-        $this->allJobs = Job::with('grade')->get();
+        $this->allJobs = Job::with('grade')->where('is_active', 1)->get();
 
         // Inisialisasi jobs sebagai semua job
         $this->jobs = $this->allJobs;
