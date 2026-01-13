@@ -7,6 +7,13 @@
             <div class="text-danger p-0 m-0"><small>{{ $message }}</small></div>
         @enderror
         <input type="number" wire:model.defer="ktp_number" class="form-control ">
+        <label class="mt-2">Foto KTP (Wajib, Maks 2MB)</label>
+        @error('ktp_path')
+            <div class="text-danger p-0 m-0">
+                <small>{{ $message }}</small>
+            </div>
+        @enderror
+<input type="file" wire:model.defer="ktp_path" class="form-control">
         <label for="" class="mt-2">Nama Lengkap :</label>
         @error('full_name')
             <div class="text-danger p-0 m-0"><small>{{ $message }}</small></div>

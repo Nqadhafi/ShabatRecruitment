@@ -17,7 +17,7 @@ class ApplicantProfile extends Model
         'education_uuid' => 'string',
     ];
     
-    protected $fillable = ['full_name', 'surname', 'ktp_number', 'address', 'phone_number', 'photo_path', 'instagram_surname', 'linkedin_surname', 'education_uuid'];
+    protected $fillable = ['full_name', 'surname', 'ktp_number', 'ktp_path', 'address', 'phone_number', 'photo_path', 'instagram_surname', 'linkedin_surname', 'education_uuid'];
 
     public function education()
     {

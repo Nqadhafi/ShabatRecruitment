@@ -14,7 +14,7 @@ class CompleteProfile extends Component
     use WithFileUploads;
     public $step = 1;
     public $school_name, $graduate_year, $last_score;
-    public $full_name, $surname, $ktp_number, $address, $phone_number, $photo_path, $instagram_surname, $linkedin_surname;
+    public $full_name, $surname, $ktp_number, $address, $phone_number, $photo_path, $instagram_surname, $linkedin_surname , $ktp_path;
     public $grades, $majorities, $selectedGrade, $selectedMajority;
     public $loading = false; // Add loading state
 
@@ -41,6 +41,7 @@ class CompleteProfile extends Component
         if($step == 1){
             $this->validate([
                 'ktp_number' => 'required|string|regex:/^[0-9]{16}$/',
+                'ktp_path' => 'image|mimes:jpeg,png,jpg,gif,svg|max:1024',
                 'full_name' => 'required|string|max:50',
                 'surname' => 'required|string|max:50',
                 'phone_number' => 'required|string|regex:/^([0][8][1-9][0-9]{7,11})$/',
@@ -76,6 +77,10 @@ class CompleteProfile extends Component
         'last_score' => $this->last_score,
         'majority_uuid' => $this->selectedMajority,
     ]);
+    $ktpPath = null;
+        if ($this->ktp_path) {
+            $ktpPath = $this->ktp_path->store('ktp', 'public'); // Upload file ke folder 'ktp'
+        }
         $photoPath = null;
         if ($this->photo_path) {
             $photoPath = $this->photo_path->store('photos', 'public'); // Upload file ke folder 'photos'
@@ -84,6 +89,7 @@ class CompleteProfile extends Component
             'full_name' => $this->full_name,
             'surname' => $this->surname,
             'ktp_number' => $this->ktp_number,
+            'ktp_path' => $ktpPath,
             'address' => $this->address,
             'phone_number' => $this->phone_number,
             'photo_path' => $photoPath,
