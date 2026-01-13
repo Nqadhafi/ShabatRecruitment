@@ -124,7 +124,7 @@
 
         <!-- Modal Profil -->
         @if ($showProfileModal && $selectedProfile)
-            <div class="modal fade show d-block" id="profileModal" tabindex="-1" role="dialog">
+            <div class="modal fade show d-block overflow-auto" id="profileModal" tabindex="-1" role="dialog">
                 <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -162,7 +162,28 @@
                                     </ul>
                                 </div>
                             </div>
-
+                            @if ($selectedProfile->ktp_path)
+                            <hr>
+                                <div class="text-center mt-2">
+                                    <h5>Foto KTP</h5>
+                                                                <img 
+                                src="{{ asset('storage/' . $selectedProfile->ktp_path) }}" 
+                                alt="Foto KTP"
+                                class="img-thumbnail"
+                                style="max-width: 10rem; height: auto;"
+                            >
+                                    <a 
+                                        href="{{ asset('storage/' . $selectedProfile->ktp_path) }}" 
+                                        target="_blank"
+                                        class="btn btn-sm btn-outline-primary"
+                                    >
+                                        Lihat Ukuran Penuh
+                                    </a>
+                                </div>
+                            @else
+                            <hr>
+                            <p class="text-muted text-center">Foto KTP belum diunggah.</p>
+                        @endif
                             <!-- Riwayat Pendidikan -->
                             @if ($selectedProfile->education)
                                 <hr>
