@@ -50,12 +50,12 @@ class CompleteProfile extends Component
         
         }
                 elseif($step == 2){
-            $Tyear = 2025;
+            
             $this->validate([
                 'selectedGrade' => 'required',
                 'selectedMajority' => 'required',
                 'school_name' => 'required|string|max:50',
-                'graduate_year' => 'required|numeric|min:1|digits_between:4,4|BeforeOrEqual:' . $Tyear
+                'graduate_year' => 'required|numeric|min:1|digits_between:4,4' 
             ]);
         }
         elseif($step == 3){
