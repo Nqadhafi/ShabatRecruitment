@@ -16,7 +16,7 @@
     </div>
 
     <!-- Slide 2 -->
-    {{-- <div class="carousel-item h-100">
+    <div class="carousel-item h-100">
       <div class="d-flex align-items-center justify-content-center h-100 text-white text-center" style="background: url('{{asset('app/img/Jumbotron2.webp')}}') center center / cover no-repeat; position: relative;">
         <div style="position: absolute; top: 0; left: 0; height: 100%; width: 100%; background-color: rgba(0, 0, 0, 0.5);"></div>
         <div class="container position-relative">
@@ -25,7 +25,7 @@
           <a href="#jobs" class="btn btn-light btn-lg mt-3">Cek lowongan terbaru</a>
         </div>
       </div>
-    </div> --}}
+    </div>
 
     <!-- Slide 3 -->
     <div class="carousel-item h-100">
